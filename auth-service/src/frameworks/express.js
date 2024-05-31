@@ -1,6 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { userRouter ,adminRouter } from '../adapters/routes/index.js';
+import { userRouter ,adminRouter, theatreRouter } from '../adapters/routes/index.js';
 import { ErrorHandler } from '../adapters/middlewares/error-handler.js';
 
 export default ()=>{
@@ -11,6 +11,7 @@ export default ()=>{
     
     app.use('/auth/user',userRouter);
     app.use('/auth/admin',adminRouter);
+    app.use('/auth/theatre',theatreRouter);
 
     app.use(ErrorHandler.handleError)
     return app

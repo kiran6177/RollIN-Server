@@ -1,14 +1,18 @@
-import { MongoAdminRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { GoogleUserAuth , AdminLogin } from '../usecases/index.js'
+import { MongoAdminRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
+import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin , CompleteProfile} from '../usecases/index.js'
 
 const UseCase = {
     GoogleUserAuth,
-    AdminLogin
+    AdminLogin,
+    TheatreSignup,
+    TheatreLogin,
+    CompleteProfile
 }
 
 const Repositories = {
     MongoUserRepository,
-    MongoAdminRepository
+    MongoAdminRepository,
+    MongoTheatreRepository
 }
 
 const dependencies = {
