@@ -1,6 +1,7 @@
 export class UserAuth{
     constructor(dependencies){
         this.googleLoginUseCase = new dependencies.UseCase.GoogleUserAuth(dependencies);
+        this.emailUserAuthUseCase = new dependencies.UseCase.EmailUserAuth(dependencies);
     }
 
     async authenticateUser(req,res,next){
@@ -17,7 +18,11 @@ export class UserAuth{
                 })
                 res.status(200).json({data,accessToken});
             }else if(type === 'email'){
-
+                console.log(req.body);
+                const {id,otp} = await this.emailUserAuthUseCase.execute(req.body.email);
+                console.log(id,otp);
+                req.session.userEmailOtp = otp;
+                res.status(200).json({userData:{id:id}});
             }else{
 
             }

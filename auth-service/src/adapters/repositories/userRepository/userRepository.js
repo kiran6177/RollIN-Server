@@ -13,6 +13,9 @@ class UserRepository{
     async loginGoogle(){
         throw new Error('loginGoogle not implemented!!');
     }
+    async findUserByEmail(){
+        throw new Error('findUserByEmail not implemented!!');
+    }
 }
 
 export class MongoUserRepository extends UserRepository{
@@ -21,9 +24,10 @@ export class MongoUserRepository extends UserRepository{
     }
     async loginGoogle(userData){
         try{
-            const userExist = await UserModel.findOne({email:userData.email,type:'GOOGLE-AUTH',isVerified:true});
+            const userExist = await UserModel.findOne({email:userData.email});
             if(userExist){
                 return {
+                    id:userExist.id,
                     email:userExist.email,
                     mobile:userExist.mobile,
                     firstname:userExist.firstname,
@@ -72,6 +76,27 @@ export class MongoUserRepository extends UserRepository{
              error.statusCode = 500;
              error.reasons = [err.message]
              throw error
+        }
+    }
+    async findUserByEmail(email){
+        try {
+            return await UserModel.findOne({email})
+        } catch (err) {
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async findUserById(id){
+        try {
+            return await UserModel.findById({_id:id})
+        } catch (err) {
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
         }
     }
 }

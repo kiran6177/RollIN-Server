@@ -13,6 +13,9 @@ class TheatreRepository{
     async updateTheatreById(){
         throw new Error('updateTheatreById not implemented')
     }
+    async googleLogin(){
+        throw new Error('googleLogin not implemented')
+    }
 }
 
 export class MongoTheatreRepository extends TheatreRepository{
@@ -22,6 +25,7 @@ export class MongoTheatreRepository extends TheatreRepository{
             const theatre = new TheatreModel(data)
             return await theatre.save();
         } catch (err) {
+            console.log(err);
             const error = new Error();
             error.statusCode = 500;
             error.reasons = [err.message]
@@ -52,6 +56,7 @@ export class MongoTheatreRepository extends TheatreRepository{
         try {
             return await TheatreModel.findByIdAndUpdate({_id:id},{$set:data},{new:true}) 
         } catch (err) {
+            console.log(err);
             const error = new Error();
             error.statusCode = 500;
             error.reasons = [err.message]

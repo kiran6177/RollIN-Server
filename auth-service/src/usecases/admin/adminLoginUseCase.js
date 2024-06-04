@@ -1,4 +1,4 @@
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { createRefreshToken, createToken } from '../../utils/jwt.js';
 
 
@@ -9,7 +9,9 @@ export class AdminLogin{
 
     async execute(data){
         try {
-            const adminExist = await this.adminRepository.findAdminByEmail(data.email)
+            // const hashed = await hash(data.password,10);
+            // console.log(hashed);
+            const adminExist = await this.adminRepository.findAdminByEmail(data.email);
             if(adminExist){
                 const isValid = await compare(data.password,adminExist.password);
                 if(isValid){

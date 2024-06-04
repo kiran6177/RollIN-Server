@@ -39,6 +39,7 @@ export class CompleteProfile{
                         isCompleted:updated.isCompleted,
                         isVerified:updated.isVerified,
                         isBlocked:updated.isBlocked,
+                        isAccepted:updated.isAccepted,
                         authType:updated.authType,
                         location:updated.location,
                         address:updated.address,

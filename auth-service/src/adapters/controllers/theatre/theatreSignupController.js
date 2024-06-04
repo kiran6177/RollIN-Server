@@ -5,7 +5,9 @@ export class TheatreSignup{
 
     async signup(req,res,next){
         try {
-            const {theatreData} = await this.theatreSignupUseCase.execute(req.body);
+            const {theatreData,otp} = await this.theatreSignupUseCase.execute(req.body);
+            req.session.theatreOTP = otp;
+            console.log(otp);
             res.status(200).json({
                 theatreData,
             })
