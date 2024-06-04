@@ -9,6 +9,10 @@ import { TheatreProfileComplete } from "./theatre/theatreCompleteProfileControll
 import { TheatreOtpVerify } from "./theatre/theatreOtpVerifyController.js";
 import { TheatreResend } from "./theatre/theatreResendOtpController.js";
 import { UserVerifyOtp } from "./user/userVerifyOtpController.js";
+import { AdminGetUsers } from "./admin/adminGetUsersController.js";
+import { AdminUserBlockUnblock } from "./admin/adminBlockUnBlockController.js";
+import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
+import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
 
 export {
     UserAuth as  UserAuthController,
@@ -21,5 +25,9 @@ export {
     TheatreProfileComplete as TheatreProfileCompleteController,
     TheatreOtpVerify as TheatreOtpVerifyController,
     TheatreResend as TheatreResendOtpController,
-    UserVerifyOtp as UserVerifyOtpController
+    UserVerifyOtp as UserVerifyOtpController,
+    AdminGetUsers as AdminGetUsersController,
+    AdminUserBlockUnblock as AdminUserBlockUnblockController,
+    AdminGetTheatres as AdminGetTheatresController,
+    AdminTheatreBlockUnblock as AdminTheatreBlockUnblockController
 }

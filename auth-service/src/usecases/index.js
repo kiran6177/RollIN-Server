@@ -8,6 +8,10 @@ import { VerifyTheatre } from "./theatre/theatreVerifyOtpUseCase.js";
 import { TheatreResendOTP } from "./theatre/theatreResendOtpUseCase.js";
 import { EmailUserAuth } from "./user/emailAuthUseCase.js";
 import { VerifyUserOtp } from "./user/verifyUserOtpUseCase.js";
+import { GetUsers } from "./admin/adminGetUserUseCase.js";
+import { UserBlockUnblock } from "./admin/adminUserBlockUnBlockUseCase.js";
+import { GetTheatres } from "./admin/adminGetTheatresUseCase.js";
+import { TheatreBlockUnblock } from "./admin/adminTheatreBlockUnblockUseCase.js";
 
 export {
     GoogleUserAuth,
@@ -19,5 +23,9 @@ export {
     VerifyTheatre,
     TheatreResendOTP,
     EmailUserAuth,
-    VerifyUserOtp
+    VerifyUserOtp,
+    GetUsers,
+    UserBlockUnblock,
+    GetTheatres,
+    TheatreBlockUnblock
 }

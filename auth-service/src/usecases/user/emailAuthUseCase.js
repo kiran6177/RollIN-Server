@@ -12,18 +12,25 @@ export class EmailUserAuth{
             console.log(findUserExist);
             if(findUserExist){
                 if(findUserExist.type === 'EMAIL-AUTH'){
-                    const otp = generateOTP();
-                    const mailSend = await sendmail(email,otp)
-                    console.log(otp);
-                    if(mailSend){
-                        return {
-                            id: findUserExist._id,
-                            otp
+                    if(findUserExist.isVerified){
+                        const otp = generateOTP();
+                        const mailSend = await sendmail(email,otp)
+                        console.log(otp);
+                        if(mailSend){
+                            return {
+                                id: findUserExist._id,
+                                otp
+                            }
+                        }else{
+                            const error = new Error()
+                            error.statusCode = 500;
+                            error.reasons = ['Ooops. Error sending email!!']
+                            throw error;
                         }
                     }else{
                         const error = new Error()
-                        error.statusCode = 500;
-                        error.reasons = ['Ooops. Error sending email!!']
+                        error.statusCode = 403;
+                        error.reasons = ['You are temporarily blocked by Admin.']
                         throw error;
                     }
                 }else{
