@@ -1,7 +1,7 @@
 import express from "express";
 import dependencies from "../../../frameworks/dependencies.js";
 import { AuthHandler } from "../../middlewares/auth-handler.js";
-import { AdminGetTheatresController, AdminGetUsersController, AdminLoginController , AdminLogoutController, AdminTheatreBlockUnblockController, AdminUserBlockUnblockController } from "../../controllers/index.js";
+import { AdminGetTheatresController, AdminGetUsersController, AdminLoginController , AdminLogoutController, AdminTheatreApproveController, AdminTheatreBlockUnblockController, AdminUserBlockUnblockController } from "../../controllers/index.js";
 const adminRouter = express.Router();
 
 const controllers = {
@@ -10,7 +10,8 @@ const controllers = {
     adminGetUsersController : new AdminGetUsersController(dependencies),
     adminUserBlockUnblockController : new AdminUserBlockUnblockController(dependencies),
     adminGetTheatresController : new AdminGetTheatresController(dependencies),
-    adminTheatreBlockUnblockController : new AdminTheatreBlockUnblockController(dependencies)
+    adminTheatreBlockUnblockController : new AdminTheatreBlockUnblockController(dependencies),
+    adminTheatreApproveController : new AdminTheatreApproveController(dependencies)
 }
 
 adminRouter.post('/login',async(req,res,next)=>{controllers.adminLoginController.loginAdmin(req,res,next)});
@@ -19,6 +20,8 @@ adminRouter.get('/getusers',AuthHandler.isAdminLogin,(req,res,next)=>{controller
 adminRouter.get('/gettheatres',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetTheatresController.getTheatres(req,res,next)})
 adminRouter.post('/blockunblockuser',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminUserBlockUnblockController.blockUnblock(req,res,next)})
 adminRouter.post('/blockunblocktheatre',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminTheatreBlockUnblockController.blockUnblock(req,res,next)})
+adminRouter.post('/approvetheatre',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminTheatreApproveController.approve(req,res,next)})
+
 
 
 export default adminRouter;

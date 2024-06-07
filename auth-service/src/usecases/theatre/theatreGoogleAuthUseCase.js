@@ -51,13 +51,23 @@ export class TheatreGoogleAuth{
                     }
                     let accessToken;
                     let refreshToken;
+                    let images = [];
                     if(resultData.isVerified && !resultData.isBlocked){
+                            for(let image of theatreExist.images){
+                                const url = await this.awsConfig.getTheatreImage(image)
+                                if(url){
+                                    images.push({url,filename:image})
+                                }else{
+                                    // write unable to fetch image error
+                                }
+                            }
                          accessToken = await createToken(resultData);
                          refreshToken = await createRefreshToken(resultData);
                     }else{
                         accessToken = null;
                         refreshToken = null;
                     }
+                    resultData.images = images
                     return {
                         data:resultData,
                         accessToken,

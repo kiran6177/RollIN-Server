@@ -48,6 +48,9 @@ const theatreSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    images:{
+        type:Array,
+    },
     location:{
         type:locationSchema
     },

@@ -2,10 +2,12 @@ import { compare } from "bcrypt";
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import sendmail from "../../utils/mailer.js";
 import generateOTP from "../../utils/crypto.js";
+import { AwsConfig } from "../../utils/aws-s3.js";
 
 export class TheatreLogin{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
+        this.awsConfig = new AwsConfig();
     }
 
     async execute(data){
@@ -21,6 +23,16 @@ export class TheatreLogin{
                             if(!theatreExist.isBlocked){
                                 console.log(theatreExist.isAccepted);
                                 if(theatreExist.isVerified){
+                                    let images = [];
+                                    for(let image of theatreExist.images){
+                                        const url = await this.awsConfig.getTheatreImage(image)
+                                        if(url){
+                                            images.push({url,filename:image})
+                                        }else{
+                                            // write unable to fetch image error
+                                        }
+                                    }
+                                    
                                     const theatreData = {
                                         id:theatreExist._id,
                                         name:theatreExist.name,
@@ -28,16 +40,35 @@ export class TheatreLogin{
                                         isCompleted:theatreExist.isCompleted,
                                         isAccepted:theatreExist.isAccepted,
                                         isVerified:theatreExist.isVerified,
-                                        isBlocked:theatreExist.isBlocked
+                                        isBlocked:theatreExist.isBlocked,
+                                        address:theatreExist?.address || {},
+                                        location:theatreExist?.location || {}
                                     }
                                     const accessToken = await createToken(theatreData);
                                     const refreshToken = await createRefreshToken(theatreData);
+                                    theatreData.images = images
                                     return {
                                         theatreData,
                                         accessToken,
                                         refreshToken
                                     }
                                 }else{
+                                    if(!theatreExist.isCompleted){
+                                        const theatreData = {
+                                            id:theatreExist._id,
+                                            name:theatreExist.name,
+                                            email:theatreExist.email,
+                                            isCompleted:theatreExist.isCompleted,
+                                            isAccepted:theatreExist.isAccepted,
+                                            isVerified:theatreExist.isVerified,
+                                            isBlocked:theatreExist.isBlocked
+                                        }
+                                        return {
+                                            theatreData,
+                                            accessToken:null,
+                                            refreshToken:null,
+                                        }
+                                    }
                                     const error = new Error();
                                     error.statusCode = 403;
                                     error.reasons = ['You are under verfication. Please try again later.'];

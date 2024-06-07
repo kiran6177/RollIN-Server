@@ -12,6 +12,8 @@ import { GetUsers } from "./admin/adminGetUserUseCase.js";
 import { UserBlockUnblock } from "./admin/adminUserBlockUnBlockUseCase.js";
 import { GetTheatres } from "./admin/adminGetTheatresUseCase.js";
 import { TheatreBlockUnblock } from "./admin/adminTheatreBlockUnblockUseCase.js";
+import { TheatreApprove } from "./admin/adminTheatreApproveUseCase.js";
+import { TheatreProfileUpdate } from "./theatre/theatreUpdateProfileUseCase.js";
 
 export {
     GoogleUserAuth,
@@ -27,5 +29,7 @@ export {
     GetUsers,
     UserBlockUnblock,
     GetTheatres,
-    TheatreBlockUnblock
+    TheatreBlockUnblock,
+    TheatreApprove,
+    TheatreProfileUpdate
 }

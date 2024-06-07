@@ -27,14 +27,14 @@ export class TheatreLogin{
             accessToken = theatreResults.accessToken;
             refreshToken = theatreResults.refreshToken;
             theatreotp = theatreResults.otp
-            console.log(theatreResults.refreshToken);
+            // console.log(theatreResults.refreshToken);
             }
             if( !accessToken && !refreshToken){
                 if(!theatreData.isAccepted){
                     console.log("OTP",theatreotp);
                     req.session.theatreOTP = theatreotp
-                   return res.status(200).json({theatreData,accessToken})
-                }else if(!theatreData.isVerified){
+                   return res.status(200).json({theatreData})
+                }else if(theatreData.isCompleted && !theatreData.isVerified){
                     const error = new Error();
                     error.statusCode = 401;
                     error.reasons = ['Your credentials are under verfication by admin.']
@@ -50,12 +50,16 @@ export class TheatreLogin{
                 // error.reasons = ['Unauthorized!']
                 // throw error
             }
-            res.cookie('theatreRefreshToken',refreshToken,{
-                httpOnly:true,
-                secure:true,
-                maxAge: 30 * 24 * 60 * 60 * 1000 //30 days
-            })
-            res.status(200).json({theatreData,accessToken})
+            if(theatreData.isCompleted && theatreData.isVerified){
+                res.cookie('theatreRefreshToken',refreshToken,{
+                    httpOnly:true,
+                    secure:true,
+                    maxAge: 30 * 24 * 60 * 60 * 1000 //30 days
+                })
+                res.status(200).json({theatreData,accessToken})
+            }else{
+                res.status(200).json({theatreData})
+            }
         } catch (error) {
             console.log(error);
             next(error)

@@ -13,6 +13,8 @@ import { AdminGetUsers } from "./admin/adminGetUsersController.js";
 import { AdminUserBlockUnblock } from "./admin/adminBlockUnBlockController.js";
 import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
 import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
+import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
+import { TheatreUpdateProfile } from "./theatre/theatreUpdateProfileController.js";
 
 export {
     UserAuth as  UserAuthController,
@@ -29,5 +31,7 @@ export {
     AdminGetUsers as AdminGetUsersController,
     AdminUserBlockUnblock as AdminUserBlockUnblockController,
     AdminGetTheatres as AdminGetTheatresController,
-    AdminTheatreBlockUnblock as AdminTheatreBlockUnblockController
+    AdminTheatreBlockUnblock as AdminTheatreBlockUnblockController,
+    AdminTheatreApprove as AdminTheatreApproveController,
+    TheatreUpdateProfile as TheatreUpdateProfileController
 }

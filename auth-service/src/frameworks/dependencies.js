@@ -1,5 +1,9 @@
 import { MongoAdminRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin , CompleteProfile, TheatreGoogleAuth, VerifyTheatre, TheatreResendOTP, EmailUserAuth, VerifyUserOtp, GetUsers, UserBlockUnblock, GetTheatres, TheatreBlockUnblock} from '../usecases/index.js'
+import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin ,
+     CompleteProfile, TheatreGoogleAuth, VerifyTheatre, TheatreResendOTP,
+      EmailUserAuth, VerifyUserOtp, GetUsers, UserBlockUnblock, GetTheatres,
+       TheatreBlockUnblock, TheatreApprove,
+       TheatreProfileUpdate} from '../usecases/index.js'
 
 const UseCase = {
     GoogleUserAuth,
@@ -15,7 +19,9 @@ const UseCase = {
     GetUsers,
     UserBlockUnblock,
     GetTheatres,
-    TheatreBlockUnblock
+    TheatreBlockUnblock,
+    TheatreApprove,
+    TheatreProfileUpdate
 }
 
 const Repositories = {
