@@ -15,6 +15,7 @@ import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
 import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
 import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
 import { TheatreUpdateProfile } from "./theatre/theatreUpdateProfileController.js";
+import { UserResendOtp } from "./user/userResendOtpController.js";
 
 export {
     UserAuth as  UserAuthController,
@@ -33,5 +34,6 @@ export {
     AdminGetTheatres as AdminGetTheatresController,
     AdminTheatreBlockUnblock as AdminTheatreBlockUnblockController,
     AdminTheatreApprove as AdminTheatreApproveController,
-    TheatreUpdateProfile as TheatreUpdateProfileController
+    TheatreUpdateProfile as TheatreUpdateProfileController,
+    UserResendOtp as UserResendOtpController
 }

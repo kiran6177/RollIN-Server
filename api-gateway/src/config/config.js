@@ -1,0 +1,1 @@
+export const AUTH_SERVICE_API = 'http://localhost:4001/auth'

@@ -3,7 +3,8 @@ import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin ,
      CompleteProfile, TheatreGoogleAuth, VerifyTheatre, TheatreResendOTP,
       EmailUserAuth, VerifyUserOtp, GetUsers, UserBlockUnblock, GetTheatres,
        TheatreBlockUnblock, TheatreApprove,
-       TheatreProfileUpdate} from '../usecases/index.js'
+       TheatreProfileUpdate,
+       ResendOtpUser} from '../usecases/index.js'
 
 const UseCase = {
     GoogleUserAuth,
@@ -21,7 +22,8 @@ const UseCase = {
     GetTheatres,
     TheatreBlockUnblock,
     TheatreApprove,
-    TheatreProfileUpdate
+    TheatreProfileUpdate,
+    ResendOtpUser
 }
 
 const Repositories = {
