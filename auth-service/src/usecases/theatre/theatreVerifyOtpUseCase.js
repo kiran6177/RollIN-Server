@@ -23,8 +23,8 @@ export class VerifyTheatre{
                             isVerified:updateTheatre.isVerified,
                             isBlocked:updateTheatre.isBlocked
                         }
-                        const accessToken = await createToken(theatreData);
-                        const refreshToken = await createRefreshToken(theatreData);
+                        const accessToken = await createToken({...theatreData,role:'THEATRE'});
+                        const refreshToken = await createRefreshToken({id:theatreData.id,role:'THEATRE'});
                         return {
                             theatreData,
                             accessToken,

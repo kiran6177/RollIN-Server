@@ -7,7 +7,14 @@ export class AdminGetTheatres{
         try {
             const TheatresData = await this.AdminGetTheatresUseCase.execute()
             console.log(TheatresData);
-            res.status(200).json(TheatresData)
+            const dataToFrontend = {
+                TheatresData
+            }
+            if(req?.newAdminToken){
+                dataToFrontend.newAdminToken = req?.newAdminToken
+                dataToFrontend.newAdminData = req?.admin
+            }
+            res.status(200).json(dataToFrontend)
         } catch (error) {
             console.log(error);
             next(error)

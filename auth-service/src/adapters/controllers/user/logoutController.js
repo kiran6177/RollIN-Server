@@ -5,7 +5,14 @@ export class UserLogout{
         try {
             console.log(req.cookies.refreshToken);
             res.cookie('refreshToken',null,{httpOnly:true,secure:true,maxAge:0})
-            res.status(200).json({message:'Logout Successfully.'})
+            const dataToFrontend = {
+                message:'Logout Successfully.'
+            }
+            // if(req?.newUserToken !== null){
+            //     dataToFrontend.newUserToken = req.newUserToken;
+            //     dataToFrontend.newUserData = req.user;
+            // }
+            res.status(200).json(dataToFrontend)
         } catch (err) {
             console.log(err.message);
             const error = new Error()

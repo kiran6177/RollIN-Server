@@ -11,7 +11,15 @@ export class TheatreUpdateProfile{
                 res.cookie('theatreRefreshToken',null,{httpOnly:true,secure:true,maxAge:0})
                 res.status(201).json({success:false})
             }else{
-                res.status(201).json({success:true,theatreData:profileUpdateData})
+                const dataToFrontend = {
+                    success:true,
+                    theatreData:profileUpdateData
+                }
+                    if(req?.newTheatreToken){
+                        dataToFrontend.newTheatreToken = req?.newTheatreToken
+                        dataToFrontend.newTheatreData = req?.theatre
+                    }
+                res.status(201).json(dataToFrontend)
             }
         } catch (error) {
             console.log(error);

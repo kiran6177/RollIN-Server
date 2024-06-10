@@ -1,9 +1,11 @@
 import axios from "axios";
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
+import { AwsConfig } from "../../utils/aws-s3.js";
 
 export class TheatreGoogleAuth{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
+        this.awsConfig = new AwsConfig()
     }
 
     async execute(googleToken){
@@ -44,16 +46,18 @@ export class TheatreGoogleAuth{
                             name:theatreExists.name,
                             email:theatreExists.email,
                             isCompleted:theatreExists.isCompleted,
-                            isVerified:theatreExists.isVerified,
                             isAccepted:theatreExists.isAccepted,
-                            isBlocked:theatreExists.isBlocked
+                            isVerified:theatreExists.isVerified,
+                            isBlocked:theatreExists.isBlocked,
+                            address:theatreExists?.address || {},
+                            location:theatreExists?.location || {}
                         }
                     }
                     let accessToken;
                     let refreshToken;
                     let images = [];
                     if(resultData.isVerified && !resultData.isBlocked){
-                            for(let image of theatreExist.images){
+                            for(let image of theatreExists.images){
                                 const url = await this.awsConfig.getTheatreImage(image)
                                 if(url){
                                     images.push({url,filename:image})
@@ -61,8 +65,8 @@ export class TheatreGoogleAuth{
                                     // write unable to fetch image error
                                 }
                             }
-                         accessToken = await createToken(resultData);
-                         refreshToken = await createRefreshToken(resultData);
+                         accessToken = await createToken({...resultData,role:'THEATRE'});
+                         refreshToken = await createRefreshToken({id:resultData.id,role:'THEATRE'});
                     }else{
                         accessToken = null;
                         refreshToken = null;
@@ -80,6 +84,7 @@ export class TheatreGoogleAuth{
                 throw error;
             }
         } catch (err) {
+            console.log(err);
             const error = new Error()
             error.statusCode = err.statusCode;
             error.reasons = err.reasons;

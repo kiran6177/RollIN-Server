@@ -24,8 +24,8 @@ export class VerifyUserOtp{
                             walletBalance:userExist.walletBalance,
                         }
 
-                        const accessToken = await createToken(userWOP);
-                        const refreshToken = await createRefreshToken(userWOP)
+                        const accessToken = await createToken({...userWOP,role:'USER'});
+                        const refreshToken = await createRefreshToken({id:userWOP.id,role:'USER'})
 
                         return {
                             data :userWOP,
