@@ -70,8 +70,8 @@ export class GoogleUserAuth{
                 }
 
                 console.log(data);
-                const accessToken = await createToken(data);
-                const refreshToken = await createRefreshToken(data);
+                const accessToken = await createToken({...data,role:'USER'});
+                const refreshToken = await createRefreshToken({id:data.id,role:'USER'});
 
                 return {
                     data,

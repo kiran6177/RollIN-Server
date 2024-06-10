@@ -7,7 +7,14 @@ export class AdminGetUsers{
         try {
             const usersData = await this.AdminGetUsersUseCase.execute()
             console.log(usersData);
-            res.status(200).json(usersData)
+            const dataToFrontend = {
+                usersData,
+            }
+            if(req?.newAdminToken){
+                dataToFrontend.newAdminToken = req?.newAdminToken
+                dataToFrontend.newAdminData = req?.admin
+            }
+            res.status(200).json(dataToFrontend)
         } catch (error) {
             console.log(error);
             next(error)

@@ -44,8 +44,8 @@ export class TheatreLogin{
                                         address:theatreExist?.address || {},
                                         location:theatreExist?.location || {}
                                     }
-                                    const accessToken = await createToken(theatreData);
-                                    const refreshToken = await createRefreshToken(theatreData);
+                                    const accessToken = await createToken({...theatreData,role:'THEATRE'});
+                                    const refreshToken = await createRefreshToken({id:theatreData.id,role:'THEATRE'});
                                     theatreData.images = images
                                     return {
                                         theatreData,

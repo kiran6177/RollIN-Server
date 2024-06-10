@@ -21,8 +21,8 @@ export class AdminLogin{
                         email:adminExist.email,
                         mobile:adminExist.mobile
                     }
-                    const accessToken = createToken(adminData)
-                    const refreshToken = createRefreshToken(adminData);
+                    const accessToken = createToken({...adminData,role:'ADMIN'})
+                    const refreshToken = createRefreshToken({id:adminData.id,role:'ADMIN'});
                     return {
                         adminData,
                         accessToken,

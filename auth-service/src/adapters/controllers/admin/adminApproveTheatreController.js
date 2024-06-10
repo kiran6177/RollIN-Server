@@ -8,7 +8,14 @@ export class AdminTheatreApprove{
             console.log(req.body);
             const theatreData = await this.adminTheatreApproveUseCase.execute(req.body.theatreid);
             console.log(theatreData);
-            res.status(200).json({theatreData})
+            const dataToFrontend = {
+                theatreData,
+            }
+            if(req?.newAdminToken){
+                dataToFrontend.newAdminToken = req?.newAdminToken
+                dataToFrontend.newAdminData = req?.admin
+            }
+            res.status(200).json(dataToFrontend)
         } catch (error) {
             console.log(error);
             next(error);
