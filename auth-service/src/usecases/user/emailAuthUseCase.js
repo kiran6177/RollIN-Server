@@ -1,9 +1,12 @@
 import generateOTP from "../../utils/crypto.js";
 import sendmail from "../../utils/mailer.js";
+import { KafkaService } from '../../events/kafkaclient.js'
+import { AUTH_TOPIC, TYPE_USER_CREATED } from "../../events/config.js";
 
 export class EmailUserAuth{
     constructor(dependencies){
         this.userRepository = new dependencies.Repositories.MongoUserRepository();
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(email){
@@ -56,6 +59,19 @@ export class EmailUserAuth{
                     password:'nil'
                 }
                 const createdUser = await this.userRepository.createUser(userToInsert);
+                const userWOP = {
+                    _id:createdUser._id,
+                    email:createdUser.email,
+                    mobile:createdUser.mobile,
+                    firstname:createdUser.firstname,
+                    address:createdUser.address,
+                    isVerified:createdUser.isVerified,
+                    type:createdUser.type,
+                }
+                this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                    type:TYPE_USER_CREATED,
+                    value:JSON.stringify(userWOP)
+                })
                 console.log(createdUser);
                 const otp = generateOTP();
                 const mailSend = await sendmail(email,otp);

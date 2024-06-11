@@ -1,14 +1,16 @@
 import { Kafka } from 'kafkajs';
+import { ConsumeManager } from './consumeManager.js';
 
 export class KafkaService{
     constructor(){
         this.kafka = new Kafka({
-            clientId:'test-kafka',
+            clientId:'rollin-kafka',
             brokers : ['127.0.0.1:9092']
         })
         this.producer = this.kafka.producer()
-        this.consumer = this.kafka.consumer({groupId:'post-svc'})
-        this.postsConsumer = new PostsConsumer()
+        this.consumer = this.kafka.consumer({groupId:'theatre-svc'})
+        this.manager = new ConsumeManager()
+
     }
 
     async produceMessage(topic,message){
@@ -30,17 +32,19 @@ export class KafkaService{
 
     async consumeMessage(topics){
         try {
-            if(topics || topics?.length === 0){
+            if(!topics || topics?.length === 0){
                 throw new Error('Unable to connect to Invalid Topic.')
             }
-            await this.consumer.subscribe({topic:topics,fromBeginning:true});
+            await this.consumer.subscribe({topics:topics,fromBeginning:true});//topics should be an array
             await this.consumer.run({
                 eachMessage:async ({topic,partition,message})=>{
                     console.log("TOPIC : ",topic);
-                    console.log("PARTITION : ",partition);
-                    console.log("MESSAGE : ",message?.value?.toString());
+                    // console.log("PARTITION : ",partition);
+                    // console.log("MESSAGE : ",message?.value?.toString());
                     const messageObj = JSON.parse(message?.value?.toString())
-                    const { type , data } = messageObj;
+                    console.log("CONSUMER",messageObj);
+                    const { type , value } = messageObj;
+                    await this.manager.manageConsumer(type,value)
                 }
             })
         } catch (error) {
