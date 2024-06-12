@@ -22,7 +22,7 @@ export class AdminLogin{
                         mobile:adminExist.mobile
                     }
                     const accessToken = createToken({...adminData,role:'ADMIN'})
-                    const refreshToken = createRefreshToken({id:adminData.id,role:'ADMIN'});
+                    const refreshToken = createRefreshToken({...adminData,role:'ADMIN'});
                     return {
                         adminData,
                         accessToken,

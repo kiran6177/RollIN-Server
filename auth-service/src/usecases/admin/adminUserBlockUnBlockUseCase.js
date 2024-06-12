@@ -1,6 +1,10 @@
+import { AUTH_TOPIC, TYPE_USER_UPDATED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
+
 export class UserBlockUnblock{
     constructor(dependencies){
         this.userRepository = new dependencies.Repositories.MongoUserRepository()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(userid){
@@ -17,6 +21,10 @@ export class UserBlockUnblock{
                     lastname:updateUser.lastname,
                     isVerified:updateUser.isVerified,
                 }
+                this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                    type:TYPE_USER_UPDATED,
+                    value:JSON.stringify({_id:updateUserWOP.id,isVerified:updateUserWOP.isVerified})
+                })
                 return updateUserWOP
             }else{
                 const error = new Error()

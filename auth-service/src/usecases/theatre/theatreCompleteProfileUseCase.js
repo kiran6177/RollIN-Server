@@ -1,9 +1,12 @@
+import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 
 export class CompleteProfile{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository();
         this.awsConfig = new AwsConfig();
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(data,files){
@@ -60,8 +63,9 @@ export class CompleteProfile{
             const updated = await this.theatreRepository.updateTheatreById(data.id,dataForUpdate);
                 if(updated){
                     const theatreDataWOP = {
-                        id:updated._id,
+                        _id:updated._id,
                         name:updated.name,
+                        images:updated.images,
                         email:updated.email,
                         isCompleted:updated.isCompleted,
                         isVerified:updated.isVerified,
@@ -71,6 +75,10 @@ export class CompleteProfile{
                         location:updated.location,
                         address:updated.address,
                     }
+                    this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                        type:TYPE_THEATRE_UPDATED,
+                        value:JSON.stringify(theatreDataWOP)
+                    })
                     return theatreDataWOP
                 }else{
                     const error = new Error()

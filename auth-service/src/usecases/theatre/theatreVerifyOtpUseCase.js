@@ -12,7 +12,15 @@ export class VerifyTheatre{
             if(session?.theatreOTP){
                 const sessionOTP = session?.theatreOTP
                 if(parseInt(sessionOTP) === otp){
-                    const updateTheatre = this.theatreRepository.updateTheatreById(id,{isAccepted:true});
+                    const updateTheatre = await this.theatreRepository.updateTheatreById(id,{isAccepted:true});
+                    const dataToPub = {
+                        _id:updateTheatre._id,
+                        isAccepted:updateTheatre.isAccepted
+                    }
+                    this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                        type:TYPE_THEATRE_UPDATED,
+                        value:JSON.stringify(dataToPub)
+                    })
                     if(updateTheatre?.isVerified && updateTheatre?.isAccepted){
                         const theatreData = {
                             id:updateTheatre._id,

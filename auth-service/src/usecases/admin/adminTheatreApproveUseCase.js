@@ -1,6 +1,10 @@
+import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
+
 export class TheatreApprove{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
+        this.kafkaClient =  new KafkaService()
     }
 
     async execute(theatreid){
@@ -20,6 +24,10 @@ export class TheatreApprove{
                     address:updateTheatre.address ? updateTheatre.address : null,
                     location:updateTheatre.location ? updateTheatre.location : null
                 }
+                this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                    type:TYPE_THEATRE_UPDATED,
+                    value:JSON.stringify({_id:updateTheatreWOP.id,isVerified:updateTheatreWOP.isVerified})
+                })
                 return updateTheatreWOP
             }else{
                 const error = new Error()

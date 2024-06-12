@@ -1,9 +1,12 @@
 import axios from 'axios'
 import { createToken, createRefreshToken } from '../../utils/jwt.js';
+import { KafkaService } from '../../events/kafkaclient.js';
+import { AUTH_TOPIC, TYPE_USER_CREATED } from '../../events/config.js';
 
 export class GoogleUserAuth{
     constructor(dependencies){
         this.userRepository = new dependencies.Repositories.MongoUserRepository();
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(access_token){
@@ -66,7 +69,22 @@ export class GoogleUserAuth{
                         address:udata.address,
                         walletBalance:udata.walletBalance,
                     }
-
+                    const dataToPub = {
+                        _id:udata._id,
+                        email:udata.email,
+                        mobile:udata.mobile,
+                        firstname:udata.firstname,
+                        lastname:udata.lastname,
+                        dob:udata.dob,
+                        address:udata.address,
+                        walletBalance:udata.walletBalance,
+                        type:udata.type,
+                        isVerified:udata.isVerified
+                    }
+                    this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                        type:TYPE_USER_CREATED,
+                        value:JSON.stringify(dataToPub)
+                    })
                 }
 
                 console.log(data);

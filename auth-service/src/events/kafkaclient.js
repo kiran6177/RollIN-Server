@@ -32,7 +32,7 @@ export class KafkaService{
             if(topics || topics?.length === 0){
                 throw new Error('Unable to connect to Invalid Topic.')
             }
-            await this.consumer.subscribe({topic:topics,fromBeginning:true});
+            await this.consumer.subscribe({topic:topics,fromBeginning:true});//topics should be an array
             await this.consumer.run({
                 eachMessage:async ({topic,partition,message})=>{
                     console.log("TOPIC : ",topic);
