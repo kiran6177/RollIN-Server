@@ -3,11 +3,14 @@ import { Theatre } from "../../entities/index.js";
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import generateOTP from "../../utils/crypto.js";
 import sendmail from "../../utils/mailer.js";
+import { KafkaService } from "../../events/kafkaclient.js";
+import { AUTH_TOPIC, TYPE_THEATRE_CREATED } from "../../events/config.js";
 const SALT_ROUNDS = 10;
 
 export class TheatreSignup{
     constructor(dependencies){
-        this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
+        this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository();
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(data){
@@ -33,6 +36,21 @@ export class TheatreSignup{
                         // isCompleted:createdTheatre.isCompleted,
                         // isVerified:createdTheatre.isVerified
                     }
+                    const theatreToPub = {
+                        _id:createdTheatre._id,
+                        name:createdTheatre.name,
+                        email:createdTheatre.email,
+                        images:createdTheatre.images,
+                        authType:createdTheatre.authType,
+                        isVerified:createdTheatre.isVerified,
+                        isCompleted:createdTheatre.isCompleted,
+                        isAccepted:createdTheatre.isAccepted,
+                        isBlocked:createdTheatre.isBlocked,
+                    }
+                    this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                        type:TYPE_THEATRE_CREATED,
+                        value:JSON.stringify(theatreToPub)
+                    })
                     return {
                         theatreData,
                         otp

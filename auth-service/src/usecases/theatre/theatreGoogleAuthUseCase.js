@@ -1,11 +1,14 @@
 import axios from "axios";
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
-
+import { KafkaService } from '../../events/kafkaclient.js'
+import { AUTH_TOPIC, TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED } from '../../events/config.js'
+ 
 export class TheatreGoogleAuth{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.awsConfig = new AwsConfig()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(googleToken){
@@ -21,8 +24,32 @@ export class TheatreGoogleAuth{
                 console.log("exists",theatreExists);
                     if(theatreExists === null){
                         const createdData = await this.theatreRepository.createTheatre({name:theatreData.name,email:theatreData.email,password:'nil'})
+                        const theatreToPub = {
+                            _id:createdData._id,
+                            name:createdData.name,
+                            email:createdData.email,
+                            images:createdData.images,
+                            authType:createdData.authType,
+                            isVerified:createdData.isVerified,
+                            isCompleted:createdData.isCompleted,
+                            isAccepted:createdData.isAccepted,
+                            isBlocked:createdData.isBlocked,
+                        }
+                        this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                            type:TYPE_THEATRE_CREATED,
+                            value:JSON.stringify(theatreToPub)
+                        })
                         const updatedData = await this.theatreRepository.updateTheatreById(createdData._id,{authType:'GOOGLE_AUTH',isAccepted:true})
                         console.log("created",updatedData);
+                        const dataToPub = {
+                            _id:updatedData._id,
+                            authType:updatedData.authType,
+                            isAccepted:updatedData.isAccepted
+                        }
+                        this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                            type:TYPE_THEATRE_UPDATED,
+                            value:JSON.stringify(dataToPub)
+                        })
                         resultData = {
                             id:updatedData._id,
                             name:updatedData.name,

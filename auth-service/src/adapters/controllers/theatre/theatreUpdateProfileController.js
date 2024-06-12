@@ -1,6 +1,9 @@
+import { AwsConfig } from "../../../utils/aws-s3.js";
+
 export class TheatreUpdateProfile{
     constructor(dependencies){
         this.theatreProfileUpdateUseCase = new dependencies.UseCase.TheatreProfileUpdate(dependencies)
+        this.awsConfig = new AwsConfig()
     }
 
     async updateProfile(req,res,next){
@@ -15,7 +18,22 @@ export class TheatreUpdateProfile{
                     success:true,
                     theatreData:profileUpdateData
                 }
+
                     if(req?.newTheatreToken){
+                        let imagesdata = []
+                        if(req.theatre?.images && req.theatre?.images.length > 0){
+                            for(let image of req.theatre?.images){
+                                const url = await this.awsConfig.getTheatreImage(image)
+                                if(url){
+                                    imagesdata.push({url,filename:image})
+                                }else{
+                                    // write image fetch error code
+                                }
+                            }
+                        }else{
+                            // no image added 
+                        } 
+                        req.theatre.images = imagesdata
                         dataToFrontend.newTheatreToken = req?.newTheatreToken
                         dataToFrontend.newTheatreData = req?.theatre
                     }

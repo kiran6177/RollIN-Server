@@ -1,11 +1,15 @@
-import { MongoUserRepository } from '../adapters/repositories/index.js'
-import { AddUserUseCase } from '../usecases/index.js'
+import { AddTheatreUseCase, AddUserUseCase, UpdateTheatreUseCase, UpdateUserUseCase } from '../usecases/index.js'
+import { MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
 
 const ConsumeUseCase = {
-    AddUserUseCase
+    AddUserUseCase,
+    AddTheatreUseCase,
+    UpdateTheatreUseCase,
+    UpdateUserUseCase
 }
 
 const Repositories = {
+    MongoTheatreRepository,
     MongoUserRepository
 }
 

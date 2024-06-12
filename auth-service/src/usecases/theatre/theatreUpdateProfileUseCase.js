@@ -1,9 +1,12 @@
+import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 
 export class TheatreProfileUpdate{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.awsConfig = new AwsConfig()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute(body,files){
@@ -123,7 +126,15 @@ export class TheatreProfileUpdate{
                         location:updated.location,
                         address:updated.address,
                     }
-                    
+                    const {id,...rest} = theatreDataWOP;
+                    const dataToPub = {
+                        ...rest,
+                        _id:id
+                    }
+                    this.kafkaClient.produceMessage(AUTH_TOPIC,{
+                        type:TYPE_THEATRE_UPDATED,
+                        value:JSON.stringify(dataToPub)
+                    })
                     return theatreDataWOP
                 }else{
                     const error = new Error()
