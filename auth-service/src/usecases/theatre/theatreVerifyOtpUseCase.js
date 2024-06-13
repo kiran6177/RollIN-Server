@@ -1,8 +1,10 @@
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
+import { KafkaService } from '../../events/kafkaclient.js'
 
 export class VerifyTheatre{
     constructor(dependencies){
         this.theatreRepository  = new dependencies.Repositories.MongoTheatreRepository();
+        this.kafkaClient = new KafkaService()
     }
 
     async execute({id,otp},session,type){
