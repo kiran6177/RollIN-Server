@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { ErrorHandler } from '../adapters/middlewares/error-handler.js';
+import {movieRouter} from '../adapters/routes/index.js';
 
 export default ()=>{
     const app = express()
@@ -9,9 +10,8 @@ export default ()=>{
     app.use(cookieParser());
     
 
-    // app.use('/auth/user',userRouter);
-    // app.use('/auth/admin',adminRouter);
-    // app.use('/auth/theatre',theatreRouter);
+    app.use('/movie',movieRouter);
+
 
     app.use(ErrorHandler.handleError)
     return app

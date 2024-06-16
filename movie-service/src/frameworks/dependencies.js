@@ -1,5 +1,5 @@
-import { MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { AddTheatreUseCase, AddUserUseCase, UpdateTheatreUseCase, UpdateUserUseCase } from '../usecases/index.js'
+import { MongoMovieRepository, MongoPersonRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
+import { AddTheatreUseCase, AddUserUseCase, AdminAllTMDBMoviesGet, AdminMovieToDBAdd, AdminMoviesFromDBGet, AdminTMDBMovieDetailGet, UpdateTheatreUseCase, UpdateUserUseCase } from '../usecases/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -10,11 +10,16 @@ const ConsumeUseCase = {
 
 const Repositories = {
     MongoUserRepository,
-    MongoTheatreRepository
+    MongoTheatreRepository,
+    MongoPersonRepository,
+    MongoMovieRepository
 }
 
 const UseCase = {
-
+    AdminAllTMDBMoviesGet,
+    AdminTMDBMovieDetailGet,
+    AdminMovieToDBAdd,
+    AdminMoviesFromDBGet
 }
 
 const dependencies = {
