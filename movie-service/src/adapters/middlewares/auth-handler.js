@@ -57,7 +57,7 @@ export class AuthHandler{
                                                 isVerified:isAllowed.isVerified
                                             }
                                             const newAccessToken = await createToken({...userWOP,role:'USER'});
-                                            req.newuserToken = newAccessToken
+                                            req.newUserToken = newAccessToken
                                             req.user = decoded
                                             next()
                                         }
