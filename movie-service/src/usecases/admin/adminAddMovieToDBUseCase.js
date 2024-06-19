@@ -53,7 +53,6 @@ export class AdminMovieToDBAdd{
                             genres:detail.genres,
                             video_link:detail.videos?.results.length > 0 ? detail.videos?.results[0].key : null,
                             runtime:detail.runtime,
-                            movieStatus:'Upcoming'
                         }
                         if(detail.backdrop_path){
                             const {trimmed,fileBuffer,mimeType} = await GenerateImage('banner'+detail.title+detail.id,detail.backdrop_path)

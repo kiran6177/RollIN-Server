@@ -3,31 +3,27 @@ import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
 
-export class AdminMoviesFromDBGet{
+export class UserBannerMoviesGet{
     constructor(dependencies){
         this.movieRepository = new dependencies.Repositories.MongoMovieRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute({page}){
+    async execute(){
         try {
-            const pageValue = page !== null ? page : 1;
-            const limit = 20;
-            const skipValue = (pageValue * limit) - limit;
-            const resultData = await this.movieRepository.GetMoviesAndPeopleWithLimit(skipValue,limit);
-
-            let returnData = [];
-            for(let data of resultData){
-                const backdrop_path = await this.awsConfig.getImage(data.backdrop_path,MOVIE_OWNER)
-                const poster_path = await this.awsConfig.getImage(data.poster_path,MOVIE_OWNER)
-                let castWithImages = []
-                let crewWithImages = []
+            const moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,6)
+            const bannerData = []
+            for(let movie of moviesData){
+                const backdrop_path = await this.awsConfig.getImage(movie.backdrop_path,MOVIE_OWNER)
+                const poster_path = await this.awsConfig.getImage(movie.poster_path,MOVIE_OWNER)
+                let castDataImg = []
+                let crewDataImg = []
                 let genres = []
-                    for(let genre of data.genres){
+                    for(let genre of movie.genres){
                         genres.push(genre.name)
                     }
 
-                    for(let castData of data.cast){
+                    for(let castData of movie.cast){
                             let profile_path;
                             if(castData?.cast_id?.profile_path){
                                 let url = await this.awsConfig.getImage(castData.cast_id.profile_path,PEOPLE_OWNER)
@@ -39,14 +35,14 @@ export class AdminMoviesFromDBGet{
                             }else{
                                 profile_path = UNKNOWN_IMAGE
                             }
-                            castWithImages.push({
+                            castDataImg.push({
                                 ...castData.cast_id,
                                 profile_path,
                                 character:castData.character
                             })
                     }
 
-                    for(let crewData of data.crew){
+                    for(let crewData of movie.crew){
                         let profile_path;
                             if(crewData?.crew_id?.profile_path){
                                 let url = await this.awsConfig.getImage(crewData.crew_id.profile_path,PEOPLE_OWNER)
@@ -58,24 +54,24 @@ export class AdminMoviesFromDBGet{
                             }else{
                                 profile_path = UNKNOWN_IMAGE
                             }
-                            crewWithImages.push({
+                            crewDataImg.push({
                                 ...crewData.crew_id,
                                 profile_path,
                             })
                     }
-                let release_date = new Date(data.release_date)
-                 returnData.push({
-                    ...data,
+                let release_date = new Date(movie.release_date)
+                bannerData.push({
+                    ...movie,
                     backdrop_path,
                     poster_path,
                     genres,
                     release_date:release_date.getFullYear()+'-'+((release_date.getMonth()+1) < 10 ? '0'+(release_date.getMonth()+1) : release_date.getMonth()+1)+'-'+release_date.getDate(),
-                    cast:castWithImages,
-                    crew:crewWithImages
+                    cast:castDataImg,
+                    crew:crewDataImg
                 })
             }
-            console.log(returnData);
-            return returnData
+            // console.log(bannerData);
+            return bannerData
         } catch (err) {
             console.log(err);
             const error = new Error()

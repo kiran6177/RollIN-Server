@@ -43,7 +43,7 @@ export class AdminTMDBMovieDetailGet{
                             person_id:person.id,
                             department:person.known_for_department,
                             character:person.character,
-                            image:person?.profile_path ? IMAGE_URL+person?.profile_path : UNKNOWN_IMAGE
+                            profile_path:person?.profile_path ? IMAGE_URL+person?.profile_path : UNKNOWN_IMAGE
                         })
                     }
                 }else{
@@ -53,7 +53,7 @@ export class AdminTMDBMovieDetailGet{
                             person_id:castCrew.cast[i].id,
                             department:castCrew.cast[i].known_for_department,
                             character:castCrew.cast[i].character,
-                            image:castCrew.cast[i]?.profile_path ? IMAGE_URL+castCrew.cast[i]?.profile_path : UNKNOWN_IMAGE
+                            profile_path:castCrew.cast[i]?.profile_path ? IMAGE_URL+castCrew.cast[i]?.profile_path : UNKNOWN_IMAGE
                         })
                     }
                 }

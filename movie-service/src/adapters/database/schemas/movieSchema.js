@@ -41,10 +41,6 @@ const movieSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    movie_status:{
-        type:String,
-        required:true
-    },
     backdrop_path:{
         type:String,
         required:true

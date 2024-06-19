@@ -10,7 +10,6 @@ export class Movie{
         this.genres = movie.genres
         this.video_link = movie.video_link
         this.runtime = movie.runtime
-        this.movie_status = movie.movieStatus
         this.backdrop_path = movie.backdrop_path
         this.poster_path = movie.poster_path
         this.cast = movie.cast

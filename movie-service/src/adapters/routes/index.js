@@ -1,4 +1,4 @@
-import movieRouter from "./admin/movieRoutes.js";
+import movieRouter from "./movie/movieRoutes.js";
 
 export {
     movieRouter

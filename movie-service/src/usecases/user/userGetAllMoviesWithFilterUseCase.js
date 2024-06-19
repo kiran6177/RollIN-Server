@@ -3,18 +3,18 @@ import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
 
-export class AdminMoviesFromDBGet{
+export class UserAllMoviesWithFilterGet{
     constructor(dependencies){
         this.movieRepository = new dependencies.Repositories.MongoMovieRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute({page}){
+    async execute({filters}){
         try {
-            const pageValue = page !== null ? page : 1;
+            const pageValue = filters?.page !== null ? filters.page : 1;
             const limit = 20;
             const skipValue = (pageValue * limit) - limit;
-            const resultData = await this.movieRepository.GetMoviesAndPeopleWithLimit(skipValue,limit);
+            const resultData = await this.movieRepository.GetMoviesAndPeopleWithLimitAndFilter(filters,skipValue,limit);
 
             let returnData = [];
             for(let data of resultData){

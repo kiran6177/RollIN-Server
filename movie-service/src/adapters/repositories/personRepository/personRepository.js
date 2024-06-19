@@ -12,6 +12,9 @@ class PersonRepository{
     async findPersonByPersonId(){
         throw new Error('findPersonByPersonId not implemented')
     }
+    async GetPeopleWithLimit(){
+        throw new Error('GetPeopleWithLimit not implemented')
+    }
 }
 
 export class MongoPersonRepository extends PersonRepository{
@@ -31,6 +34,18 @@ export class MongoPersonRepository extends PersonRepository{
     async findPersonByPersonId(id){
         try {
             return await PersonModel.findOne({person_id:id})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async GetPeopleWithLimit(skip,limit){
+        try {
+            return await PersonModel.find().skip(skip).limit(limit).lean()
         } catch (err) {
             console.log(err);
             const error = new Error();

@@ -6,9 +6,6 @@ class MovieRepository{
     async findMovieById(){
         throw new Error('findMovieById not implemented')
     }
-    async findMovieByEmail(){
-        throw new Error('findMovieByEmail not implemented')
-    }
     async updateMovieById(){
         throw new Error('updateMovieById not implemented')
     }
@@ -17,6 +14,18 @@ class MovieRepository{
     }
     async GetMoviesAndPeopleWithLimit(){
         throw new Error('GetMoviesAndPeopleWithLimit not implemented')
+    }
+    async GetMoviesAndPeopleWithLimitAndFilter(){
+        throw new Error('GetMoviesAndPeopleWithLimitAndFilter not implemented')
+    }
+    async findMovieByPersonId(){
+        throw new Error('findMovieByPersonId not implemented')
+    }
+    async findMoviesByDateWithLimit(){
+        throw new Error('findMoviesByDateWithLimit not implemented')
+    }
+    async findMoviesByGenreWithLimit(){
+        throw new Error('findMoviesByGenreWithLimit not implemented')
     }
 }
 
@@ -49,6 +58,93 @@ export class MongoMovieRepository extends MovieRepository{
     async GetMoviesAndPeopleWithLimit(skip,limit){
         try {
             return await MovieModel.find().skip(skip).limit(limit).populate('cast.cast_id').populate('crew.crew_id').lean();
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async GetMoviesAndPeopleWithLimitAndFilter(filters,skip,limit){
+        try {
+            const {page,languages,genres,search} = filters;
+            console.log(languages);
+            console.log(genres);
+            let filterQuery = [];
+            if(languages?.length > 0){
+                filterQuery.push({
+                    language:{$in:languages}
+                })
+            }
+            if(genres?.length > 0){
+                filterQuery.push({
+                    ['genres.name']:{$in:genres}
+                })
+            }
+            const searchQuery = {title:{$regex:search ? search : '',$options:'i'}}
+            console.log("FILTER",filterQuery);
+            if(filterQuery.length > 0 && search !== ''){
+                filterQuery.push(searchQuery)
+                console.log("FILTER",filterQuery);
+                return await MovieModel.find({$and:filterQuery}).skip(skip).limit(limit).populate('cast.cast_id').populate('crew.crew_id').lean();
+            }else if(filterQuery.length > 0 && search === ''){
+                return await MovieModel.find({$and:filterQuery}).skip(skip).limit(limit).populate('cast.cast_id').populate('crew.crew_id').lean();
+            }else{
+                return await MovieModel.find(searchQuery).skip(skip).limit(limit).populate('cast.cast_id').populate('crew.crew_id').lean();
+            }
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async findMovieByPersonId(id){
+        try {
+            return await MovieModel.find({$or: [
+                { "cast.cast_id": id },
+                { "crew.crew_id": id }
+            ]}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async findMoviesByDateWithLimit(dateVal,limit){
+        try {
+            return await MovieModel.aggregate([{$sort:{release_date:dateVal}},{$limit:limit}])
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async findMoviesByGenreWithLimit(limit){
+        try {
+            return await MovieModel.aggregate([
+                {$unwind:'$genres'},
+                {$sort:{
+                    release_date:-1
+                }},
+                {$group:
+                    {_id:'$genres',movies:{$addToSet:"$$ROOT"}}
+                },
+                {$project:{
+                    _id:1,
+                    movies:{
+                        $slice:["$movies",limit]
+                    }
+                }}])
         } catch (err) {
             console.log(err);
             const error = new Error();
