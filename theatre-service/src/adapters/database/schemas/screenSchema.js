@@ -1,0 +1,129 @@
+import mongoose from "mongoose";
+
+const runningMovieSchema = new mongoose.Schema({
+    movie_id:{
+        type:Number,
+        required:true
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    language:{
+        type:String,
+        required:true
+    },
+    overview:{
+        type:String,
+        default:"UNAVAILABLE"
+    },
+    release_date:{
+        type:Date,
+        required:true
+    },
+    popularity:{
+        type:Number,
+        default:0
+    },
+    rating:{
+        type:Number,
+        default:0
+    },
+    genres:{
+        type:Array,
+        default:[]
+    },
+    video_link:{
+        type:String,
+        default:null
+    },
+    runtime:{
+        type:Number,
+        default:0
+    },
+    backdrop_path:{
+        type:String,
+        required:true
+    },
+    poster_path:{
+        type:String,
+        required:true
+    },
+    enroll_from:{
+        type:Date,
+        required:true
+    },
+    enroll_to:{
+        type:Date,
+        required:true
+    },
+    
+})
+
+const soundSchema = new mongoose.Schema({
+    front:{
+        type:Number,
+        default:0
+    },
+    rear:{
+        type:Number,
+        default:0
+    },
+    left:{
+        type:Number,
+        default:0
+    },
+    right:{
+        type:Number,
+        default:0
+    },
+    center:{
+        type:Number,
+        default:0
+    },
+    subwoofer:{
+        type:Number,
+        default:0
+    }
+})
+
+const screenSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        default:"SCREEN"
+    },
+    running_movie:{
+        type:runningMovieSchema
+    },
+    tiers:[{
+        name:{
+            type:String,
+            required:true
+        },
+        seats:{
+            type:Number,
+            required:true
+        },
+        horizontal_partition:{
+            type:Number,
+            required:true
+        },
+        columns:{
+            type:Number,
+            required:true
+        },
+        layout:[{
+            type:Object
+        }]
+    }],
+    showtimes:{
+        type:Array,
+        default:[]
+    },
+    sound_setup:{
+        type:soundSchema
+    },
+
+})
+
+export default mongoose.model('screen',screenSchema)

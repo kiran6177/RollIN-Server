@@ -13,8 +13,8 @@ class TheatreRepository{
     async updateTheatreById(){
         throw new Error('updateTheatreById not implemented')
     }
-    async googleLogin(){
-        throw new Error('googleLogin not implemented')
+    async getAllTheatres(){
+        throw new Error('getAllTheatres not implemented')
     }
 }
 
@@ -55,6 +55,17 @@ export class MongoTheatreRepository extends TheatreRepository{
     async updateTheatreById(id,data){
         try {
             return await TheatreModel.findByIdAndUpdate({_id:id},{$set:data},{new:true}) 
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getAllTheatres(){
+        try {
+            return await TheatreModel.find({isVerified:true,isBlocked:false}).lean()
         } catch (err) {
             console.log(err);
             const error = new Error();

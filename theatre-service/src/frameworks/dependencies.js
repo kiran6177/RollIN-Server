@@ -1,4 +1,4 @@
-import { AddTheatreUseCase, AddUserUseCase, UpdateTheatreUseCase, UpdateUserUseCase } from '../usecases/index.js'
+import { AddTheatreUseCase, AddUserUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserTheatresGet } from '../usecases/index.js'
 import { MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
 
 const ConsumeUseCase = {
@@ -14,7 +14,7 @@ const Repositories = {
 }
 
 const UseCase = {
-
+    UserTheatresGet
 }
 
 const dependencies = {
