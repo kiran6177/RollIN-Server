@@ -1,6 +1,6 @@
 import express from 'express';
 import { AuthHandler } from '../../middlewares/auth-handler.js'
-import { AdminAddMovieToDBController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController } from '../../controllers/index.js';
+import { AdminAddMovieToDBController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, TheatreGetAllMoviesController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController } from '../../controllers/index.js';
 import dependencies from '../../../frameworks/dependencies.js';
 const movieRouter = express.Router();
 
@@ -12,7 +12,8 @@ const controllers = {
     adminGetPersonsFromDBController : new AdminGetPersonsFromDBController(dependencies),
     userGetBannerMoviesController : new UserGetBannerMoviesController(dependencies),
     userGetMoviesByGenreController : new UserGetMoviesByGenreController(dependencies),
-    userGetAllMoviesWithFilter : new UserGetAllMoviesWithFilterController(dependencies)
+    userGetAllMoviesWithFilter : new UserGetAllMoviesWithFilterController(dependencies),
+    theatreGetAllMoviesController : new TheatreGetAllMoviesController(dependencies)
 }
 movieRouter.post('/getalltmdbmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetAllTMDBMoviesController.getAllTMDBMovies(req,res,next)})
 movieRouter.post('/gettmdbmoviedetail',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetTMDBMovieDetailController.getTMDBMovieDetail(req,res,next)})
@@ -23,6 +24,8 @@ movieRouter.post('/getallpersons',AuthHandler.isAdminLogin,(req,res,next)=>{cont
 movieRouter.get('/getbanners',(req,res,next)=>{controllers.userGetBannerMoviesController.getBannerMovies(req,res,next)})
 movieRouter.get('/getmoviesbygenre',(req,res,next)=>{controllers.userGetMoviesByGenreController.getMoviesByGenre(req,res,next)})
 movieRouter.post('/getallmovieswithfilters',(req,res,next)=>{controllers.userGetAllMoviesWithFilter.getAllMoviesWithFilter(req,res,next)})
+
+movieRouter.post('/getmoviesfortheatre',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetAllMoviesController.getAllMovies(req,res,next)})
 
 
 export default movieRouter

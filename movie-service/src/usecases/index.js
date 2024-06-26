@@ -13,6 +13,8 @@ import { UserBannerMoviesGet } from "./user/userGetBannerMoviesUseCase.js";
 import { UserMoviesByGenreGet } from "./user/userGetMoviesByGenreUseCase.js";
 import { UserAllMoviesWithFilterGet } from "./user/userGetAllMoviesWithFilterUseCase.js";
 
+import { TheatreAllMoviesGet } from "./theatre/theatreGetAllMoviesUseCase.js";
+
 export {
     AddUserUseCase,
     AddTheatreUseCase,
@@ -25,5 +27,6 @@ export {
     AdminPersonsFromDBGet,
     UserBannerMoviesGet,
     UserMoviesByGenreGet,
-    UserAllMoviesWithFilterGet
+    UserAllMoviesWithFilterGet,
+    TheatreAllMoviesGet
 }

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const runningMovieSchema = new mongoose.Schema({
     movie_id:{
-        type:Number,
+        type:String,
         required:true
     },
     title:{
@@ -49,6 +49,12 @@ const runningMovieSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    cast:{
+        type:Array,
+    },
+    crew:{
+        type:Array,
+    },
     enroll_from:{
         type:Date,
         required:true
@@ -57,7 +63,11 @@ const runningMovieSchema = new mongoose.Schema({
         type:Date,
         required:true
     },
-    
+    status:{
+        type:String,
+        enum:['RUNNING','REMOVED'],
+        default:'RUNNING'
+    }
 })
 
 const soundSchema = new mongoose.Schema({
@@ -81,7 +91,7 @@ const soundSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    subwoofer:{
+    subwoofers:{
         type:Number,
         default:0
     }
@@ -92,9 +102,9 @@ const screenSchema = new mongoose.Schema({
         type:String,
         default:"SCREEN"
     },
-    running_movie:{
+    running_movies:[{
         type:runningMovieSchema
-    },
+    }],
     tiers:[{
         name:{
             type:String,
@@ -104,22 +114,33 @@ const screenSchema = new mongoose.Schema({
             type:Number,
             required:true
         },
-        horizontal_partition:{
+        rate:{
             type:Number,
             required:true
         },
+        order:{
+            type:Number,
+        },
+        horizontal_partition:{
+            type:Number,
+            default:0
+        },
         columns:{
             type:Number,
-            required:true
+            default:0
         },
         layout:[{
             type:Object
         }]
     }],
-    showtimes:{
-        type:Array,
-        default:[]
-    },
+    showtimes:[{
+        showtime:{
+            type:String
+        },
+        movie_id:{
+            type:String
+        }
+    }],
     sound_setup:{
         type:soundSchema
     },

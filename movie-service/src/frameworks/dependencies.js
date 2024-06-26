@@ -1,5 +1,5 @@
 import { MongoMovieRepository, MongoPersonRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { AddTheatreUseCase, AddUserUseCase, AdminAllTMDBMoviesGet, AdminMovieToDBAdd, AdminMoviesFromDBGet, AdminPersonsFromDBGet, AdminTMDBMovieDetailGet, UpdateTheatreUseCase, UpdateUserUseCase, UserAllMoviesWithFilterGet, UserBannerMoviesGet, UserMoviesByGenreGet } from '../usecases/index.js'
+import { AddTheatreUseCase, AddUserUseCase, AdminAllTMDBMoviesGet, AdminMovieToDBAdd, AdminMoviesFromDBGet, AdminPersonsFromDBGet, AdminTMDBMovieDetailGet, TheatreAllMoviesGet, UpdateTheatreUseCase, UpdateUserUseCase, UserAllMoviesWithFilterGet, UserBannerMoviesGet, UserMoviesByGenreGet } from '../usecases/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -23,7 +23,8 @@ const UseCase = {
     AdminPersonsFromDBGet,
     UserBannerMoviesGet,
     UserMoviesByGenreGet,
-    UserAllMoviesWithFilterGet
+    UserAllMoviesWithFilterGet,
+    TheatreAllMoviesGet
 }
 
 const dependencies = {
