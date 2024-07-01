@@ -16,7 +16,7 @@ export class TheatreScreenAdd{
                                 name:tierObj.name.trim(),
                                 seats:tierObj.seats,
                                 rate:tierObj.rate,
-                                order:i
+                                order:i+1
                             }
                         })
                         const showtimes = showData.map(showObj=>{

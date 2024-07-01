@@ -85,7 +85,6 @@ export class MongoTheatreRepository extends TheatreRepository{
     async getScreenDataById(id){
         try {
             const screenData = await TheatreModel.aggregate([{$match:{_id:new ObjectId(id)}},{$unwind:'$screens'},{$lookup:{from:'screens',localField:'screens',foreignField:'_id',as:'screenData'}},{$project:{'screenData':1,_id:0}}])
-            // console.log(screenData);
             return screenData.map(screenObj=>screenObj.screenData[0])
         } catch (err) {
             console.log(err);

@@ -26,6 +26,12 @@ class ScreenRepository{
     async findMovieEnrolled(){
         throw new Error('findMovieEnrolled not implemented')
     }
+    async updateTierByIds(){
+        throw new Error('updateTierByIds not implemented')
+    }
+    async updateTiersOrderByScreen(){
+        throw new Error('updateTiersOrderByScreen not implemented')
+    }
 }
 
 export class MongoScreenRepository extends ScreenRepository{
@@ -118,5 +124,26 @@ export class MongoScreenRepository extends ScreenRepository{
             throw error
         }
     }
-
+    async updateTierByIds(screen_id,tier_id,data){
+        try {
+            return await ScreenModel.findOneAndUpdate({_id:screen_id,'tiers._id':tier_id},{$set:{'tiers.$':data}},{new:true}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async updateTiersOrderByScreen(screen_id,data){
+        try {
+            return await ScreenModel.findOneAndUpdate({_id:screen_id},{$set:{tiers:data}},{new:true}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
 }

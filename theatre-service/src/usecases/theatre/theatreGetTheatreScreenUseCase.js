@@ -13,9 +13,9 @@ export class TheatreScreenDataGet{
         try {
             console.log(id);
             const data = await this.theatreRepository.getScreenDataById(id)
-            console.log("SCREEN THEATRE",data[1].showtimes);
             let dataModified = [];
             if(data.length > 0){
+            console.log("SCREEN THEATRE",data);
                 for(let screen of data){
                     let running_movies = [];
                     if(screen?.running_movies?.length > 0){

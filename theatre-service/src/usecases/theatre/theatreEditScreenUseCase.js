@@ -21,7 +21,7 @@ export class TheatreScreenEdit{
                                 name:tierObj.name.trim(),
                                 seats:tierObj.seats,
                                 rate:tierObj.rate,
-                                order:i,
+                                order:i+1,
                                 horizontal_partition:tierObj?.horizontal_partition ? parseInt(tierObj?.horizontal_partition) : 0,
                                 columns:tierObj?.columns ? parseInt(tierObj?.columns) : 0,
                                 layout: tierObj?.layout ? tierObj.layout : []

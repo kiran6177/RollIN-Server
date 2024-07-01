@@ -11,6 +11,8 @@ import { TheatreEnrollMovie } from "./theatre/theatreEnrollMovieController.js";
 import { TheatreEditScreen } from "./theatre/theatreEditScreenController.js";
 import { TheatreRemoveMovie } from "./theatre/theatreRemoveMovieController.js";
 import { TheatreExtendMovie } from "./theatre/theatreExtendMovieController.js";
+import { TheatreEditTier } from "./theatre/theatreEditTierController.js";
+import { TheatreChangeTierOrder } from "./theatre/theatreChangeTierOrderController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -23,5 +25,7 @@ export {
     TheatreEnrollMovie as TheatreEnrollMovieController,
     TheatreEditScreen as TheatreEditScreenController,
     TheatreRemoveMovie as TheatreRemoveMovieController,
-    TheatreExtendMovie as TheatreExtendMovieController
+    TheatreExtendMovie as TheatreExtendMovieController,
+    TheatreEditTier as TheatreEditTierController,
+    TheatreChangeTierOrder as TheatreChangeTierOrderController
 }

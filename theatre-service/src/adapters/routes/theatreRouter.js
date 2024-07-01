@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthHandler } from '../middlewares/auth-handler.js';
 const theatreRouter = express.Router();
 import dependencies from '../../frameworks/dependencies.js';
-import {  TheatreAddScreenController, TheatreEditScreenController, TheatreEnrollMovieController, TheatreExtendMovieController, TheatreGetTheatreScreenController, TheatreRemoveMovieController, UserGetTheatresController } from '../controllers/index.js';
+import {  TheatreAddScreenController, TheatreChangeTierOrderController, TheatreEditScreenController, TheatreEditTierController, TheatreEnrollMovieController, TheatreExtendMovieController, TheatreGetTheatreScreenController, TheatreRemoveMovieController, UserGetTheatresController } from '../controllers/index.js';
 
 const controllers = {
     userGetTheatresController : new UserGetTheatresController(dependencies),
@@ -11,7 +11,9 @@ const controllers = {
     theatreEnrollMovieController : new TheatreEnrollMovieController(dependencies),
     theatreEditScreenController : new TheatreEditScreenController(dependencies),
     theatreRemoveMovieController : new TheatreRemoveMovieController(dependencies),
-    theatreExtendMovieController : new TheatreExtendMovieController(dependencies)
+    theatreExtendMovieController : new TheatreExtendMovieController(dependencies),
+    theatreEditTierController : new TheatreEditTierController(dependencies),
+    theatreChangeTierOrderController : new TheatreChangeTierOrderController(dependencies)
 }
 
 theatreRouter.get('/gettheatres',(req,res,next)=>{controllers.userGetTheatresController.getTheatres(req,res,next)})
@@ -22,6 +24,8 @@ theatreRouter.post('/enrollmovie',AuthHandler.isTheatreLogin,(req,res,next)=>{co
 theatreRouter.post('/editscreen',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreEditScreenController.editScreen(req,res,next)})
 theatreRouter.post('/removemoviefromscreen',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreRemoveMovieController.removeMovie(req,res,next)})
 theatreRouter.post('/extendmovieforscreen',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreExtendMovieController.extendMovie(req,res,next)})
+theatreRouter.post('/edittier',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreEditTierController.editTier(req,res,next)})
+theatreRouter.post('/changetierorder',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreChangeTierOrderController.changeTierOrder(req,res,next)})
 
 
 export default theatreRouter
