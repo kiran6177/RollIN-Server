@@ -1,4 +1,5 @@
 import { TheatreModel } from "../../database/index.js";
+import { ObjectId } from 'mongodb'
 
 class TheatreRepository{
     async createTheatre(){
@@ -13,8 +14,14 @@ class TheatreRepository{
     async updateTheatreById(){
         throw new Error('updateTheatreById not implemented')
     }
-    async googleLogin(){
-        throw new Error('googleLogin not implemented')
+    async getAllTheatres(){
+        throw new Error('getAllTheatres not implemented')
+    }
+    async getScreenDataById(){
+        throw new Error('getScreenDataById not implemented')
+    }
+    async addScreenToTheatre(){
+        throw new Error('addScreenToTheatre not implemented')
     }
 }
 
@@ -55,6 +62,42 @@ export class MongoTheatreRepository extends TheatreRepository{
     async updateTheatreById(id,data){
         try {
             return await TheatreModel.findByIdAndUpdate({_id:id},{$set:data},{new:true}) 
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getAllTheatres(){
+        try {
+            return await TheatreModel.find({isVerified:true,isBlocked:false}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
+    async getScreenDataById(id){
+        try {
+            const screenData = await TheatreModel.aggregate([{$match:{_id:new ObjectId(id)}},{$unwind:'$screens'},{$lookup:{from:'screens',localField:'screens',foreignField:'_id',as:'screenData'}},{$project:{'screenData':1,_id:0}}])
+            return screenData.map(screenObj=>screenObj.screenData[0])
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async addScreenToTheatre(theatreid,id){
+        try {
+            const addscreenData = await TheatreModel.findByIdAndUpdate({_id:theatreid},{$push:{screens:id}},{$new:true})
+            return addscreenData
         } catch (err) {
             console.log(err);
             const error = new Error();

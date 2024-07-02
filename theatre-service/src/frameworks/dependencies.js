@@ -1,5 +1,5 @@
-import { AddTheatreUseCase, AddUserUseCase, UpdateTheatreUseCase, UpdateUserUseCase } from '../usecases/index.js'
-import { MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
+import { AddTheatreUseCase, AddUserUseCase, TheatreMovieEnroll, TheatreMovieExtend, TheatreMovieRemove, TheatreScreenAdd, TheatreScreenDataGet, TheatreScreenEdit, TheatreTierEdit, TheatreTierOrderChange, UpdateTheatreUseCase, UpdateUserUseCase, UserTheatresGet } from '../usecases/index.js'
+import { MongoScreenRepository, MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -10,11 +10,20 @@ const ConsumeUseCase = {
 
 const Repositories = {
     MongoTheatreRepository,
-    MongoUserRepository
+    MongoUserRepository,
+    MongoScreenRepository
 }
 
 const UseCase = {
-
+    UserTheatresGet,
+    TheatreScreenDataGet,
+    TheatreScreenAdd,
+    TheatreMovieEnroll,
+    TheatreScreenEdit,
+    TheatreMovieRemove,
+    TheatreMovieExtend,
+    TheatreTierEdit,
+    TheatreTierOrderChange
 }
 
 const dependencies = {

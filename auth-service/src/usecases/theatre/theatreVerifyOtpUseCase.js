@@ -1,5 +1,6 @@
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import { KafkaService } from '../../events/kafkaclient.js'
+import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
 
 export class VerifyTheatre{
     constructor(dependencies){

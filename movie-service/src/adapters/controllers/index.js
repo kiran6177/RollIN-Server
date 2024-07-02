@@ -13,6 +13,8 @@ import { UserGetBannerMovies } from "./user/userGetBannerMoviesController.js";
 import { UserGetMoviesByGenre } from "./user/userGetMoviesByGenreController.js";
 import { UserGetAllMoviesWithFilter } from "./user/userGetAllMovieswithFilterController.js";
 
+import { TheatreGetAllMovies } from "./theatre/theatreGetMoviesController.js";
+
 export {
     UserCreatedConsume as UserCreatedConsumeController,
     TheatreCreatedConsume as TheatreCreatedConsumeController,
@@ -25,5 +27,6 @@ export {
     AdminGetPersonsFromDB as AdminGetPersonsFromDBController,
     UserGetBannerMovies as UserGetBannerMoviesController,
     UserGetMoviesByGenre as UserGetMoviesByGenreController,
-    UserGetAllMoviesWithFilter as UserGetAllMoviesWithFilterController
+    UserGetAllMoviesWithFilter as UserGetAllMoviesWithFilterController,
+    TheatreGetAllMovies as TheatreGetAllMoviesController
 }
