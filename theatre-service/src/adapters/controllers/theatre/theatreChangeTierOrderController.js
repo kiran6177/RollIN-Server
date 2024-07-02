@@ -9,9 +9,13 @@ export class TheatreChangeTierOrder{
 
     async changeTierOrder(req,res,next){
         try {
+            const key = req.body?.key || null;
             const resultData = await this.theatreChangeTierOrderUseCase.execute(req.body);
             const dataToFrontend = {
                 resultData,
+            }
+            if(key){
+                dataToFrontend.key = key;
             }
             if(req?.newTheatreToken){
                 let images =  []
