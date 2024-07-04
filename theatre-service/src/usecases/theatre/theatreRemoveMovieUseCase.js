@@ -1,4 +1,6 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
+import { MOVIE_TOPIC, TYPE_MOVIE_REMOVED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
@@ -8,6 +10,7 @@ export class TheatreMovieRemove{
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.screenRepository = new dependencies.Repositories.MongoScreenRepository()
         this.awsConfig = new AwsConfig()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute({screen_id,movie_id}){
@@ -19,6 +22,7 @@ export class TheatreMovieRemove{
                     const findMovieRunning = await this.screenRepository.findMovieRunning(screen_id,movie_id)
                     if(findMovieRunning?.length === 0){
                         const removedMovieScreen =  await this.screenRepository.removeMovie(screen_id,movie_id)
+                        console.log("REMSCREEN",removedMovieScreen);
                         let dataWithImages = {}
                         if(removedMovieScreen?.running_movies?.length > 0){
                             let running_movies = []
@@ -68,7 +72,24 @@ export class TheatreMovieRemove{
                                 ...removedMovieScreen,
                                 running_movies
                             }
+                        }else{
+                            dataWithImages = {
+                                ...removedMovieScreen
+                            }
                         }
+                        const theatreData = await this.theatreRepository.getTheatreByScreenId(screen_id)
+                                console.log(theatreData);
+                                if(theatreData?.length > 0 && theatreData[0]?._id){
+                                    const dataToPub = {
+                                        movie_id:movie_id,
+                                        theatre_id:theatreData[0]?._id
+                                    }
+
+                                    this.kafkaClient.produceMessage(MOVIE_TOPIC,{
+                                        type:TYPE_MOVIE_REMOVED,
+                                        value:JSON.stringify(dataToPub)
+                                    })
+                                }
                         console.log("REMOVEDIMG",dataWithImages);
                         return dataWithImages;
                     }else{

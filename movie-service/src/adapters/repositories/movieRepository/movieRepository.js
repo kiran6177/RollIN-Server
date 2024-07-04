@@ -27,6 +27,9 @@ class MovieRepository{
     async findMoviesByGenreWithLimit(){
         throw new Error('findMoviesByGenreWithLimit not implemented')
     }
+    async findMovieByMovieIdWithPeople(){
+        throw new Error('findMovieByMovieIdWithPeople not implemented')
+    }
 }
 
 export class MongoMovieRepository extends MovieRepository{
@@ -145,6 +148,17 @@ export class MongoMovieRepository extends MovieRepository{
                         $slice:["$movies",limit]
                     }
                 }}])
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async findMovieByMovieIdWithPeople(id){
+        try {
+            return await MovieModel.findOne({_id:id}).populate('cast.cast_id').populate('crew.crew_id').lean();
         } catch (err) {
             console.log(err);
             const error = new Error();

@@ -16,7 +16,7 @@ const controllers = {
     theatreChangeTierOrderController : new TheatreChangeTierOrderController(dependencies)
 }
 
-theatreRouter.get('/gettheatres',(req,res,next)=>{controllers.userGetTheatresController.getTheatres(req,res,next)})
+theatreRouter.post('/gettheatres',(req,res,next)=>{controllers.userGetTheatresController.getTheatres(req,res,next)})
 
 theatreRouter.post('/gettheatredata',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetTheatreScreenController.getTheatreScreen(req,res,next)})
 theatreRouter.post('/addscreen',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreAddScreenController.addScreen(req,res,next)})

@@ -5,12 +5,33 @@ const PEOPLE_OWNER = 'people'
 
 export class UserMoviesByGenreGet{
     constructor(dependencies){
+        this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.movieRepository = new dependencies.Repositories.MongoMovieRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute(){
+    async execute({location}){
         try {
+            let locationBased = []
+            if(location?.lat && location?.lng){
+                const theatres = await this.theatreRepository.findMoviesFromTheatreByLocation([location.lat,location.lng],50)
+                if(theatres?.length > 0){
+                    let movieIds = []
+                    for(let theatre of theatres){
+                        if(theatre?.enrolledMovies?.length > 0){
+                            for(let movieId of theatre.enrolledMovies){
+                                movieIds.push(movieId)
+                            }
+                        }
+                    }
+                    if(movieIds?.length > 0){
+                        for(let movieId of movieIds){
+                                const movieData = await this.movieRepository.findMovieByMovieIdWithPeople(movieId)
+                                locationBased.push(movieData)
+                        }
+                    }
+                }
+            }
             const movieByGenre = await this.movieRepository.findMoviesByGenreWithLimit(10)
             let moviesOutput = []
             for(let genreMovie of movieByGenre){
@@ -20,10 +41,6 @@ export class UserMoviesByGenreGet{
                     const poster_path = await this.awsConfig.getImage(movie.poster_path,MOVIE_OWNER)
                     let castDataImg = []
                     let crewDataImg = []
-                    // let genres = []
-                    //     for(let genre of movie.genres){
-                    //         genres.push(genre.name)
-                    //     }
     
                         for(let castData of movie.cast){
                                 let profile_path;
@@ -72,14 +89,25 @@ export class UserMoviesByGenreGet{
                         crew:crewDataImg
                     })
                 }
-                if(moviesOutput.length < 4){
-                    moviesOutput.push({
-                        genre:genreMovie._id,
-                        movies:reGenreMovies
+                let genreLocFiltered = []
+                reGenreMovies.forEach(movie=>{
+                    locationBased.forEach(runningMovie=>{
+                        if(runningMovie._id.toString() === movie._id.toString()){
+                            genreLocFiltered.push(movie)
+                        }
                     })
+                })
+                if(moviesOutput.length < 4){
+                    if(genreLocFiltered?.length > 0){
+                        moviesOutput.push({
+                            genre:genreMovie._id,
+                            movies:genreLocFiltered
+                        })
+                    }
                 }
             }
-            console.log(moviesOutput);
+            console.log("LOCATIIII",locationBased);
+            console.log("moviiiii",moviesOutput);
             return moviesOutput
         }catch (err) {
             console.log(err);

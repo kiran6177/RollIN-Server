@@ -7,10 +7,17 @@ export class UserTheatresGet{
         this.awsConfig = new AwsConfig()
     }
 
-    async execute(){
+    async execute({location}){
         try {
-            const theatreList = await this.theatreRepository.getAllTheatres()
-            console.log(theatreList);
+            let theatreList;
+            if(location?.lat &&  location?.lng){
+                console.log("TT",location);
+                theatreList = await this.theatreRepository.getAllTheatresWithLocation([location?.lat,location?.lng],100)
+            }else{
+                console.log("TT");
+                theatreList = await this.theatreRepository.getAllTheatres()
+            }
+            // console.log(theatreList);
             const theatreData  = []
             for(let theatre of theatreList){
                 let imageUrls = []
@@ -23,7 +30,7 @@ export class UserTheatresGet{
                     images:imageUrls
                 })
             }
-            console.log(theatreData);
+            // console.log(theatreData);
             return theatreData
         } catch (err) {
             console.log(err);

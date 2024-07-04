@@ -3,22 +3,20 @@ import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
 
-export class UserAllMoviesWithFilterGet{
+export class UserRecommendedMoviesGet{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.movieRepository = new dependencies.Repositories.MongoMovieRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute({filters}){
+    async execute({location}){
         try {
-            const pageValue = filters?.page !== null ? filters.page : 1;
-            const limit = 20;
-            const skipValue = (pageValue * limit) - limit;
-            const resultData = await this.movieRepository.GetMoviesAndPeopleWithLimitAndFilter(filters,skipValue,limit);
-            let moviesWithLocation = []
-            if(filters?.location?.lat && filters?.location?.lng){
-                const theatres = await this.theatreRepository.findMoviesFromTheatreByLocation([filters.location.lat,filters.location.lng],50)
+            console.log(location);
+            let moviesData = []
+            if(location?.lat && location?.lng){
+                const theatres = await this.theatreRepository.findMoviesFromTheatreByLocation([location.lat,location.lng],50)
+                console.log("BY LOC",theatres);
                 if(theatres?.length > 0){
                     let movieIds = []
                     for(let theatre of theatres){
@@ -29,55 +27,43 @@ export class UserAllMoviesWithFilterGet{
                         }
                     }
                     if(movieIds?.length > 0){
+                        console.log("MOVIELOC",movieIds);
                         let moviesDetails = [];
                         for(let movieId of movieIds){
                                 const movieData = await this.movieRepository.findMovieByMovieIdWithPeople(movieId)
                                 moviesDetails.push(movieData)
                         }
-
-                        if((!filters?.search || filters?.search === '')){
-                            resultData.forEach(movie=>{
-                                moviesDetails.forEach(runningMovie=>{
-                                    if(runningMovie._id.toString() === movie._id.toString()){
-                                        moviesWithLocation.push(movie)
-                                    }
-                                })
-                            })
-                            console.log("LOC MOVIES",moviesWithLocation);
-                        }else{
-                            console.log("SEARCH");
-                            resultData.forEach(movie=>{
-                                let added = false;
-                                for(let runningMovie of moviesDetails){
-                                    if(runningMovie._id.toString() === movie._id.toString()){
-                                        moviesWithLocation.push(movie)
-                                        added = true;
-                                        break;
-                                    }
-                                }
-                                if(!added){
-                                    moviesWithLocation.push({...movie,isDislocated:true})
-                                }
-                            })
-                        }
+                        moviesData = moviesDetails
+                    }else{
+                        const error = new Error()
+                        error.statusCode = 400;
+                        error.reasons = ['No Movies Available!!']
+                        throw error
                     }
+                }else{
+                    const error = new Error()
+                    error.statusCode = 400;
+                    error.reasons = ['Invalid Location!!']
+                    throw error
                 }
             }else{
-                    moviesWithLocation = resultData
+                const error = new Error()
+                error.statusCode = 400;
+                error.reasons = ['Invalid Location Inputs!!']
+                throw error
             }
-
-            let returnData = [];
-            for(let data of moviesWithLocation){
-                const backdrop_path = await this.awsConfig.getImage(data.backdrop_path,MOVIE_OWNER)
-                const poster_path = await this.awsConfig.getImage(data.poster_path,MOVIE_OWNER)
-                let castWithImages = []
-                let crewWithImages = []
+            const recommendedMovies = []
+            for(let movie of moviesData){
+                const backdrop_path = await this.awsConfig.getImage(movie.backdrop_path,MOVIE_OWNER)
+                const poster_path = await this.awsConfig.getImage(movie.poster_path,MOVIE_OWNER)
+                let castDataImg = []
+                let crewDataImg = []
                 let genres = []
-                    for(let genre of data.genres){
+                    for(let genre of movie.genres){
                         genres.push(genre.name)
                     }
 
-                    for(let castData of data.cast){
+                    for(let castData of movie.cast){
                             let profile_path;
                             if(castData?.cast_id?.profile_path){
                                 let url = await this.awsConfig.getImage(castData.cast_id.profile_path,PEOPLE_OWNER)
@@ -89,14 +75,14 @@ export class UserAllMoviesWithFilterGet{
                             }else{
                                 profile_path = UNKNOWN_IMAGE
                             }
-                            castWithImages.push({
+                            castDataImg.push({
                                 ...castData.cast_id,
                                 profile_path,
                                 character:castData.character
                             })
                     }
 
-                    for(let crewData of data.crew){
+                    for(let crewData of movie.crew){
                         let profile_path;
                             if(crewData?.crew_id?.profile_path){
                                 let url = await this.awsConfig.getImage(crewData.crew_id.profile_path,PEOPLE_OWNER)
@@ -108,24 +94,24 @@ export class UserAllMoviesWithFilterGet{
                             }else{
                                 profile_path = UNKNOWN_IMAGE
                             }
-                            crewWithImages.push({
+                            crewDataImg.push({
                                 ...crewData.crew_id,
                                 profile_path,
                             })
                     }
-                let release_date = new Date(data.release_date)
-                 returnData.push({
-                    ...data,
+                let release_date = new Date(movie.release_date)
+                recommendedMovies.push({
+                    ...movie,
                     backdrop_path,
                     poster_path,
                     genres,
                     release_date:release_date.getFullYear()+'-'+((release_date.getMonth()+1) < 10 ? '0'+(release_date.getMonth()+1) : release_date.getMonth()+1)+'-'+release_date.getDate(),
-                    cast:castWithImages,
-                    crew:crewWithImages
+                    cast:castDataImg,
+                    crew:crewDataImg
                 })
             }
-            console.log("NORMAL",returnData);
-            return returnData
+            // console.log(recommendedMovies);
+            return recommendedMovies
         } catch (err) {
             console.log(err);
             const error = new Error()

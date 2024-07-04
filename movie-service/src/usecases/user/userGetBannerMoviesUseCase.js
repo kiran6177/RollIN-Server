@@ -5,13 +5,51 @@ const PEOPLE_OWNER = 'people'
 
 export class UserBannerMoviesGet{
     constructor(dependencies){
+        this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.movieRepository = new dependencies.Repositories.MongoMovieRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute(){
+    async execute({location}){
         try {
-            const moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,6)
+            const LIMIT = 6;
+            console.log(location);
+            let moviesData = []
+            if(location?.lat && location?.lng){
+                const theatres = await this.theatreRepository.findMoviesFromTheatreByLocation([location.lat,location.lng],50)
+                console.log("BY LOC",theatres);
+                if(theatres?.length > 0){
+                    let movieIds = []
+                    for(let theatre of theatres){
+                        if(theatre?.enrolledMovies?.length > 0){
+                            for(let movieId of theatre.enrolledMovies){
+                                movieIds.push(movieId)
+                            }
+                        }
+                    }
+                    if(movieIds?.length > 0){
+                        console.log("MOVIELOC",movieIds);
+                        let moviesDetails = [];
+                        let i = 0;
+                        for(let movieId of movieIds){
+                            if(i < LIMIT){
+                                const movieData = await this.movieRepository.findMovieByMovieIdWithPeople(movieId)
+                                moviesDetails.push(movieData)
+                            }else{
+                                break;
+                            }
+                            i++;
+                        }
+                        moviesData = moviesDetails
+                    }else{
+                        moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                    }
+                }else{
+                    moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                }
+            }else{
+                moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+            }
             const bannerData = []
             for(let movie of moviesData){
                 const backdrop_path = await this.awsConfig.getImage(movie.backdrop_path,MOVIE_OWNER)

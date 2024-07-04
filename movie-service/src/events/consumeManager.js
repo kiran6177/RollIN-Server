@@ -1,6 +1,6 @@
-import { TheatreCreatedConsumeController, TheatreUpdatedConsumeController, UserCreatedConsumeController, UserUpdatedConsumeController } from "../adapters/controllers/index.js";
+import { MovieEnrolledConsumeController, MovieRemovedConsumeController, TheatreCreatedConsumeController, TheatreUpdatedConsumeController, UserCreatedConsumeController, UserUpdatedConsumeController } from "../adapters/controllers/index.js";
 import dependencies from "../frameworks/dependencies.js";
-import { TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED, TYPE_USER_CREATED, TYPE_USER_UPDATED } from "./config.js";
+import { TYPE_MOVIE_ENROLLED, TYPE_MOVIE_REMOVED, TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED, TYPE_USER_CREATED, TYPE_USER_UPDATED } from "./config.js";
 
 export class ConsumeManager{
     constructor(){
@@ -8,6 +8,8 @@ export class ConsumeManager{
         this.theatreCreatedConsumer = new TheatreCreatedConsumeController(dependencies)
         this.theatreUpdatedConsumer = new TheatreUpdatedConsumeController(dependencies)
         this.userUpdatedConsumer = new UserUpdatedConsumeController(dependencies)
+        this.addEnrolledMovieConsumer = new MovieEnrolledConsumeController(dependencies)
+        this.removeMovieConsumer = new MovieRemovedConsumeController(dependencies)
     }
     async manageConsumer(type,value){
         try {
@@ -21,6 +23,10 @@ export class ConsumeManager{
                     return await this.theatreCreatedConsumer.createTheatre(data) 
                 case TYPE_THEATRE_UPDATED:
                     return await this.theatreUpdatedConsumer.updateTheatre(data) 
+                case TYPE_MOVIE_ENROLLED:
+                    return await this.addEnrolledMovieConsumer.addMovieToTheatre(data) 
+                case TYPE_MOVIE_REMOVED:
+                    return await this.removeMovieConsumer.removeMovieFromTheatre(data)
                 default:
                     const error = new Error();
                     error.statusCode = 500;

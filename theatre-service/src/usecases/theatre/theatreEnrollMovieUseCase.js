@@ -1,6 +1,8 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
 import { GENRES } from "../../config/constants/movie-constants/genres.js";
+import { MOVIE_TOPIC, TYPE_MOVIE_ENROLLED } from "../../events/config.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
+import { KafkaService } from '../../events/kafkaclient.js'
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
 
@@ -10,6 +12,7 @@ export class TheatreMovieEnroll{
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.screenRepository = new dependencies.Repositories.MongoScreenRepository()
         this.awsConfig = new AwsConfig()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute({screen_id,movie,enroll_from,enroll_to}){
@@ -119,6 +122,20 @@ export class TheatreMovieEnroll{
                                         running_movies
                                     }
                                 }
+                                const theatreData = await this.theatreRepository.getTheatreByScreenId(screen_id)
+                                console.log(theatreData);
+                                if(theatreData?.length > 0 && theatreData[0]?._id){
+                                    const dataToPub = {
+                                        movie_id:movie._id,
+                                        theatre_id:theatreData[0]?._id
+                                    }
+
+                                    this.kafkaClient.produceMessage(MOVIE_TOPIC,{
+                                        type:TYPE_MOVIE_ENROLLED,
+                                        value:JSON.stringify(dataToPub)
+                                    })
+                                }
+
                                 console.log("IMGDAAAA",dataWithImages);
                                 return dataWithImages;
                             }else{
