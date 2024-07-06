@@ -10,11 +10,15 @@ import { AdminGetTMDBMovieDetail } from "./admin/adminGetTMDBMovieDetailControll
 import { AdminAddMovieToDB } from "./admin/adminAddMovieToDBController.js";
 import { AdminGetMoviesFromDB } from "./admin/adminGetMovieFromDBController.js";
 import { AdminGetPersonsFromDB } from "./admin/adminGetPersonsController.js";
+import { AdminDisableMovie } from "./admin/adminDisableMovieController.js";
+import { AdminEnableMovie } from "./admin/adminEnableMovieController.js";
 
 import { UserGetBannerMovies } from "./user/userGetBannerMoviesController.js";
 import { UserGetMoviesByGenre } from "./user/userGetMoviesByGenreController.js";
 import { UserGetAllMoviesWithFilter } from "./user/userGetAllMovieswithFilterController.js";
 import { UserGetRecommendedMovies } from "./user/userGetRecommendedMoviesController.js";
+import { UserGetPerson } from "./user/userGetPersonController.js";
+import { UserGetSingleMovie } from "./user/userGetSingleMovieController.js";
 
 import { TheatreGetAllMovies } from "./theatre/theatreGetMoviesController.js";
 
@@ -34,5 +38,9 @@ export {
     UserGetMoviesByGenre as UserGetMoviesByGenreController,
     UserGetAllMoviesWithFilter as UserGetAllMoviesWithFilterController,
     TheatreGetAllMovies as TheatreGetAllMoviesController,
-    UserGetRecommendedMovies as UserGetRecommendedMoviesController
+    UserGetRecommendedMovies as UserGetRecommendedMoviesController,
+    UserGetPerson as UserGetPersonController,
+    UserGetSingleMovie as UserGetSingleMovieController,
+    AdminDisableMovie as AdminDisableMovieController,
+    AdminEnableMovie as AdminEnableMovieController
 }

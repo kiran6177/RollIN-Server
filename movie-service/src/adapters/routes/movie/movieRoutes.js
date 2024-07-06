@@ -1,6 +1,6 @@
 import express from 'express';
 import { AuthHandler } from '../../middlewares/auth-handler.js'
-import { AdminAddMovieToDBController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, TheatreGetAllMoviesController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController, UserGetRecommendedMoviesController } from '../../controllers/index.js';
+import { AdminAddMovieToDBController, AdminDisableMovieController, AdminEnableMovieController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, TheatreGetAllMoviesController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController, UserGetPersonController, UserGetRecommendedMoviesController, UserGetSingleMovieController } from '../../controllers/index.js';
 import dependencies from '../../../frameworks/dependencies.js';
 import { UserGetRecommendedMovies } from '../../controllers/user/userGetRecommendedMoviesController.js';
 const movieRouter = express.Router();
@@ -15,20 +15,29 @@ const controllers = {
     userGetMoviesByGenreController : new UserGetMoviesByGenreController(dependencies),
     userGetAllMoviesWithFilter : new UserGetAllMoviesWithFilterController(dependencies),
     theatreGetAllMoviesController : new TheatreGetAllMoviesController(dependencies),
-    userGetRecommendedMoviesController : new UserGetRecommendedMoviesController(dependencies)
+    userGetRecommendedMoviesController : new UserGetRecommendedMoviesController(dependencies),
+    userGetPersonController : new UserGetPersonController(dependencies),
+    userGetSingleMovieController : new UserGetSingleMovieController(dependencies),
+    adminDisableMovieController : new AdminDisableMovieController(dependencies),
+    adminEnableMovieController : new AdminEnableMovieController(dependencies)
 }
 movieRouter.post('/getalltmdbmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetAllTMDBMoviesController.getAllTMDBMovies(req,res,next)})
 movieRouter.post('/gettmdbmoviedetail',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetTMDBMovieDetailController.getTMDBMovieDetail(req,res,next)})
 movieRouter.post('/addmovietodb',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminAddMovieToDBController.addMovieToDB(req,res,next)})
 movieRouter.post('/getallmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetMoviesFromDBController.getMoviesFromDB(req,res,next)})
 movieRouter.post('/getallpersons',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetPersonsFromDBController.getPersonsFromDB(req,res,next)})
+movieRouter.post('/disablemovie',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminDisableMovieController.disableMovie(req,res,next)})
+movieRouter.post('/enablemovie',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminEnableMovieController.enableMovie(req,res,next)})
+
 
 movieRouter.post('/getbanners',(req,res,next)=>{controllers.userGetBannerMoviesController.getBannerMovies(req,res,next)})
 movieRouter.post('/getmoviesbygenre',(req,res,next)=>{controllers.userGetMoviesByGenreController.getMoviesByGenre(req,res,next)})
 movieRouter.post('/getallmovieswithfilters',(req,res,next)=>{controllers.userGetAllMoviesWithFilter.getAllMoviesWithFilter(req,res,next)})
+movieRouter.post('/getperson',(req,res,next)=>{controllers.userGetPersonController.getPerson(req,res,next)})
+movieRouter.post('/getsinglemovie',(req,res,next)=>{controllers.userGetSingleMovieController.getSingleMovie(req,res,next)})
+movieRouter.post('/getrecommendedmovies',(req,res,next)=>{controllers.userGetRecommendedMoviesController.getRecommendedMovies(req,res,next)})
 
 movieRouter.post('/getmoviesfortheatre',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetAllMoviesController.getAllMovies(req,res,next)})
-movieRouter.post('/getrecommendedmovies',(req,res,next)=>{controllers.userGetRecommendedMoviesController.getRecommendedMovies(req,res,next)})
 
 
 export default movieRouter

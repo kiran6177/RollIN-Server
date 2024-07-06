@@ -15,9 +15,6 @@ class TheatreRepository{
     async updateTheatreById(){
         throw new Error('updateTheatreById not implemented')
     }
-    async googleLogin(){
-        throw new Error('googleLogin not implemented')
-    }
     async addMovieToTheatre(){
         throw new Error('addMovieToTheatre not implemented')
     }
@@ -26,6 +23,9 @@ class TheatreRepository{
     }
     async findMoviesFromTheatreByLocation(){
         throw new Error('findMoviesFromTheatreByLocation not implemented')
+    }
+    async findEnrolledMoviesByMovieId(){
+        throw new Error('findEnrolledMoviesByMovieId not implemented')
     }
 }
 
@@ -100,6 +100,18 @@ export class MongoTheatreRepository extends TheatreRepository{
         try {
             console.log(locationArr,distRadius)
             return await TheatreModel.find({location:{$geoWithin:{$centerSphere:[locationArr,distRadius / 3963.2]}}}) 
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async findEnrolledMoviesByMovieId(movie_id){
+        try {
+            const outputData = await TheatreModel.aggregate([{$unwind:'$enrolledMovies'},{$group:{_id:null,enrolledMovies:{$addToSet:'$enrolledMovies'}}},{$project:{enrolledMovies:1,_id:0}}])
+            return outputData[0]?.enrolledMovies || []
         } catch (err) {
             console.log(err);
             const error = new Error();

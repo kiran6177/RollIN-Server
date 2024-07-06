@@ -30,6 +30,9 @@ class MovieRepository{
     async findMovieByMovieIdWithPeople(){
         throw new Error('findMovieByMovieIdWithPeople not implemented')
     }
+    async manageMovieById(){
+        throw new Error('manageMovieById not implemented')
+    }
 }
 
 export class MongoMovieRepository extends MovieRepository{
@@ -58,6 +61,18 @@ export class MongoMovieRepository extends MovieRepository{
         }
     }
 
+    async findMovieById(id){
+        try {
+            return await MovieModel.findById({_id:id})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+
     async GetMoviesAndPeopleWithLimit(skip,limit){
         try {
             return await MovieModel.find().skip(skip).limit(limit).populate('cast.cast_id').populate('crew.crew_id').lean();
@@ -76,6 +91,9 @@ export class MongoMovieRepository extends MovieRepository{
             console.log(languages);
             console.log(genres);
             let filterQuery = [];
+            if(!search){
+                filterQuery.push({isDisabled:false})
+            }
             if(languages?.length > 0){
                 filterQuery.push({
                     language:{$in:languages}
@@ -159,6 +177,17 @@ export class MongoMovieRepository extends MovieRepository{
     async findMovieByMovieIdWithPeople(id){
         try {
             return await MovieModel.findOne({_id:id}).populate('cast.cast_id').populate('crew.crew_id').lean();
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async manageMovieById(id,state){
+        try {
+            return await MovieModel.findByIdAndUpdate({_id:id},{$set:{isDisabled:state}},{new:true})
         } catch (err) {
             console.log(err);
             const error = new Error();

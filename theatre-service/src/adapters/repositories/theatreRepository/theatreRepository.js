@@ -8,6 +8,9 @@ class TheatreRepository{
     async findTheatreById(){
         throw new Error('findTheatreById not implemented')
     }
+    async findTheatreByIdWithDetails(){
+        throw new Error('findTheatreByIdWithDetails not implemented')
+    }
     async findTheatreByEmail(){
         throw new Error('findTheatreByEmail not implemented')
     }
@@ -48,6 +51,17 @@ export class MongoTheatreRepository extends TheatreRepository{
     async findTheatreById(id){
         try {
             return await TheatreModel.findById({_id:id});
+        } catch (err) {
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async findTheatreByIdWithDetails(id){
+        try {
+            const data =  await TheatreModel.aggregate([{$match:{_id:new ObjectId(id)}},{$lookup:{from:'screens',localField:'screens',foreignField:'_id',as:'screenData'}}]);
+            return data[0]
         } catch (err) {
             const error = new Error();
             error.statusCode = 500;

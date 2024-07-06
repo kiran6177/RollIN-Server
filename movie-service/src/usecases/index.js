@@ -10,11 +10,15 @@ import { AdminTMDBMovieDetailGet } from "./admin/adminGetTMDBMovieDetailUseCase.
 import { AdminMovieToDBAdd } from "./admin/adminAddMovieToDBUseCase.js";
 import { AdminMoviesFromDBGet } from "./admin/adminGetMoviesFromDBUseCase.js";
 import { AdminPersonsFromDBGet } from "./admin/adminGetPersonsUseCase.js";
+import { AdminMovieDisable } from "./admin/adminDisableMovieUseCase.js";
+import { AdminMovieEnable } from "./admin/adminEnableMovieUseCase.js";
 
 import { UserBannerMoviesGet } from "./user/userGetBannerMoviesUseCase.js";
 import { UserMoviesByGenreGet } from "./user/userGetMoviesByGenreUseCase.js";
 import { UserAllMoviesWithFilterGet } from "./user/userGetAllMoviesWithFilterUseCase.js";
 import { UserRecommendedMoviesGet } from "./user/userGetRecommendedMoviesUseCase.js";
+import { UserPersonGet } from "./user/userGetPersonUseCase.js";
+import { UserSingleMovieGet } from "./user/userGetSingleMovieUseCase.js";
 
 import { TheatreAllMoviesGet } from "./theatre/theatreGetAllMoviesUseCase.js";
 
@@ -34,5 +38,9 @@ export {
     UserMoviesByGenreGet,
     UserAllMoviesWithFilterGet,
     TheatreAllMoviesGet,
-    UserRecommendedMoviesGet
+    UserRecommendedMoviesGet,
+    UserPersonGet,
+    UserSingleMovieGet,
+    AdminMovieDisable,
+    AdminMovieEnable
 }

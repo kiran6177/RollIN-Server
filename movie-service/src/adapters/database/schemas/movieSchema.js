@@ -64,7 +64,11 @@ const movieSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'people'
         }
-    }]
+    }],
+    isDisabled:{
+        type:Boolean,
+        default:false
+    }
 })
 
 export default mongoose.model('movie',movieSchema)
