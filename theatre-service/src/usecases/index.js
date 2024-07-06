@@ -4,6 +4,7 @@ import { UpdateTheatreUseCase } from "./consumeUsecases/update-theatre-usecase.j
 import { UpdateUserUseCase } from "./consumeUsecases/update-user-usecase.js";
 
 import { UserTheatresGet } from "./user/userGetTheatresUseCase.js";
+import { UserSingleTheatreGet } from "./user/userGetSingleTheatreUseCase.js";
 
 import { TheatreScreenDataGet } from "./theatre/theatreGetTheatreScreenUseCase.js";
 import { TheatreScreenAdd } from "./theatre/theatreAddScreenUseCase.js";
@@ -27,6 +28,6 @@ export {
     TheatreMovieRemove,
     TheatreMovieExtend,
     TheatreTierEdit,
-    TheatreTierOrderChange
-
+    TheatreTierOrderChange,
+    UserSingleTheatreGet
 }

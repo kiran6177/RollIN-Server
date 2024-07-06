@@ -42,10 +42,22 @@ export class UserBannerMoviesGet{
                         }
                         moviesData = moviesDetails
                     }else{
-                        moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                        let movies = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                        moviesData = movies.map(movie=>{
+                            return {
+                                ...movie,
+                                isDislocated:true
+                            }
+                        })
                     }
                 }else{
-                    moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                    let movies = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
+                        moviesData = movies.map(movie=>{
+                            return {
+                                ...movie,
+                                isDislocated:true
+                            }
+                        })
                 }
             }else{
                 moviesData = await this.movieRepository.findMoviesByDateWithLimit(-1,LIMIT)
@@ -108,7 +120,7 @@ export class UserBannerMoviesGet{
                     crew:crewDataImg
                 })
             }
-            // console.log(bannerData);
+            console.log("BANNER",bannerData);
             return bannerData
         } catch (err) {
             console.log(err);

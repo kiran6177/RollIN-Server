@@ -30,6 +30,14 @@ export class UserMoviesByGenreGet{
                                 locationBased.push(movieData)
                         }
                     }
+                }else{
+                    let movies = await this.movieRepository.findMoviesByDateWithLimit(-1,20)
+                        locationBased = movies.map(movie=>{
+                            return {
+                                ...movie,
+                                isDislocated:true
+                            }
+                        })
                 }
             }
             const movieByGenre = await this.movieRepository.findMoviesByGenreWithLimit(10)

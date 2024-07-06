@@ -4,6 +4,7 @@ import { TheatreUpdatedConsume } from "./consumeController/theatre-updated-consu
 import { UserUpdatedConsume } from "./consumeController/user-updated-consume.js";
 
 import { UserGetTheatres } from "./user/GetTheatresController.js";
+import { UserGetSingleTheatre } from "./user/userGetSingleTheatreController.js";
 
 import { TheatreGetTheatreScreen } from "./theatre/theatreGetTheatreScreenController.js";
 import { TheatreAddScreen } from "./theatre/theatreAddScreenController.js";
@@ -27,5 +28,6 @@ export {
     TheatreRemoveMovie as TheatreRemoveMovieController,
     TheatreExtendMovie as TheatreExtendMovieController,
     TheatreEditTier as TheatreEditTierController,
-    TheatreChangeTierOrder as TheatreChangeTierOrderController
+    TheatreChangeTierOrder as TheatreChangeTierOrderController,
+    UserGetSingleTheatre as UserGetSingleTheatreController
 }
