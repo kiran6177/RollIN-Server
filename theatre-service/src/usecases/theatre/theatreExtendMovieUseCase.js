@@ -1,4 +1,6 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
+import { BOOKING_TOPIC, TYPE_SCREEN_UPDATED } from "../../events/config.js";
+import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
@@ -8,6 +10,7 @@ export class TheatreMovieExtend{
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.screenRepository = new dependencies.Repositories.MongoScreenRepository()
         this.awsConfig = new AwsConfig()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute({screen_id,movie_id,enroll_toDate}){
@@ -18,6 +21,10 @@ export class TheatreMovieExtend{
                     console.log(screen_id,movie_id,enroll_toDate);
                     const extendedResult = await this.screenRepository.extendMovie(screen_id,movie_id,enroll_toDate)
                     console.log(extendedResult);
+                    this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                        type:TYPE_SCREEN_UPDATED,
+                        value:JSON.stringify(extendedResult)
+                    })
                     let dataWithImages = {}
                         if(extendedResult?.running_movies?.length > 0){
                             let running_movies = []

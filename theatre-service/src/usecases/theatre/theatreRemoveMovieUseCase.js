@@ -1,5 +1,5 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
-import { MOVIE_TOPIC, TYPE_MOVIE_REMOVED } from "../../events/config.js";
+import { BOOKING_TOPIC, MOVIE_TOPIC, TYPE_MOVIE_REMOVED, TYPE_SCREEN_UPDATED } from "../../events/config.js";
 import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
@@ -23,6 +23,10 @@ export class TheatreMovieRemove{
                     if(findMovieRunning?.length === 0){
                         const removedMovieScreen =  await this.screenRepository.removeMovie(screen_id,movie_id)
                         console.log("REMSCREEN",removedMovieScreen);
+                        this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                            type:TYPE_SCREEN_UPDATED,
+                            value:JSON.stringify(removedMovieScreen)
+                        })
                         let dataWithImages = {}
                         if(removedMovieScreen?.running_movies?.length > 0){
                             let running_movies = []

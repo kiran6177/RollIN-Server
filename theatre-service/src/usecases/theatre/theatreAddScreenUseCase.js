@@ -1,7 +1,11 @@
+import { BOOKING_TOPIC, TYPE_SCREEN_ADDED } from '../../events/config.js';
+import { KafkaService } from '../../events/kafkaclient.js'
+
 export class TheatreScreenAdd{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.screenRepository = new dependencies.Repositories.MongoScreenRepository()
+        this.kafkaClient = new KafkaService()
     }
 
     async execute({theatreid,name,tierData,showData,speakers}){
@@ -34,6 +38,10 @@ export class TheatreScreenAdd{
                         const addedScreen = await this.screenRepository.addScreen(dataToAdd)
                         console.log(addedScreen);
                         const addedToTheatre = await this.theatreRepository.addScreenToTheatre(theatreid,addedScreen._id)
+                        this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                            type:TYPE_SCREEN_ADDED,
+                            value:JSON.stringify({...addedScreen.toObject(),theatre_id:theatreid})
+                        })
                         return true
                     }else{
                         const error = new Error()

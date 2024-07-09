@@ -43,4 +43,4 @@ export {
     UserSingleMovieGet,
     AdminMovieDisable,
     AdminMovieEnable
-}
+} 

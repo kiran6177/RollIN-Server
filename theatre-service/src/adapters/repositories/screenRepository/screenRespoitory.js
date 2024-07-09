@@ -32,6 +32,9 @@ class ScreenRepository{
     async updateTiersOrderByScreen(){
         throw new Error('updateTiersOrderByScreen not implemented')
     }
+    async updateShowByScreen(){
+        throw new Error('updateShowByScreen not implemented')
+    }
 }
 
 export class MongoScreenRepository extends ScreenRepository{
@@ -138,6 +141,17 @@ export class MongoScreenRepository extends ScreenRepository{
     async updateTiersOrderByScreen(screen_id,data){
         try {
             return await ScreenModel.findOneAndUpdate({_id:screen_id},{$set:{tiers:data}},{new:true}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async updateShowByScreen(screen_id,show){
+        try {
+            return await ScreenModel.findOneAndUpdate({_id:screen_id,'showtimes._id':show._id},{$set:{'showtimes.$':show}},{new:true}).lean()
         } catch (err) {
             console.log(err);
             const error = new Error();
