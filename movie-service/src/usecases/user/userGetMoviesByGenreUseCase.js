@@ -16,14 +16,15 @@ export class UserMoviesByGenreGet{
             if(location?.lat && location?.lng){
                 const theatres = await this.theatreRepository.findMoviesFromTheatreByLocation([location.lat,location.lng],50)
                 if(theatres?.length > 0){
-                    let movieIds = []
+                    let movieIdsSet = new Set()
                     for(let theatre of theatres){
                         if(theatre?.enrolledMovies?.length > 0){
                             for(let movieId of theatre.enrolledMovies){
-                                movieIds.push(movieId)
+                                movieIdsSet.add(movieId.toString())
                             }
                         }
                     }
+                    let movieIds = Array.from(movieIdsSet)
                     if(movieIds?.length > 0){
                         for(let movieId of movieIds){
                                 const movieData = await this.movieRepository.findMovieByMovieIdWithPeople(movieId)

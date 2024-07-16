@@ -89,10 +89,12 @@ export class UserSingleMovieGet{
                     cast:castWithImages,
                     crew:crewWithImages
                 }
+                console.log("LOCCC",locationBased);
+                console.log("That",movieOutput);
             if(locationBased?.length > 0){
                 let isFound = false;
                 for(let movieObj of locationBased){
-                    if(movieOutput._id == movieObj._id){
+                    if(movieOutput._id.toString() == movieObj._id.toString()){
                         isFound = true;
                         break;
                     }
@@ -102,6 +104,11 @@ export class UserSingleMovieGet{
                         ...movieOutput,
                         isDislocated:true
                     }
+                }
+            }else{
+                movieOutput = {
+                    ...movieOutput,
+                    isDislocated:true
                 }
             }
             console.log("moviiiii",movieOutput);

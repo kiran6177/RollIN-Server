@@ -1,6 +1,6 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
 import { GENRES } from "../../config/constants/movie-constants/genres.js";
-import { MOVIE_TOPIC, TYPE_MOVIE_ENROLLED } from "../../events/config.js";
+import { BOOKING_TOPIC, MOVIE_TOPIC, TYPE_MOVIE_ENROLLED, TYPE_SCREEN_UPDATED } from "../../events/config.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 import { KafkaService } from '../../events/kafkaclient.js'
 const MOVIE_OWNER = 'movie';
@@ -72,6 +72,10 @@ export class TheatreMovieEnroll{
                                 console.log(data);
                                 const enrolledMovieResult = await this.screenRepository.enrollMovie(screen_id,data);
                                 console.log(enrolledMovieResult);
+                                this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                                    type:TYPE_SCREEN_UPDATED,
+                                    value:JSON.stringify(enrolledMovieResult)
+                                })
                                 let dataWithImages = {}
                                 if(enrolledMovieResult?.running_movies?.length > 0){
                                     let running_movies = []

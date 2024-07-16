@@ -41,7 +41,7 @@ export class KafkaService{
                     // console.log("PARTITION : ",partition);
                     // console.log("MESSAGE : ",message?.value?.toString());
                     const messageObj = JSON.parse(message?.value?.toString())
-                    console.log("CONSUMER",messageObj);
+                    // console.log("CONSUMER",messageObj);
                     const { type , value } = messageObj;
                     await this.manager.manageConsumer(type,value)
                 }

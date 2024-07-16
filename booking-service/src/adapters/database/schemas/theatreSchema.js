@@ -78,6 +78,10 @@ const theatreSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    screens:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'screen'
+    }]
 })
 
 theatreSchema.index({location:"2dsphere"});
