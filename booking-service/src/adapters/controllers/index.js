@@ -11,6 +11,10 @@ import { TheatreShowCancellation } from "./theatre/theatreShowCancellationContro
 
 import { UserGetShowData } from "./user/userGetShowDataController.js";
 import { UserGetSingleShowData } from "./user/userGetSingleShowController.js";
+import { UserGetShowByMovie } from "./user/userGetShowsByMovieController.js";
+import { UserSeatReservation } from "./user/userSeatReservationController.js";
+import { UserPaymentInitiate } from "./user/userPaymentInitiateController.js";
+import { UserPaymentProcess } from "./user/userPaymentProcessController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -23,5 +27,9 @@ export {
     TheatreGetShowBooking as TheatreGetShowBookingController,
     TheatreShowCancellation as TheatreShowCancellationController,
     UserGetShowData as UserGetShowDataController,
-    UserGetSingleShowData as UserGetSingleShowDataController
+    UserGetSingleShowData as UserGetSingleShowDataController,
+    UserGetShowByMovie as UserGetShowByMovieController,
+    UserSeatReservation as UserSeatReservationController,
+    UserPaymentInitiate as UserPaymentInitiateController,
+    UserPaymentProcess as UserPaymentProcessController
 }

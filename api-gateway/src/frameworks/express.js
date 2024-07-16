@@ -8,7 +8,7 @@ const createServer = ()=>{
 
     dotenv.config();
     app.use(cors({
-        origin:'http://localhost:3000',
+        origin:['http://localhost:3000','http://52.66.25.127','https://52.66.25.127'],
         credentials:true
     }));
     

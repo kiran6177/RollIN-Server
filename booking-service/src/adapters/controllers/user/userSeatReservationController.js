@@ -1,11 +1,11 @@
-export class UserGetSingleShowData{
+export class UserSeatReservation{
     constructor(dependencies){
-        this.userGetSingleShowDataUseCase = new dependencies.UseCase.UserSingleShowDataGet(dependencies)
+        this.userSeatReservationUseCase = new dependencies.UseCase.UserReserveSeat(dependencies)
     }
 
-    async getSingleShowData(req,res,next){
+    async seatReservation(req,res,next){
         try {
-            const resultData = await this.userGetSingleShowDataUseCase.execute(req.body);
+            const resultData = await this.userSeatReservationUseCase.execute(req.body,req?.user);
             const dataToFrontend = {
                 resultData,
             }

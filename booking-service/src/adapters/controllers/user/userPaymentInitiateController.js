@@ -1,11 +1,11 @@
-export class UserGetSingleShowData{
+export class UserPaymentInitiate{
     constructor(dependencies){
-        this.userGetSingleShowDataUseCase = new dependencies.UseCase.UserSingleShowDataGet(dependencies)
+        this.UserPaymentInitiateUseCase = new dependencies.UseCase.UserInitiatePayment(dependencies)
     }
 
-    async getSingleShowData(req,res,next){
+    async initiatePayment(req,res,next){
         try {
-            const resultData = await this.userGetSingleShowDataUseCase.execute(req.body);
+            const resultData = await this.UserPaymentInitiateUseCase.execute(req.body,req?.user);
             const dataToFrontend = {
                 resultData,
             }

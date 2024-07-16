@@ -26,8 +26,8 @@ export class ShowAddedUseCase{
             const dates = await getShowDates(startDate,enroll_to)
             console.log("DATES",dates);
             const reservationsConv = screenData.tiers.map(tier=>{
-                let seatNumber = 0;
                 return tier.layout.map(seat=>{
+                    let seatNumber = 0;
                     const data = Object.values(seat)[0].map((obj,i)=>{
                         if(obj === 1){
                             seatNumber++;

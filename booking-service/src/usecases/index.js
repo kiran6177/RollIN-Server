@@ -11,6 +11,10 @@ import { TheatreShowCancellation } from "./theatre/theatreShowCancellationUseCas
 
 import { UserShowDataGet } from "./user/userGetShowDataUseCase.js";
 import { UserSingleShowDataGet } from "./user/userGetSingleShowUseCase.js";
+import { UserShowByMovieGet } from "./user/userGetShowByMovieUseCase.js";
+import { UserReserveSeat } from "./user/userReserveSeatUseCase.js";
+import { UserInitiatePayment } from "./user/userInitiatePaymentUseCase.js";
+import { UserProcessPayment } from "./user/userProcessPaymentUseCase.js";
 
 export {
     AddUserUseCase,
@@ -23,5 +27,9 @@ export {
     TheatreShowBookingGet,
     TheatreShowCancellation,
     UserShowDataGet,
-    UserSingleShowDataGet
+    UserSingleShowDataGet,
+    UserShowByMovieGet,
+    UserReserveSeat,
+    UserInitiatePayment,
+    UserProcessPayment
 }

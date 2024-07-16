@@ -13,9 +13,7 @@ export class UserShowDataGet{
                 const resultData = showData.map(show=>{
                     let updatedShow;
                     show.shows[0]?.screenData[0]?.running_movies.map(movie=>{
-                        console.log("sh",show._id);
                         if(show._id.toString() == movie?.movie_id){
-                            console.log("mov",movie);
                             updatedShow = {
                                 ...show,
                                 movie
