@@ -1,4 +1,5 @@
 import { AwsConfig } from "../../utils/aws-s3.js";
+const THEATRE_OWNER = 'theatre'
 
 export class GetTheatres{
     constructor(dependencies){
@@ -15,7 +16,7 @@ export class GetTheatres{
                 let imagesURL = []
                 if(theatre.images && theatre.images.length > 0){
                     for(let image of theatre.images){
-                        const url = await this.awsConfig.getTheatreImage(image)
+                        const url = await this.awsConfig.getImage(image,THEATRE_OWNER)
                         if(url){
                             imagesURL.push(url)
                         }else{
@@ -40,6 +41,7 @@ export class GetTheatres{
             }
             return theatresWOP
         } catch (err) {
+            console.log(err);
             const error = new Error()
             error.statusCode = err.statusCode;
             error.reasons = err.reasons;

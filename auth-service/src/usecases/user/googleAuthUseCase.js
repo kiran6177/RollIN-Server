@@ -2,11 +2,14 @@ import axios from 'axios'
 import { createToken, createRefreshToken } from '../../utils/jwt.js';
 import { KafkaService } from '../../events/kafkaclient.js';
 import { AUTH_TOPIC, TYPE_USER_CREATED } from '../../events/config.js';
+import { AwsConfig } from '../../utils/aws-s3.js';
+const USER_OWNER = 'user'
 
 export class GoogleUserAuth{
     constructor(dependencies){
         this.userRepository = new dependencies.Repositories.MongoUserRepository();
         this.kafkaClient = new KafkaService()
+        this.awsConfig = new AwsConfig()
     }
 
     async execute(access_token){
@@ -20,6 +23,10 @@ export class GoogleUserAuth{
                 const userExist = await this.userRepository.findUserByEmail(userData.email);
                 let data;
                 if(userExist){
+                    let image;
+                    if(userExist?.image){
+                        image = await this.awsConfig.getImage(userExist.image,USER_OWNER)
+                    }
                     if(userExist.isVerified){
                         data = {
                             id:userExist.id,
@@ -27,7 +34,8 @@ export class GoogleUserAuth{
                             mobile:userExist.mobile,
                             firstname:userExist.firstname,
                             lastname:userExist.lastname,
-                            dob:userExist.dob,
+                            image,
+                            authtype:userExist.type,
                             address:userExist.address,
                             walletBalance:userExist.walletBalance,
                         }
@@ -59,13 +67,18 @@ export class GoogleUserAuth{
                     }
 
                     const udata = await this.userRepository.createUser(userToInsert)
+                    let image;
+                    if(udata?.image){
+                        image = await this.awsConfig.getImage(udata.image,USER_OWNER)
+                    }
                     data = {
                         id:udata._id,
                         email:udata.email,
                         mobile:udata.mobile,
                         firstname:udata.firstname,
                         lastname:udata.lastname,
-                        dob:udata.dob,
+                        image,
+                        authtype:udata.type,
                         address:udata.address,
                         walletBalance:udata.walletBalance,
                     }
@@ -75,7 +88,7 @@ export class GoogleUserAuth{
                         mobile:udata.mobile,
                         firstname:udata.firstname,
                         lastname:udata.lastname,
-                        dob:udata.dob,
+                        image:udata.image,
                         address:udata.address,
                         walletBalance:udata.walletBalance,
                         type:udata.type,

@@ -9,6 +9,8 @@ export class UserVerifyOtp{
             console.log(req.body);
             const {data,accessToken,refreshToken} = await this.userVerifyOtpUseCase.execute(req.body.id,req.body.otp,req.session.userEmailOtp)
             console.log(data,accessToken,refreshToken);
+            req.session.userOtpTime = null;
+            req.session.userEmailOtp = null;
             res.cookie('refreshToken',refreshToken,{
                 httpOnly:true,
                 secure:true,

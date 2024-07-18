@@ -1,6 +1,7 @@
 import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
 import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
+const THEATRE_OWNER = 'theatre'
 
 export class CompleteProfile{
     constructor(dependencies){
@@ -22,7 +23,7 @@ export class CompleteProfile{
                 const trimmed = filename.replace(/\s+/g, "");
                 console.log(trimmed);
                 fileNameArray.push(trimmed);
-               const result = await this.awsConfig.uploadImageOfTheatre(trimmed,file.buffer,file.mimetype)
+               const result = await this.awsConfig.uploadImage(trimmed,file.buffer,file.mimetype,THEATRE_OWNER)
                if(result){
                 console.log("uploaded");
                 successLength++;

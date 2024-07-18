@@ -16,6 +16,10 @@ import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
 import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
 import { TheatreUpdateProfile } from "./theatre/theatreUpdateProfileController.js";
 import { UserResendOtp } from "./user/userResendOtpController.js";
+import { UserEditProfile } from "./user/userEditProfileController.js";
+import { UserVerifyProfileOtp } from "./user/userVerifyProfileOtpController.js";
+import { UserEditEmail } from "./user/userEditEmailController.js";
+import { UserResendProfileOtp } from "./user/userResendProfileOtpController.js";
 
 export {
     UserAuth as  UserAuthController,
@@ -35,5 +39,9 @@ export {
     AdminTheatreBlockUnblock as AdminTheatreBlockUnblockController,
     AdminTheatreApprove as AdminTheatreApproveController,
     TheatreUpdateProfile as TheatreUpdateProfileController,
-    UserResendOtp as UserResendOtpController
+    UserResendOtp as UserResendOtpController,
+    UserEditProfile as UserEditProfileController,
+    UserVerifyProfileOtp as UserVerifyProfileOtpController,
+    UserEditEmail as UserEditEmailController,
+    UserResendProfileOtp as UserResendProfileOtpController
 }

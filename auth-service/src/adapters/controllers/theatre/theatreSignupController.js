@@ -7,6 +7,7 @@ export class TheatreSignup{
         try {
             const {theatreData,otp} = await this.theatreSignupUseCase.execute(req.body);
             req.session.theatreOTP = otp;
+            req.session.theatreOTPtime = Date.now()
             console.log(otp);
             res.status(200).json({
                 theatreData,

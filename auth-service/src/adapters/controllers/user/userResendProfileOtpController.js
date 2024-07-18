@@ -1,12 +1,11 @@
-export class UserResendOtp{
+export class UserResendProfileOtp{
     constructor(dependencies){
-        this.userResendOtpUseCase = new dependencies.UseCase.ResendOtpUser(dependencies)
+        this.userResendProfileOtpUseCase = new dependencies.UseCase.ResendProfileOtpUser(dependencies)
     }
 
-    async resendOtp(req,res,next){
+    async resendProfileOtp(req,res,next){
         try {
-            const { id } = req.body;
-            const resend = await this.userResendOtpUseCase.execute(id);
+            const resend = await this.userResendProfileOtpUseCase.execute(req.body,req?.user);
             console.log(resend);
             req.session.userEmailOtp = resend?.otp;
             req.session.userOtpTime = Date.now()

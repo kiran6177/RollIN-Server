@@ -1,6 +1,7 @@
 import { AUTH_TOPIC, TYPE_THEATRE_UPDATED } from "../../events/config.js";
 import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
+const THEATRE_OWNER = 'theatre'
 
 export class TheatreProfileUpdate{
     constructor(dependencies){
@@ -55,7 +56,7 @@ export class TheatreProfileUpdate{
                         let deleteLength = deleted.length;
                         let removedLength = 0;
                         for(let deletedImage of deleted){
-                            const deleteSuccess = await this.awsConfig.deleteTheatreImage(deletedImage);
+                            const deleteSuccess = await this.awsConfig.deleteImage(deletedImage,THEATRE_OWNER);
                             if(deleteSuccess){
                                 console.log("deleted");
                                 removedLength++;
@@ -81,7 +82,7 @@ export class TheatreProfileUpdate{
                                 const trimmed = filename.replace(/\s+/g, "");
                                 console.log(trimmed);
                                 fileNameArray.push(trimmed);
-                            const result = await this.awsConfig.uploadImageOfTheatre(trimmed,file.buffer,file.mimetype)
+                            const result = await this.awsConfig.uploadImage(trimmed,file.buffer,file.mimetype,THEATRE_OWNER)
                                 if(result){
                                     console.log("uploaded");
                                     successLength++;
@@ -102,7 +103,7 @@ export class TheatreProfileUpdate{
                     let imagesdata = []
                     if(updated.images && updated.images.length > 0){
                         for(let image of updated.images){
-                            const url = await this.awsConfig.getTheatreImage(image)
+                            const url = await this.awsConfig.getImage(image,THEATRE_OWNER)
                             if(url){
                                 imagesdata.push({url,filename:image})
                             }else{

@@ -15,6 +15,10 @@ import { TheatreBlockUnblock } from "./admin/adminTheatreBlockUnblockUseCase.js"
 import { TheatreApprove } from "./admin/adminTheatreApproveUseCase.js";
 import { TheatreProfileUpdate } from "./theatre/theatreUpdateProfileUseCase.js";
 import { ResendOtpUser } from "./user/resendOtpUseCase.js";
+import { UserProfileEdit } from "./user/userProfileEditUseCase.js";
+import { VerifyProfileOtp } from "./user/verifyProfileOtpUseCase.js";
+import { UserEmailEdit } from "./user/userEditEmailUseCase.js";
+import { ResendProfileOtpUser } from "./user/resendProfileOtpUseCase.js";
 
 export {
     GoogleUserAuth,
@@ -33,5 +37,9 @@ export {
     TheatreBlockUnblock,
     TheatreApprove,
     TheatreProfileUpdate,
-    ResendOtpUser
+    ResendOtpUser,
+    UserProfileEdit,
+    VerifyProfileOtp,
+    UserEmailEdit,
+    ResendProfileOtpUser
 }

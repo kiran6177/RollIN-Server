@@ -3,6 +3,7 @@ import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 import { KafkaService } from '../../events/kafkaclient.js'
 import { AUTH_TOPIC, TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED } from '../../events/config.js'
+const THEATRE_OWNER = 'theatre'
  
 export class TheatreGoogleAuth{
     constructor(dependencies){
@@ -85,7 +86,7 @@ export class TheatreGoogleAuth{
                     let images = [];
                     if(resultData.isVerified && !resultData.isBlocked){
                             for(let image of theatreExists.images){
-                                const url = await this.awsConfig.getTheatreImage(image)
+                                const url = await this.awsConfig.getImage(image,THEATRE_OWNER)
                                 if(url){
                                     images.push({url,filename:image})
                                 }else{
