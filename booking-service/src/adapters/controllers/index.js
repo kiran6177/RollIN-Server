@@ -8,6 +8,10 @@ import { ShowMovieAddedConsume } from "./consumeController/show-movie-added-cons
 
 import { TheatreGetShowBooking } from "./theatre/theatreGetShowBookingController.js"; 
 import { TheatreShowCancellation } from "./theatre/theatreShowCancellationController.js";
+import { TheatreGetScreenBookings } from "./theatre/theatreGetScreenBookingsController.js";
+import { TheatreGetSingleShow } from "./theatre/theatreGetSingleShowController.js";
+import { TheatreGetCompleteOrders } from "./theatre/theatreGetCompleteOrdersController.js";
+import { TheatreBookSeat } from "./theatre/theatreBookSeatController.js";
 
 import { UserGetShowData } from "./user/userGetShowDataController.js";
 import { UserGetSingleShowData } from "./user/userGetSingleShowController.js";
@@ -15,6 +19,7 @@ import { UserGetShowByMovie } from "./user/userGetShowsByMovieController.js";
 import { UserSeatReservation } from "./user/userSeatReservationController.js";
 import { UserPaymentInitiate } from "./user/userPaymentInitiateController.js";
 import { UserPaymentProcess } from "./user/userPaymentProcessController.js";
+import { UserGetOrders } from "./user/userGetOrdersController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -31,5 +36,10 @@ export {
     UserGetShowByMovie as UserGetShowByMovieController,
     UserSeatReservation as UserSeatReservationController,
     UserPaymentInitiate as UserPaymentInitiateController,
-    UserPaymentProcess as UserPaymentProcessController
+    UserPaymentProcess as UserPaymentProcessController,
+    UserGetOrders as UserGetOrdersController,
+    TheatreGetScreenBookings as TheatreGetScreenBookingsController,
+    TheatreGetSingleShow as TheatreGetSingleShowController,
+    TheatreGetCompleteOrders as TheatreGetCompleteOrdersController,
+    TheatreBookSeat as TheatreBookSeatController
 }

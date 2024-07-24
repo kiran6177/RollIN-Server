@@ -1,3 +1,5 @@
+import { getShowDate } from "../../utils/getShowDate.js";
+
 export class UserShowDataGet{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
@@ -12,10 +14,20 @@ export class UserShowDataGet{
                 console.log(showData);
                 const resultData = showData.map(show=>{
                     let updatedShow;
-                    show.shows[0]?.screenData[0]?.running_movies.map(movie=>{
+                    let filteredShows = []
+                    for(let showObj of show.shows){
+                        console.log("SHOW========>",showObj.reserved_date,showObj.showtime);
+                        const showDate =  getShowDate(showObj.reserved_date,showObj.showtime)
+                        const now = new Date()
+                        if(showDate > now){
+                            filteredShows.push(showObj)
+                        }
+                    }
+                    filteredShows[0]?.screenData[0]?.running_movies.map(movie=>{
                         if(show._id.toString() == movie?.movie_id){
                             updatedShow = {
                                 ...show,
+                                shows:filteredShows,
                                 movie
                             }
                         }
@@ -24,7 +36,7 @@ export class UserShowDataGet{
                     return updatedShow
                 })
                 console.log(resultData);
-                return resultData
+                return resultData?.length > 0 ? resultData.filter(each=>each != undefined) : []
             }else{
                 const error = new Error()
                 error.statusCode = 400;

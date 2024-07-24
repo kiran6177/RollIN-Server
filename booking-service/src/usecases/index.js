@@ -8,6 +8,10 @@ import { ShowAddedUseCase } from "./consumeUsecases/show-movie-added-usecase.js"
 
 import { TheatreShowBookingGet } from "./theatre/theatreGetShowBookingUseCase.js";
 import { TheatreShowCancellation } from "./theatre/theatreShowCancellationUseCase.js";
+import { TheatreScreenBookingsGet } from "./theatre/theatreGetScreenBookingsUseCase.js";
+import { TheatreSingleShowGet } from "./theatre/theatreGetSingleShowUseCase.js";
+import { TheatreCompleteOrdersGet } from "./theatre/theatreGetCompleteOrdersUseCase.js";
+import { TheatreSeatBook } from "./theatre/theatreSeatBookUseCase.js";
 
 import { UserShowDataGet } from "./user/userGetShowDataUseCase.js";
 import { UserSingleShowDataGet } from "./user/userGetSingleShowUseCase.js";
@@ -15,6 +19,7 @@ import { UserShowByMovieGet } from "./user/userGetShowByMovieUseCase.js";
 import { UserReserveSeat } from "./user/userReserveSeatUseCase.js";
 import { UserInitiatePayment } from "./user/userInitiatePaymentUseCase.js";
 import { UserProcessPayment } from "./user/userProcessPaymentUseCase.js";
+import { UserOrdersGet } from "./user/userGetOrdersUseCase.js";
 
 export {
     AddUserUseCase,
@@ -31,5 +36,10 @@ export {
     UserShowByMovieGet,
     UserReserveSeat,
     UserInitiatePayment,
-    UserProcessPayment
+    UserProcessPayment,
+    UserOrdersGet,
+    TheatreScreenBookingsGet,
+    TheatreSingleShowGet,
+    TheatreCompleteOrdersGet,
+    TheatreSeatBook
 }
