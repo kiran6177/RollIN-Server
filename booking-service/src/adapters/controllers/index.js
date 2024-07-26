@@ -5,6 +5,7 @@ import { UserUpdatedConsume } from "./consumeController/user-updated-consume.js"
 import { ScreenAddedConsume } from "./consumeController/screen-added-consumer.js";
 import { ScreenUpdatedConsume } from "./consumeController/screen-updated-consumer.js";
 import { ShowMovieAddedConsume } from "./consumeController/show-movie-added-consumer.js";
+import { MovieStatusUpdatedConsume } from "./consumeController/movie-status-update-consumer.js";
 
 import { TheatreGetShowBooking } from "./theatre/theatreGetShowBookingController.js"; 
 import { TheatreShowCancellation } from "./theatre/theatreShowCancellationController.js";
@@ -20,6 +21,8 @@ import { UserSeatReservation } from "./user/userSeatReservationController.js";
 import { UserPaymentInitiate } from "./user/userPaymentInitiateController.js";
 import { UserPaymentProcess } from "./user/userPaymentProcessController.js";
 import { UserGetOrders } from "./user/userGetOrdersController.js";
+import { UserGetUpcomingMovies } from "./user/userGetUpcomingMoviesController.js";
+import { UserGetRecommendedMovies } from "./user/userGetRecommendedMoviesController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -29,6 +32,7 @@ export {
     ScreenAddedConsume as ScreenAddedConsumeController,
     ScreenUpdatedConsume as ScreenUpdatedConsumeController,
     ShowMovieAddedConsume as ShowMovieAddedConsumeController,
+    MovieStatusUpdatedConsume as MovieStatusUpdatedConsumeController,
     TheatreGetShowBooking as TheatreGetShowBookingController,
     TheatreShowCancellation as TheatreShowCancellationController,
     UserGetShowData as UserGetShowDataController,
@@ -41,5 +45,7 @@ export {
     TheatreGetScreenBookings as TheatreGetScreenBookingsController,
     TheatreGetSingleShow as TheatreGetSingleShowController,
     TheatreGetCompleteOrders as TheatreGetCompleteOrdersController,
-    TheatreBookSeat as TheatreBookSeatController
+    TheatreBookSeat as TheatreBookSeatController,
+    UserGetUpcomingMovies as UserGetUpcomingMoviesController,
+    UserGetRecommendedMovies as UserGetRecommendedMoviesController
 }

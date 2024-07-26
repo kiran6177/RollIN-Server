@@ -33,6 +33,7 @@ export class UserSingleMovieGet{
                 }
             }
             const movieById = await this.movieRepository.findMovieByMovieIdWithPeople(movie_id)
+            console.log("MOOO",movieById);
             let movieOutput ;
                 const backdrop_path = await this.awsConfig.getImage(movieById.backdrop_path,MOVIE_OWNER)
                 const poster_path = await this.awsConfig.getImage(movieById.poster_path,MOVIE_OWNER)

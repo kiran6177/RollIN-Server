@@ -4,6 +4,7 @@ import { UpdateTheatreUseCase } from "./consumeUsecases/update-theatre-usecase.j
 import { UpdateUserUseCase } from "./consumeUsecases/update-user-usecase.js";
 import { AddMovieToTheatre } from "./consumeUsecases/movie-enrolled-usecase.js";
 import { RemoveMovieFromTheatre } from "./consumeUsecases/movie-remove-usecase.js";
+import { UpdateMovieStatusUseCase } from "./consumeUsecases/movie-status-update-usecase.js";
 
 import { AdminAllTMDBMoviesGet } from "./admin/adminGetAllTMDBMoviesUseCase.js";
 import { AdminTMDBMovieDetailGet } from "./admin/adminGetTMDBMovieDetailUseCase.js";
@@ -42,5 +43,6 @@ export {
     UserPersonGet,
     UserSingleMovieGet,
     AdminMovieDisable,
-    AdminMovieEnable
+    AdminMovieEnable,
+    UpdateMovieStatusUseCase
 } 

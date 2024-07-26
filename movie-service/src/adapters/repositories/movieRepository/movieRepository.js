@@ -33,6 +33,9 @@ class MovieRepository{
     async manageMovieById(){
         throw new Error('manageMovieById not implemented')
     }
+    async updateMovieStatus(){
+        throw new Error('updateMovieStatus not implemented')
+    }
 }
 
 export class MongoMovieRepository extends MovieRepository{
@@ -188,6 +191,17 @@ export class MongoMovieRepository extends MovieRepository{
     async manageMovieById(id,state){
         try {
             return await MovieModel.findByIdAndUpdate({_id:id},{$set:{isDisabled:state}},{new:true})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async updateMovieStatus(id,status){
+        try {
+            return await MovieModel.findByIdAndUpdate({_id:id},{$set:{isAssigned:status}},{new:true})
         } catch (err) {
             console.log(err);
             const error = new Error();

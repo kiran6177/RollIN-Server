@@ -101,7 +101,7 @@ export class UserMoviesByGenreGet{
                     })
                 }
                 const today = new Date()
-                today.setHours(0,0,0,0)
+                today.setUTCHours(0,0,0,0)
                 let genreLocFiltered = []
                 if(locationBased?.length === 0){
                     reGenreMovies.forEach(movie=>{

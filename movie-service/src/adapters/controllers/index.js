@@ -4,6 +4,7 @@ import { TheatreUpdatedConsume } from "./consumeController/theatre-updated-consu
 import { UserUpdatedConsume } from "./consumeController/user-updated-consume.js";
 import { MovieEnrolledConsume } from "./consumeController/movie-enrolled-consumer.js";
 import { MovieRemovedConsume } from "./consumeController/movie-removed-consumer.js";
+import { MovieStatusUpdatedConsume } from "./consumeController/movie-status-update-consumer.js";
 
 import { AdminGetAllTMDBMovies } from "./admin/adminGetTMDBAllMovieController.js";
 import { AdminGetTMDBMovieDetail } from "./admin/adminGetTMDBMovieDetailController.js";
@@ -29,6 +30,7 @@ export {
     UserUpdatedConsume as UserUpdatedConsumeController,
     MovieEnrolledConsume as MovieEnrolledConsumeController,
     MovieRemovedConsume as MovieRemovedConsumeController,
+    MovieStatusUpdatedConsume as MovieStatusUpdatedConsumeController,
     AdminGetAllTMDBMovies as AdminGetAllTMDBMoviesController,
     AdminGetTMDBMovieDetail as AdminGetTMDBMovieDetailController,
     AdminAddMovieToDB as AdminAddMovieToDBController,

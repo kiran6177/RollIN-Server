@@ -38,6 +38,9 @@ class ScreenRepository{
     async updateShowByScreen(){
         throw new Error('updateShowByScreen not implemented')
     }
+    async updateMovieStatusByMovieId(){
+        throw new Error('updateMovieStatusByMovieId not implemented')
+    }
 }
 
 export class MongoScreenRepository extends ScreenRepository{
@@ -166,6 +169,17 @@ export class MongoScreenRepository extends ScreenRepository{
     async updateShowByScreen(screen_id,show){
         try {
             return await ScreenModel.findOneAndUpdate({_id:screen_id,'showtimes._id':show._id},{$set:{'showtimes.$':show}},{new:true}).lean()
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async updateMovieStatusByMovieId(screen_id,movie_id,status){
+        try {
+            return await ScreenModel.findOneAndUpdate({_id:screen_id,'running_movies.movie_id':movie_id},{$set:{'running_movies.$.isAssigned':status}},{new:true}).lean()
         } catch (err) {
             console.log(err);
             const error = new Error();

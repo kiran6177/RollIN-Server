@@ -6,3 +6,4 @@ export const TYPE_THEATRE_UPDATED = 'TheatreUpdated'
 export const TYPE_SCREEN_ADDED = 'ScreenAdded';
 export const TYPE_SCREEN_UPDATED = 'ScreenUpdated';
 export const TYPE_SHOWMOVIE_ADDED = 'ShowMovieAdded';
+export const TYPE_MOVIESTATUS_CHANGED = 'MovieStatusChanged';
