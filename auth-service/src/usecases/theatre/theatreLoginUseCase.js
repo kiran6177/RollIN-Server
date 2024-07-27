@@ -3,6 +3,7 @@ import { createRefreshToken, createToken } from "../../utils/jwt.js";
 import sendmail from "../../utils/mailer.js";
 import generateOTP from "../../utils/crypto.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
+const THEATRE_OWNER = 'theatre'
 
 export class TheatreLogin{
     constructor(dependencies){
@@ -25,7 +26,7 @@ export class TheatreLogin{
                                 if(theatreExist.isVerified){
                                     let images = [];
                                     for(let image of theatreExist.images){
-                                        const url = await this.awsConfig.getTheatreImage(image)
+                                        const url = await this.awsConfig.getImage(image,THEATRE_OWNER)
                                         if(url){
                                             images.push({url,filename:image})
                                         }else{

@@ -22,6 +22,7 @@ export class UserAuth{
                 const {id,otp} = await this.emailUserAuthUseCase.execute(req.body.email);
                 console.log(id,otp);
                 req.session.userEmailOtp = otp;
+                req.session.userOtpTime = Date.now()
                 res.status(200).json({userData:{id:id}});
             }else{
 

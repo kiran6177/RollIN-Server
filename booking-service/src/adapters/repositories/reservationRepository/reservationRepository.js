@@ -26,6 +26,9 @@ class ReservationRespository{
     async updateReservationsById(){
         throw new Error('updateReservationsById not implemented')
     }
+    async getShowsByTheatreIdAndScreenId(){
+        throw new Error('getShowsByTheatreIdAndScreenId not implemented')
+    }
 }
 
 export class MongoReservationRepository extends ReservationRespository{
@@ -40,9 +43,9 @@ export class MongoReservationRepository extends ReservationRespository{
             throw error
         }
     }
-    async getShowReservations(showtime,show_id){
+    async getShowReservations(showtime,show_id,date){
         try {
-            return await ReservationModel.aggregate([{$match:{$and:[{showtime,show_id:new ObjectId(show_id)}]}}])
+            return await ReservationModel.aggregate([{$match:{$and:[{showtime},{show_id:new ObjectId(show_id)},{reserved_date:{$gte:date}}]}}])
         } catch (err) {
             console.log(err);
             const error = new Error();
@@ -109,6 +112,17 @@ export class MongoReservationRepository extends ReservationRespository{
     async updateReservationsById(id,data){
         try {
             return await ReservationModel.findByIdAndUpdate({_id:id},{$set:{reservations:data}},{new:true})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getShowsByTheatreIdAndScreenId(id,screen_id,date,limit,skip){
+        try {
+            return await ReservationModel.aggregate([{$match:{$and:[{screen_id:new ObjectId(screen_id)},{theatre_id:new ObjectId(id)},{reserved_date:{$gte:date}}]}},{$sort:{reserved_date:1}},{$skip:skip},{$limit:limit},{$lookup:{from:'screens',localField:'screen_id',foreignField:'_id',as:'screenData'}}])
         } catch (err) {
             console.log(err);
             const error = new Error();

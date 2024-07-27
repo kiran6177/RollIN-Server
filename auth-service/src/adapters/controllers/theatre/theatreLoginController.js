@@ -33,6 +33,7 @@ export class TheatreLogin{
                 if(!theatreData.isAccepted){
                     console.log("OTP",theatreotp);
                     req.session.theatreOTP = theatreotp
+                    req.session.theatreOTPtime = Date.now()
                    return res.status(200).json({theatreData})
                 }else if(theatreData.isCompleted && !theatreData.isVerified){
                     const error = new Error();

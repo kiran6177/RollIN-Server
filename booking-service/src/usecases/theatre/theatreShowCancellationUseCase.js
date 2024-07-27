@@ -12,20 +12,29 @@ export class TheatreShowCancellation{
             if(screen_id){ 
                 const screenValid = await this.screenRepository.findScreenById(screen_id)
                 if(screenValid){
-                    const bookingData = await this.reservationRepository.getShowReservations(showtime,_id)
+                    const date = new Date()
+                    date.setUTCHours(0,0,0,0)
+                    console.log("TODAYS",date);
+                    const bookingData = await this.reservationRepository.getShowReservations(showtime,_id,date)
                     let hasBookings = false;
                     let hasData = false;
                     let hasFilledBookings = false;
                     let hasFilledDates = 0;
+                    let maxdate ;
+                    const dates = new Set();
                     if(bookingData?.length > 0){
                         hasData = true
-                        const dates = new Set();
                         for(let doc of bookingData){
                             if(doc?.reservations?.length > 0){
                                 for(let seatObj of doc.reservations){
                                     Object.values(seatObj)[0].map(obj=>{
                                         if(obj.status !== 'INVALID' && obj.status !== 'AVAILABLE'){
                                             dates.add(doc.reserved_date)
+                                            if(maxdate === undefined){
+                                                maxdate = doc.reserved_date
+                                            }else if(maxdate < doc.reserved_date){
+                                                maxdate = doc.reserved_date
+                                            }
                                         }
                                     })
                                 }
@@ -41,7 +50,13 @@ export class TheatreShowCancellation{
                         }
                     }
                     if(hasBookings && hasData){ //DELETE SHOWS BEYOND BOOKED DATE
-                        console.log("BOOKINGS EXCEPT DELETE");
+                        console.log("BOOKINGS EXCEPT DELETE",maxdate);
+                        for(let doc of bookingData){
+                            if(maxdate < doc.reserved_date){
+                                console.log(doc.reserved_date);
+                                await this.reservationRepository.removeShowBookingsBasedOnDate(_id,doc.reserved_date)
+                            }
+                        }
                     }else{ //DELETE ALL UNBOOKED SHOWS
                         console.log("UNBOOOKED DELETE");
                         for(let doc of bookingData){

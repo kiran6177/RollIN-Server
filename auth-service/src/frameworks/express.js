@@ -13,7 +13,7 @@ export default ()=>{
     app.use(session({
         name:'ROLLIN_SESSION',
         keys:[process.env.SESSION_SECRET],
-        maxAge: 60 * 1000
+        maxAge: 24* 60 * 60 * 1000
     }))
 
     app.use('/auth/user',userRouter);

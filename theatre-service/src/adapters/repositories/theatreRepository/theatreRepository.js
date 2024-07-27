@@ -32,6 +32,9 @@ class TheatreRepository{
     async getTheatreByScreenId(){
         throw new Error('getTheatreByScreenId not implemented')
     }
+    async getTheatreByQuery(){
+        throw new Error('getTheatreByQuery not implemented')
+    }
 }
 
 export class MongoTheatreRepository extends TheatreRepository{
@@ -141,6 +144,16 @@ export class MongoTheatreRepository extends TheatreRepository{
     async getTheatreByScreenId(screen_id){
         try {
             return await TheatreModel.aggregate([{$unwind:'$screens'},{$match:{screens:new ObjectId(screen_id)}}])
+        } catch (err) {
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getTheatreByQuery(query){
+        try {
+            return await TheatreModel.aggregate([{$match:{name:{$regex:new RegExp(query,'i')}}}])
         } catch (err) {
             const error = new Error();
             error.statusCode = 500;

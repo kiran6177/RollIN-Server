@@ -14,6 +14,12 @@ class OrderRepository{
     async removeOrderById(){
         throw new Error('removeOrderById not implemented')
     }
+    async getOrdersByUserIdWithPage(){
+        throw new Error('getOrdersByUserIdWithPage not implemented')
+    }
+    async getOrdersByTheatreWithFilters(){
+        throw new Error('getOrdersByTheatreWithFilters not implemented')
+    }
 }
 
 export class MongoOrderRepository extends OrderRepository{
@@ -61,4 +67,26 @@ export class MongoOrderRepository extends OrderRepository{
             throw error
         }
     }
+    async getOrdersByUserIdWithPage(id,limit,skip){
+        try {
+            return await OrderModel.find({user_id:id}).sort({createdAt:-1}).populate('theatre_id').skip(skip).limit(limit)
+            } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getOrdersByTheatreWithFilters(filterArr,skip,LIMIT){
+        try {
+            return await OrderModel.aggregate([{$match:{$and:filterArr}},{$lookup:{from:'users',localField:'user_id',foreignField:'_id',as:'user_data'}},{$sort:{createdAt:-1}},{$skip:skip},{$limit:LIMIT}])
+            } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    } 
 }

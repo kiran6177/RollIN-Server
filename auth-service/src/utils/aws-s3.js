@@ -16,11 +16,11 @@ export class AwsConfig{
         })
     }
 
-    async uploadImageOfTheatre(filename,buffer,filetype){
+    async uploadImage(filename,buffer,filetype,owner){
         try {
             const options = {
                 Bucket: this.bucketName,
-                Key: `theatre/${filename}`,
+                Key: `${owner}/${filename}`,
                 Body:buffer,
                 ContentType:filetype
             }
@@ -33,11 +33,11 @@ export class AwsConfig{
         }
     }   
 
-    async getTheatreImage(filename){
+    async getImage(filename,owner){
         try {
             const options = {
                 Bucket:this.bucketName,
-                Key:`theatre/${filename}`
+                Key:`${owner}/${filename}`
             }
             const getCommand = new GetObjectCommand(options);
             const url = await getSignedUrl(this.s3client,getCommand,{expiresIn: 60 * 15})
@@ -48,11 +48,11 @@ export class AwsConfig{
         }
     }
 
-    async deleteTheatreImage(filename){
+    async deleteImage(filename,owner){
         try {
             const options = {
                 Bucket:this.bucketName,
-                Key:`theatre/${filename}`
+                Key:`${owner}/${filename}`
             }
             const deleteCommand = new DeleteObjectCommand(options);
             await this.s3client.send(deleteCommand);

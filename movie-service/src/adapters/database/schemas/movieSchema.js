@@ -68,6 +68,10 @@ const movieSchema = new mongoose.Schema({
     isDisabled:{
         type:Boolean,
         default:false
+    },
+    isAssigned:{
+        type:Boolean,
+        default:false
     }
 })
 

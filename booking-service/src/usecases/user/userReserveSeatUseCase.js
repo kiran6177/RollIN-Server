@@ -71,7 +71,7 @@ export class UserReserveSeat{
                             console.log("RESERVATION RESET");
                         }
                         console.log('SEAT SOLD');
-                    },60000) //5 minutes(300000) delay for RESERVED resetting to AVAILABLE if not SOLD
+                    },300000) //5 minutes(300000) delay for RESERVED resetting to AVAILABLE if not SOLD
 
                     approved = true;
                 }

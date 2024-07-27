@@ -4,6 +4,7 @@ import { AuthHandler } from "../../middlewares/auth-handler.js";
 import { TheatreLoginController, TheatreLogoutContrller, TheatreSignupController ,
     TheatreProfileCompleteController, TheatreOtpVerifyController, TheatreResendOtpController, TheatreUpdateProfileController } from "../../controllers/index.js";
 import upload from "../../../utils/multer.js";  
+import { OtpValidator } from "../../middlewares/otp-expire-handler.js";
 const theatreRouter = express.Router();
 
 const controllers = {
@@ -20,7 +21,7 @@ theatreRouter.post('/login/:type',async(req,res,next)=>{controllers.theatreLogin
 theatreRouter.post('/signup',async(req,res,next)=>{controllers.theatreSignupController.signup(req,res,next)});
 
 theatreRouter.post('/completeprofile',upload.array('images',6),(req,res,next)=>{controllers.theatreProfileCompleteController.completeProfile(req,res,next)});
-theatreRouter.post('/verifyotp/:type',async(req,res,next)=>{controllers.theatreOtpVerifyController.verifyTheatre(req,res,next)})
+theatreRouter.post('/verifyotp/:type',OtpValidator.validateTheatreOtp,async(req,res,next)=>{controllers.theatreOtpVerifyController.verifyTheatre(req,res,next)})
 theatreRouter.post('/resendotp',async (req,res,next)=>{controllers.theatreResendOtpController.resendOtp(req,res,next)})
 theatreRouter.put('/updateprofile',AuthHandler.isTheatreLogin, upload.array('images',6),async(req,res,next)=>{controllers.theatreUpdateProfileController.updateProfile(req,res,next)})
 

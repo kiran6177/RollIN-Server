@@ -11,6 +11,8 @@ export class TheatreOtpVerify{
             const {theatreData,accessToken,refreshToken} = await this.theatreOtpVerifyUseCase.execute(req.body,req.session,type);
             console.log(theatreData,accessToken,refreshToken);
             if(type === 'login'){
+                req.session.theatreOTPtime = null;
+                req.session.theatreOTP = null;
                 res.cookie('theatreRefreshToken',refreshToken,{
                     httpOnly:true,
                     secure:true,
@@ -19,6 +21,8 @@ export class TheatreOtpVerify{
                 return res.status(200).json({theatreData,accessToken})
             }else if(type === 'register'){
                 console.log("gggg");
+                req.session.theatreOTPtime = null;
+                req.session.theatreOTP = null;
                 return res.status(200).json({success:true})
             }
         } catch (error) {

@@ -42,6 +42,8 @@ export class UserMoviesByGenreGet{
                 }
             }
             const movieByGenre = await this.movieRepository.findMoviesByGenreWithLimit(10)
+            console.log("GENRE",movieByGenre);
+            console.log("LOCB",locationBased);
             let moviesOutput = []
             for(let genreMovie of movieByGenre){
                 let reGenreMovies = []
@@ -98,14 +100,25 @@ export class UserMoviesByGenreGet{
                         crew:crewDataImg
                     })
                 }
+                const today = new Date()
+                today.setUTCHours(0,0,0,0)
                 let genreLocFiltered = []
-                reGenreMovies.forEach(movie=>{
-                    locationBased.forEach(runningMovie=>{
-                        if(runningMovie._id.toString() === movie._id.toString()){
-                            genreLocFiltered.push(movie)
+                if(locationBased?.length === 0){
+                    reGenreMovies.forEach(movie=>{
+                        if(!movie.isDisabled && new Date(movie?.release_date) <= today){
+                            genreLocFiltered.push({...movie,isDislocated:true})
                         }
                     })
-                })
+                }else{
+                    reGenreMovies.forEach(movie=>{
+                        locationBased.forEach(runningMovie=>{
+                            if(runningMovie._id.toString() === movie._id.toString() && new Date(movie?.release_date) <= today){
+                                genreLocFiltered.push(movie)
+                            }
+                        })
+                    })
+                }
+                
                 if(moviesOutput.length < 4){
                     if(genreLocFiltered?.length > 0){
                         moviesOutput.push({

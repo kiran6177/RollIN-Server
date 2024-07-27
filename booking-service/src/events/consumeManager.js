@@ -1,6 +1,6 @@
-import { ScreenAddedConsumeController, ScreenUpdatedConsumeController, ShowMovieAddedConsumeController, TheatreCreatedConsumeController, TheatreUpdatedConsumeController, UserCreatedConsumeController , UserUpdatedConsumeController} from "../adapters/controllers/index.js";
+import { MovieStatusUpdatedConsumeController, ScreenAddedConsumeController, ScreenUpdatedConsumeController, ShowMovieAddedConsumeController, TheatreCreatedConsumeController, TheatreUpdatedConsumeController, UserCreatedConsumeController , UserUpdatedConsumeController} from "../adapters/controllers/index.js";
 import dependencies from "../frameworks/dependencies.js";
-import { TYPE_SCREEN_ADDED, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED, TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED, TYPE_USER_CREATED, TYPE_USER_UPDATED } from "./config.js";
+import { TYPE_MOVIESTATUS_CHANGED, TYPE_SCREEN_ADDED, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED, TYPE_THEATRE_CREATED, TYPE_THEATRE_UPDATED, TYPE_USER_CREATED, TYPE_USER_UPDATED } from "./config.js";
 
 export class ConsumeManager{
     constructor(){
@@ -11,6 +11,7 @@ export class ConsumeManager{
         this.screenAddedConsumer = new ScreenAddedConsumeController(dependencies)
         this.screenUpdatedConsumer = new ScreenUpdatedConsumeController(dependencies)
         this.showMovieAddedConsumer = new ShowMovieAddedConsumeController(dependencies)
+        this.updateMovieStatusConsumer = new MovieStatusUpdatedConsumeController(dependencies)
     }
     async manageConsumer(type,value){
         try {
@@ -30,6 +31,8 @@ export class ConsumeManager{
                     return await this.screenUpdatedConsumer.updateScreen(data)
                 case TYPE_SHOWMOVIE_ADDED:
                     return await this.showMovieAddedConsumer.addedShowMovie(data)
+                case TYPE_MOVIESTATUS_CHANGED:
+                    return await this.updateMovieStatusConsumer.updateMovieStatus(data)
                 default:
                     const error = new Error();
                     error.statusCode = 500;

@@ -45,8 +45,8 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:""
     },
-    dob:{
-        type:Date,
+    image:{
+        type:String,
     },
     address:{
         type:addressSchema

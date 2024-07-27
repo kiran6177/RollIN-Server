@@ -20,6 +20,9 @@ class TheatreRepository{
     async getTheatreByScreenId(){
         throw new Error('getTheatreByScreenId not implemented')
     }
+    async findMoviesFromTheatreByLocation(){
+        throw new Error('findMoviesFromTheatreByLocation not implemented')
+    }
 }
 
 export class MongoTheatreRepository extends TheatreRepository{
@@ -83,6 +86,17 @@ export class MongoTheatreRepository extends TheatreRepository{
         try {
             return await TheatreModel.aggregate([{$unwind:'$screens'},{$match:{screens:new ObjectId(screen_id)}}])
         } catch (err) {
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async findMoviesFromTheatreByLocation(locationArr,distRadius){
+        try {
+            return await TheatreModel.find({location:{$geoWithin:{$centerSphere:[locationArr,distRadius / 3963.2]}}}) 
+        } catch (err) {
+            console.log(err);
             const error = new Error();
             error.statusCode = 500;
             error.reasons = [err.message]

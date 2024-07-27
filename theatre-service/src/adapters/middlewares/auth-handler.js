@@ -58,7 +58,7 @@ export class AuthHandler{
                                             }
                                             const newAccessToken = await createToken({...userWOP,role:'USER'});
                                             req.newUserToken = newAccessToken
-                                            req.user = decoded
+                                            req.user = userWOP
                                             next()
                                         }
                                     }else{

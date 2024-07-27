@@ -58,6 +58,9 @@ const runningMovieSchema = new mongoose.Schema({
     isDisabled:{
         type:Boolean,
     },
+    isAssigned:{
+        type:Boolean,
+    },
     enroll_from:{
         type:Date,
         required:true

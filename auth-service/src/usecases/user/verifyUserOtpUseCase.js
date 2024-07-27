@@ -1,8 +1,11 @@
+import { AwsConfig } from "../../utils/aws-s3.js";
 import { createRefreshToken, createToken } from "../../utils/jwt.js";
+const USER_OWNER = 'user'
 
 export class VerifyUserOtp{
     constructor(dependencies){
         this.userRepository = new dependencies.Repositories.MongoUserRepository()
+        this.awsConfig = new AwsConfig()
     }
 
     async execute(id,otp,sessionOTP){
@@ -12,14 +15,18 @@ export class VerifyUserOtp{
             if(userExist){
                 if(sessionOTP){
                     if(parseInt(sessionOTP) === otp){
-
+                        let image
+                        if(userExist.image){
+                             image = await this.awsConfig.getImage(userExist.image,USER_OWNER)
+                        }
                         const userWOP = {
-                            id:userExist.id,
+                            id:userExist._id,
                             email:userExist.email,
                             mobile:userExist.mobile,
                             firstname:userExist.firstname,
                             lastname:userExist.lastname,
-                            dob:userExist.dob,
+                            image,
+                            authtype:userExist.type,
                             address:userExist.address,
                             walletBalance:userExist.walletBalance,
                         }

@@ -1,5 +1,5 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
-import { BOOKING_TOPIC, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED } from "../../events/config.js";
+import { BOOKING_TOPIC, MOVIE_TOPIC, TYPE_MOVIESTATUS_CHANGED, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED } from "../../events/config.js";
 import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js"
 const MOVIE_OWNER = 'movie';
@@ -25,11 +25,38 @@ export class TheatreShowMovieChange{
                         value:JSON.stringify(updateShowMovie)
                     })
                     if(updateShowMovie && showdata?.movie_id){
+                        await this.screenRepository.updateMovieStatusByMovieId(screen_id,showdata.movie_id,true)
+                        this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                            type:TYPE_MOVIESTATUS_CHANGED,
+                            value:JSON.stringify({screen_id,movie_id:showdata.movie_id,status:true})
+                        })
+                        this.kafkaClient.produceMessage(MOVIE_TOPIC,{
+                            type:TYPE_MOVIESTATUS_CHANGED,
+                            value:JSON.stringify({screen_id,movie_id:showdata.movie_id,status:true})
+                        })
                         this.kafkaClient.produceMessage(BOOKING_TOPIC,{
                             type:TYPE_SHOWMOVIE_ADDED,
                             value:JSON.stringify({screenData:updateShowMovie,showdata})
                         })
                     }
+                    // else{
+                    //     let movie_id ;
+                    //     screenValid.showtimes.forEach(showObj => {
+                    //         if(showObj._id.toString() === showdata._id.toString()){
+                    //             movie_id = showObj.movie_id
+                    //         }
+                    //     });
+                    //     console.log("MOVIEID",movie_id);
+                    //     await this.screenRepository.updateMovieStatusByMovieId(screen_id,movie_id,false)
+                    //     this.kafkaClient.produceMessage(BOOKING_TOPIC,{
+                    //         type:TYPE_MOVIESTATUS_CHANGED,
+                    //         value:JSON.stringify({screen_id,movie_id:movie_id,status:false})
+                    //     })
+                    //     this.kafkaClient.produceMessage(MOVIE_TOPIC,{
+                    //         type:TYPE_MOVIESTATUS_CHANGED,
+                    //         value:JSON.stringify({screen_id,movie_id:movie_id,status:false})
+                    //     })
+                    // }
                     let dataWithImages = updateShowMovie
                     if(updateShowMovie?.running_movies?.length > 0){
                         let running_movies = []

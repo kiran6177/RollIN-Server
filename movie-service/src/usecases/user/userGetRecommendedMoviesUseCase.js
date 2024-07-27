@@ -101,15 +101,19 @@ export class UserRecommendedMoviesGet{
                             })
                     }
                 let release_date = new Date(movie.release_date)
-                recommendedMovies.push({
-                    ...movie,
-                    backdrop_path,
-                    poster_path,
-                    genres,
-                    release_date:release_date.getFullYear()+'-'+((release_date.getMonth()+1) < 10 ? '0'+(release_date.getMonth()+1) : release_date.getMonth()+1)+'-'+release_date.getDate(),
-                    cast:castDataImg,
-                    crew:crewDataImg
-                })
+                const today = new Date()
+                today.setUTCHours(0,0,0,0)
+                if(release_date <= today){
+                    recommendedMovies.push({
+                        ...movie,
+                        backdrop_path,
+                        poster_path,
+                        genres,
+                        release_date:release_date.getFullYear()+'-'+((release_date.getMonth()+1) < 10 ? '0'+(release_date.getMonth()+1) : release_date.getMonth()+1)+'-'+release_date.getDate(),
+                        cast:castDataImg,
+                        crew:crewDataImg
+                    })
+                }
             }
             // console.log(recommendedMovies);
             return recommendedMovies

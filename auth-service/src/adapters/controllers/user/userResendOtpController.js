@@ -9,6 +9,7 @@ export class UserResendOtp{
             const resend = await this.userResendOtpUseCase.execute(id);
             console.log(resend);
             req.session.userEmailOtp = resend?.otp;
+            req.session.userOtpTime = Date.now()
             res.status(201).json({success:true})
         } catch (error) {
             console.log(error);
