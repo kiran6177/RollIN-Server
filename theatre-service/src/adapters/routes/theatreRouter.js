@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthHandler } from '../middlewares/auth-handler.js';
 const theatreRouter = express.Router();
 import dependencies from '../../frameworks/dependencies.js';
-import {  TheatreAddScreenController, TheatreChangeShowMovieController, TheatreChangeTierOrderController, TheatreEditScreenController, TheatreEditTierController, TheatreEnrollMovieController, TheatreExtendMovieController, TheatreGetTheatreScreenController, TheatreRemoveMovieController, UserGetSingleTheatreController, UserGetTheatresController } from '../controllers/index.js';
+import {  TheatreAddScreenController, TheatreChangeShowMovieController, TheatreChangeTierOrderController, TheatreEditScreenController, TheatreEditTierController, TheatreEnrollMovieController, TheatreExtendMovieController, TheatreGetTheatreScreenController, TheatreRemoveMovieController, UserGetSingleTheatreController, UserGetTheatresController, UserTheatreQueryController } from '../controllers/index.js';
 
 const controllers = {
     userGetTheatresController : new UserGetTheatresController(dependencies),
@@ -15,11 +15,13 @@ const controllers = {
     theatreEditTierController : new TheatreEditTierController(dependencies),
     theatreChangeTierOrderController : new TheatreChangeTierOrderController(dependencies),
     userGetSingleTheatreController : new UserGetSingleTheatreController(dependencies),
-    theatreChangeShowMovieController : new TheatreChangeShowMovieController(dependencies)
+    theatreChangeShowMovieController : new TheatreChangeShowMovieController(dependencies),
+    userTheatreQueryController : new UserTheatreQueryController(dependencies)
 }
 
 theatreRouter.post('/gettheatres',(req,res,next)=>{controllers.userGetTheatresController.getTheatres(req,res,next)})
 theatreRouter.post('/getsingletheatre',(req,res,next)=>{controllers.userGetSingleTheatreController.getSingleTheatre(req,res,next)})
+theatreRouter.post('/querytheatre',(req,res,next)=>{controllers.userTheatreQueryController.theatreQuery(req,res,next)})
 
 theatreRouter.post('/gettheatredata',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetTheatreScreenController.getTheatreScreen(req,res,next)})
 theatreRouter.post('/addscreen',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreAddScreenController.addScreen(req,res,next)})

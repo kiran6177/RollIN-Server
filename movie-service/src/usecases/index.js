@@ -20,6 +20,7 @@ import { UserAllMoviesWithFilterGet } from "./user/userGetAllMoviesWithFilterUse
 import { UserRecommendedMoviesGet } from "./user/userGetRecommendedMoviesUseCase.js";
 import { UserPersonGet } from "./user/userGetPersonUseCase.js";
 import { UserSingleMovieGet } from "./user/userGetSingleMovieUseCase.js";
+import { UserQueryMovie } from "./user/userMovieQueryUseCase.js";
 
 import { TheatreAllMoviesGet } from "./theatre/theatreGetAllMoviesUseCase.js";
 
@@ -44,5 +45,6 @@ export {
     UserSingleMovieGet,
     AdminMovieDisable,
     AdminMovieEnable,
-    UpdateMovieStatusUseCase
+    UpdateMovieStatusUseCase,
+    UserQueryMovie
 } 

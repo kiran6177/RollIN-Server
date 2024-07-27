@@ -36,6 +36,9 @@ class MovieRepository{
     async updateMovieStatus(){
         throw new Error('updateMovieStatus not implemented')
     }
+    async getMovieByQuery(){
+        throw new Error('getMovieByQuery not implemented')
+    }
 }
 
 export class MongoMovieRepository extends MovieRepository{
@@ -202,6 +205,17 @@ export class MongoMovieRepository extends MovieRepository{
     async updateMovieStatus(id,status){
         try {
             return await MovieModel.findByIdAndUpdate({_id:id},{$set:{isAssigned:status}},{new:true})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getMovieByQuery(query){
+        try {
+            return await MovieModel.aggregate([{$match:{title:{$regex:new RegExp(query,'i')}}}])
         } catch (err) {
             console.log(err);
             const error = new Error();

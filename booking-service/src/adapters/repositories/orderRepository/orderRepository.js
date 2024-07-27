@@ -80,7 +80,7 @@ export class MongoOrderRepository extends OrderRepository{
     }
     async getOrdersByTheatreWithFilters(filterArr,skip,LIMIT){
         try {
-            return await OrderModel.aggregate([{$match:{$and:filterArr}},{$lookup:{from:'users',localField:'user_id',foreignField:'_id',as:'user_data'}},{$skip:skip},{$limit:LIMIT}])
+            return await OrderModel.aggregate([{$match:{$and:filterArr}},{$lookup:{from:'users',localField:'user_id',foreignField:'_id',as:'user_data'}},{$sort:{createdAt:-1}},{$skip:skip},{$limit:LIMIT}])
             } catch (err) {
             console.log(err);
             const error = new Error();
