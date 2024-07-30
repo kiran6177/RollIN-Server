@@ -1,5 +1,5 @@
-import { MongoMovieRepository, MongoPersonRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { AddMovieToTheatre, AddTheatreUseCase, AddUserUseCase, AdminAllTMDBMoviesGet, AdminMovieDisable, AdminMovieEnable, AdminMovieToDBAdd, AdminMoviesFromDBGet, AdminPersonsFromDBGet, AdminTMDBMovieDetailGet, RemoveMovieFromTheatre, TheatreAllMoviesGet, UpdateMovieStatusUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserAllMoviesWithFilterGet, UserBannerMoviesGet, UserMoviesByGenreGet, UserPersonGet, UserQueryMovie, UserRecommendedMoviesGet, UserSingleMovieGet } from '../usecases/index.js'
+import { MongoMovieRepository, MongoPersonRepository, MongoReviewRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
+import { AddMovieToTheatre, AddTheatreUseCase, AddUserUseCase, AdminAllTMDBMoviesGet, AdminMovieDisable, AdminMovieEnable, AdminMovieToDBAdd, AdminMoviesFromDBGet, AdminPersonsFromDBGet, AdminTMDBMovieDetailGet, RemoveMovieFromTheatre, TheatreAllMoviesGet, UpdateMovieStatusUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserAllMoviesWithFilterGet, UserBannerMoviesGet, UserMoviesByGenreGet, UserPersonGet, UserQueryMovie, UserRecommendedMoviesGet, UserReviewAdd, UserReviewGet, UserReviewLikeUnlike, UserSingleMovieGet } from '../usecases/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -15,7 +15,8 @@ const Repositories = {
     MongoUserRepository,
     MongoTheatreRepository,
     MongoPersonRepository,
-    MongoMovieRepository
+    MongoMovieRepository,
+    MongoReviewRepository
 }
 
 const UseCase = {
@@ -33,7 +34,10 @@ const UseCase = {
     UserSingleMovieGet,
     AdminMovieDisable,
     AdminMovieEnable,
-    UserQueryMovie
+    UserQueryMovie,
+    UserReviewAdd,
+    UserReviewGet,
+    UserReviewLikeUnlike
 }
 
 const dependencies = {
