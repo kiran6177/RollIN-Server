@@ -21,6 +21,9 @@ import { UserGetRecommendedMovies } from "./user/userGetRecommendedMoviesControl
 import { UserGetPerson } from "./user/userGetPersonController.js";
 import { UserGetSingleMovie } from "./user/userGetSingleMovieController.js";
 import { UserMovieQuery } from "./user/userMovieQueryController.js";
+import { UserAddReview } from "./user/userAddReviewController.js";
+import { UserGetReview } from "./user/userGetReviewsController.js";
+import { UserLikeUnlikeReview } from "./user/userLikeUnlikeReviewController.js";
 
 import { TheatreGetAllMovies } from "./theatre/theatreGetMoviesController.js";
 
@@ -46,5 +49,8 @@ export {
     UserGetSingleMovie as UserGetSingleMovieController,
     AdminDisableMovie as AdminDisableMovieController,
     AdminEnableMovie as AdminEnableMovieController,
-    UserMovieQuery as UserMovieQueryController
+    UserMovieQuery as UserMovieQueryController,
+    UserAddReview as UserAddReviewController,
+    UserGetReview as UserGetReviewController,
+    UserLikeUnlikeReview as UserLikeUnlikeReviewController
 }

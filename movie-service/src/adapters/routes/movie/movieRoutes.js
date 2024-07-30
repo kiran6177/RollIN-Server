@@ -1,6 +1,6 @@
 import express from 'express';
 import { AuthHandler } from '../../middlewares/auth-handler.js'
-import { AdminAddMovieToDBController, AdminDisableMovieController, AdminEnableMovieController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, TheatreGetAllMoviesController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController, UserGetPersonController, UserGetRecommendedMoviesController, UserGetSingleMovieController, UserMovieQueryController } from '../../controllers/index.js';
+import { AdminAddMovieToDBController, AdminDisableMovieController, AdminEnableMovieController, AdminGetAllTMDBMoviesController, AdminGetMoviesFromDBController, AdminGetPersonsFromDBController, AdminGetTMDBMovieDetailController, TheatreGetAllMoviesController, UserAddReviewController, UserGetAllMoviesWithFilterController, UserGetBannerMoviesController, UserGetMoviesByGenreController, UserGetPersonController, UserGetRecommendedMoviesController, UserGetReviewController, UserGetSingleMovieController, UserLikeUnlikeReviewController, UserMovieQueryController } from '../../controllers/index.js';
 import dependencies from '../../../frameworks/dependencies.js';
 const movieRouter = express.Router();
 
@@ -18,7 +18,10 @@ const controllers = {
     userGetSingleMovieController : new UserGetSingleMovieController(dependencies),
     adminDisableMovieController : new AdminDisableMovieController(dependencies),
     adminEnableMovieController : new AdminEnableMovieController(dependencies),
-    userMovieQueryController : new UserMovieQueryController(dependencies)
+    userMovieQueryController : new UserMovieQueryController(dependencies),
+    userAddReviewController : new UserAddReviewController(dependencies),
+    userGetReviewController : new UserGetReviewController(dependencies),
+    userLikeUnlikeReviewController : new UserLikeUnlikeReviewController(dependencies)
 }
 movieRouter.post('/getalltmdbmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetAllTMDBMoviesController.getAllTMDBMovies(req,res,next)})
 movieRouter.post('/gettmdbmoviedetail',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetTMDBMovieDetailController.getTMDBMovieDetail(req,res,next)})
@@ -35,6 +38,9 @@ movieRouter.post('/getallmovieswithfilters',(req,res,next)=>{controllers.userGet
 movieRouter.post('/getperson',(req,res,next)=>{controllers.userGetPersonController.getPerson(req,res,next)})
 movieRouter.post('/getsinglemovie',(req,res,next)=>{controllers.userGetSingleMovieController.getSingleMovie(req,res,next)})
 movieRouter.post('/querymovie',(req,res,next)=>{controllers.userMovieQueryController.movieQuery(req,res,next)})
+movieRouter.post('/addreview',AuthHandler.isUserLogin,(req,res,next)=>{controllers.userAddReviewController.addReview(req,res,next)})
+movieRouter.post('/getreviews',(req,res,next)=>{controllers.userGetReviewController.getReview(req,res,next)})
+movieRouter.post('/likeunlikereview',AuthHandler.isUserLogin,(req,res,next)=>{controllers.userLikeUnlikeReviewController.likeUnlikeReview(req,res,next)})
 
 movieRouter.post('/getmoviesfortheatre',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetAllMoviesController.getAllMovies(req,res,next)})
 

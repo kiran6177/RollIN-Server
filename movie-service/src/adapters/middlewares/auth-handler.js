@@ -54,11 +54,12 @@ export class AuthHandler{
                                                 dob:isAllowed.dob,
                                                 address:isAllowed.address,
                                                 walletBalance:isAllowed.walletBalance,
-                                                isVerified:isAllowed.isVerified
+                                                isVerified:isAllowed.isVerified,
+                                                image:isAllowed.image
                                             }
                                             const newAccessToken = await createToken({...userWOP,role:'USER'});
                                             req.newUserToken = newAccessToken
-                                            req.user = decoded
+                                            req.user = userWOP
                                             next()
                                         }
                                     }else{
@@ -119,7 +120,8 @@ export class AuthHandler{
                                             dob:isAllowed.dob,
                                             address:isAllowed.address,
                                             walletBalance:isAllowed.walletBalance,
-                                            isVerified:isAllowed.isVerified
+                                            isVerified:isAllowed.isVerified,
+                                            image:isAllowed.image
                                         }
                                         const newAccessToken = await createToken({...userWOP,role:'USER'});
                                         req.newUserToken = newAccessToken

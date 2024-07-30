@@ -6,8 +6,8 @@ class MovieRepository{
     async findMovieById(){
         throw new Error('findMovieById not implemented')
     }
-    async updateMovieById(){
-        throw new Error('updateMovieById not implemented')
+    async updateMovieRatingById(){
+        throw new Error('updateMovieRatingById not implemented')
     }
     async findMovieByMovieId(){
         throw new Error('findMovieByMovieId not implemented')
@@ -70,6 +70,17 @@ export class MongoMovieRepository extends MovieRepository{
     async findMovieById(id){
         try {
             return await MovieModel.findById({_id:id})
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async updateMovieRatingById(id,rating){
+        try {
+            return await MovieModel.findByIdAndUpdate({_id:id},{$set:{rating}},{new:true})
         } catch (err) {
             console.log(err);
             const error = new Error();

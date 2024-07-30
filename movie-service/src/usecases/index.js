@@ -21,6 +21,9 @@ import { UserRecommendedMoviesGet } from "./user/userGetRecommendedMoviesUseCase
 import { UserPersonGet } from "./user/userGetPersonUseCase.js";
 import { UserSingleMovieGet } from "./user/userGetSingleMovieUseCase.js";
 import { UserQueryMovie } from "./user/userMovieQueryUseCase.js";
+import { UserReviewAdd } from "./user/userAddReviewUseCase.js";
+import { UserReviewGet } from "./user/userGetReviewUseCase.js";
+import { UserReviewLikeUnlike } from "./user/userLikeUnlikeReviewUseCase.js";
 
 import { TheatreAllMoviesGet } from "./theatre/theatreGetAllMoviesUseCase.js";
 
@@ -46,5 +49,8 @@ export {
     AdminMovieDisable,
     AdminMovieEnable,
     UpdateMovieStatusUseCase,
-    UserQueryMovie
+    UserQueryMovie,
+    UserReviewAdd,
+    UserReviewGet,
+    UserReviewLikeUnlike
 } 
