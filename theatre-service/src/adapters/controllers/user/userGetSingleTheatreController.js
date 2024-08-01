@@ -9,10 +9,6 @@ export class UserGetSingleTheatre{
             const dataToFrontend = {
                 resultData,
             }
-            // if(req?.newUserToken){
-            //     dataToFrontend.newUserToken = req?.newUserToken
-            //     dataToFrontend.newUserData = req?.user
-            // }
             res.status(200).json(dataToFrontend)
         } catch (error) {
             console.log(error);

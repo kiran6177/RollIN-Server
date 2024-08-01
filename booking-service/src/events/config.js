@@ -1,4 +1,6 @@
 export const TOPICS = ['auth-topic','booking-topic'];
+export const NOTIFICATION_TOPIC = 'notification-topic';
+export const TYPE_NOTIFICATION_CREATED = 'NotificationCreated';
 export const TYPE_USER_CREATED = 'UserCreated';
 export const TYPE_USER_UPDATED = 'UserUpdated';
 export const TYPE_THEATRE_CREATED = 'TheatreCreated'

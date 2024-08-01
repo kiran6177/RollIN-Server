@@ -51,7 +51,7 @@ export class AuthHandler{
                                                 mobile:isAllowed.mobile,
                                                 firstname:isAllowed.firstname,
                                                 lastname:isAllowed.lastname,
-                                                dob:isAllowed.dob,
+                                                image: isAllowed.image,
                                                 address:isAllowed.address,
                                                 walletBalance:isAllowed.walletBalance,
                                                 isVerified:isAllowed.isVerified
@@ -116,7 +116,7 @@ export class AuthHandler{
                                             mobile:isAllowed.mobile,
                                             firstname:isAllowed.firstname,
                                             lastname:isAllowed.lastname,
-                                            dob:isAllowed.dob,
+                                            image: isAllowed.image,
                                             address:isAllowed.address,
                                             walletBalance:isAllowed.walletBalance,
                                             isVerified:isAllowed.isVerified

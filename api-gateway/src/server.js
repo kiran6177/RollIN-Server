@@ -1,8 +1,8 @@
 import createServer from "./frameworks/express.js";
 
-const app = createServer();
+const server = createServer();
 const PORT = process.env.PORT;
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log("gateway listening on ",PORT);
 })

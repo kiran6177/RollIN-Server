@@ -49,7 +49,7 @@ export class UserUpcomingMoviesGet{
                         }
                     }
                 }
-                // upcomingMovies = upcomingMovies.filter(movie=>!currentMovieIds.includes(movie.movie_id))
+                //REMOVING_DUPLICATE
                 upcomingMovies = upcomingMovies.filter((movie, index, arr) => 
                     index === arr.findIndex((m) => (
                         m.movie_id === movie.movie_id

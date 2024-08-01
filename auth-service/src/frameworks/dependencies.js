@@ -1,4 +1,4 @@
-import { MongoAdminRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
+import { MongoAdminRepository, MongoNotificationRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
 import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin ,
      CompleteProfile, TheatreGoogleAuth, VerifyTheatre, TheatreResendOTP,
       EmailUserAuth, VerifyUserOtp, GetUsers, UserBlockUnblock, GetTheatres,
@@ -8,7 +8,14 @@ import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin ,
        UserProfileEdit,
        VerifyProfileOtp,
        UserEmailEdit,
-       ResendProfileOtpUser} from '../usecases/index.js'
+       ResendProfileOtpUser,
+       NotificationCreate,
+       UserNotificationGet,
+       UserUnreadGet} from '../usecases/index.js'
+
+const ConsumeUseCase = {
+    NotificationCreate
+}
 
 const UseCase = {
     GoogleUserAuth,
@@ -31,18 +38,22 @@ const UseCase = {
     UserProfileEdit,
     UserEmailEdit,
     VerifyProfileOtp,
-    ResendProfileOtpUser
+    ResendProfileOtpUser,
+    UserNotificationGet,
+    UserUnreadGet
 }
 
 const Repositories = {
     MongoUserRepository,
     MongoAdminRepository,
-    MongoTheatreRepository
+    MongoTheatreRepository,
+    MongoNotificationRepository
 }
 
 const dependencies = {
     UseCase,
-    Repositories
+    Repositories,
+    ConsumeUseCase
 }
 
 

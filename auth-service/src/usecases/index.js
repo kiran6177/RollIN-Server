@@ -19,6 +19,12 @@ import { UserProfileEdit } from "./user/userProfileEditUseCase.js";
 import { VerifyProfileOtp } from "./user/verifyProfileOtpUseCase.js";
 import { UserEmailEdit } from "./user/userEditEmailUseCase.js";
 import { ResendProfileOtpUser } from "./user/resendProfileOtpUseCase.js";
+import { UserNotificationGet } from "./user/getNotificationsUseCase.js";
+
+import { UserUnreadGet } from "./socketUseCases/user/getUnreadUseCase.js";
+import { UserUpdateNotifications } from "./socketUseCases/user/updateNotificationStatusUseCase.js";
+
+import { NotificationCreate } from "./consumeUseCases/createNotificationUseCase.js";
 
 export {
     GoogleUserAuth,
@@ -41,5 +47,9 @@ export {
     UserProfileEdit,
     VerifyProfileOtp,
     UserEmailEdit,
-    ResendProfileOtpUser
+    ResendProfileOtpUser,
+    NotificationCreate,
+    UserNotificationGet,
+    UserUnreadGet,
+    UserUpdateNotifications
 }

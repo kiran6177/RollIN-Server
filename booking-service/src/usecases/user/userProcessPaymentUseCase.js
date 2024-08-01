@@ -1,6 +1,8 @@
 import { CashfreeClient } from "../../utils/cashfreeConfig.js";
 import { generateQrCode } from "../../utils/generateQrCode.js";
 import { AwsConfig } from '../../utils/aws-s3.js'
+import { scheduleBookingNotification } from "../../utils/scheduler.js";
+import { getShowDate } from "../../utils/getShowDate.js";
 const MOVIE_OWNER = 'movie';
 
 export class UserProcessPayment{
@@ -44,6 +46,12 @@ export class UserProcessPayment{
                     backdrop_path,
                     poster_path
                 }
+                const notifyDate = getShowDate(updatedOrder?.show_date,updatedOrder?.show_time)
+                notifyDate.setHours(notifyDate.getHours() - 2)
+                // const notifyDate = new Date()
+                // notifyDate.setHours(13,31,0,0)
+                console.log(notifyDate);
+                scheduleBookingNotification(notifyDate,updatedOrder)
                 return {...updatedOrder.toObject(),movie:movieWithPic,qr_url:url}
             }else{
                 let selectedSeats = orderData?.seatdata.map(each=>each.seats).flat(Infinity)

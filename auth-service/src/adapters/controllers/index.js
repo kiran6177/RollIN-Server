@@ -20,6 +20,10 @@ import { UserEditProfile } from "./user/userEditProfileController.js";
 import { UserVerifyProfileOtp } from "./user/userVerifyProfileOtpController.js";
 import { UserEditEmail } from "./user/userEditEmailController.js";
 import { UserResendProfileOtp } from "./user/userResendProfileOtpController.js";
+import { UserGetNotifications } from "./user/getNotificationsController.js";
+import { UserGetUnread } from "./user/getUnreadController.js";
+
+import { CreateNotification } from "./consumeControllers/createNotificationController.js";
 
 export {
     UserAuth as  UserAuthController,
@@ -43,5 +47,8 @@ export {
     UserEditProfile as UserEditProfileController,
     UserVerifyProfileOtp as UserVerifyProfileOtpController,
     UserEditEmail as UserEditEmailController,
-    UserResendProfileOtp as UserResendProfileOtpController
+    UserResendProfileOtp as UserResendProfileOtpController,
+    CreateNotification as CreateNotificationController,
+    UserGetNotifications as UserGetNotificationsController,
+    UserGetUnread as UserGetUnreadController
 }
