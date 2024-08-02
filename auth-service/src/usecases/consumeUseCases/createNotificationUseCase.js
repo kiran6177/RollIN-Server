@@ -1,4 +1,4 @@
-import { sendNotification } from "../../socket.js";
+import { sendTheatreNotification, sendUserNotification } from "../../socket.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 
@@ -49,8 +49,11 @@ export class NotificationCreate{
                 orderdata: notification?.orderdata ? updatedOrderData : notification?.orderdata,
                 moviedata: notification?.moviedata ? updatedMovieData : notification?.moviedata
             }
-            
-            sendNotification(notificationWithMovieImage,notificationWithMovieImage.reciever_id.toString())
+            if(notification.type === "" || notification?.type === ""){
+                sendUserNotification(notificationWithMovieImage,notificationWithMovieImage.reciever_id.toString())
+            }else{
+                sendTheatreNotification(notificationWithMovieImage,notificationWithMovieImage.reciever_id.toString())
+            }
             return true
         } catch (err) {
             const error = new Error()

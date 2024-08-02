@@ -27,3 +27,31 @@ export const scheduleBookingNotification = (date,orderdata)=>{
         console.log(error);
     }
 }
+
+export const scheduleBookingsEndNotification = (date,theatre_id,moviedata,showdata,screendata)=>{
+    try {
+        const dataToPub = {
+            reciever_id:theatre_id,
+            type:'BOOKINGS_ENDED',
+            moviedata,
+            showdata,
+            screendata,
+            createdAt:date
+        }
+        const job = schedule.scheduleJob(date,()=>{
+            try {
+                const kafkaClient = new KafkaService()
+                kafkaClient.produceMessage(NOTIFICATION_TOPIC,{
+                    type:TYPE_NOTIFICATION_CREATED,
+                    value:JSON.stringify(dataToPub)
+                })
+                console.log("JOB EXECUTED AT : ",date);
+            } catch (error) {
+                console.log("ERROR OCCURED ON JOB",error);
+            }
+        })
+        console.log("BOOKINGS ENDING NOTIFICATION SCHEDULED FOR ",date);
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -1,4 +1,4 @@
-export class UserUpdateNotifications{
+export class UpdateNotifications{
     constructor(dependencies){
         this.notificationRepository = new dependencies.Repositories.MongoNotificationRepository()
     }

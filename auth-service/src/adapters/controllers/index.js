@@ -1,20 +1,23 @@
-import { UserAuth  } from "./user/userAuthController.js";
-import { UserLogout } from "./user/logoutController.js";
 import { AdminLogin } from "./admin/adminLoginController.js";
 import { AdminLogout } from "./admin/adminLogoutController.js";
+import { AdminGetUsers } from "./admin/adminGetUsersController.js";
+import { AdminUserBlockUnblock } from "./admin/adminBlockUnBlockController.js";
+import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
+import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
+import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
+
 import { TheatreSignup } from "./theatre/theatreSignupController.js";
 import { TheatreLogout } from "./theatre/theatreLogoutController.js";
 import { TheatreLogin } from "./theatre/theatreLoginController.js";
 import { TheatreProfileComplete } from "./theatre/theatreCompleteProfileController.js";
 import { TheatreOtpVerify } from "./theatre/theatreOtpVerifyController.js";
 import { TheatreResend } from "./theatre/theatreResendOtpController.js";
-import { UserVerifyOtp } from "./user/userVerifyOtpController.js";
-import { AdminGetUsers } from "./admin/adminGetUsersController.js";
-import { AdminUserBlockUnblock } from "./admin/adminBlockUnBlockController.js";
-import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
-import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
-import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
 import { TheatreUpdateProfile } from "./theatre/theatreUpdateProfileController.js";
+import { TheatreGetNotifications } from "./theatre/theatreGetNotificationsController.js";
+
+import { UserAuth  } from "./user/userAuthController.js";
+import { UserLogout } from "./user/logoutController.js";
+import { UserVerifyOtp } from "./user/userVerifyOtpController.js";
 import { UserResendOtp } from "./user/userResendOtpController.js";
 import { UserEditProfile } from "./user/userEditProfileController.js";
 import { UserVerifyProfileOtp } from "./user/userVerifyProfileOtpController.js";
@@ -50,5 +53,6 @@ export {
     UserResendProfileOtp as UserResendProfileOtpController,
     CreateNotification as CreateNotificationController,
     UserGetNotifications as UserGetNotificationsController,
-    UserGetUnread as UserGetUnreadController
+    UserGetUnread as UserGetUnreadController,
+    TheatreGetNotifications as TheatreGetNotificationsController
 }

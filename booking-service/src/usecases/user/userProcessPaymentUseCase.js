@@ -46,6 +46,8 @@ export class UserProcessPayment{
                     backdrop_path,
                     poster_path
                 }
+                console.log("SCHEDULE===============>");
+                //NOTIFY_BEFORE_2_HOURS_OF_SHOW
                 const notifyDate = getShowDate(updatedOrder?.show_date,updatedOrder?.show_time)
                 notifyDate.setHours(notifyDate.getHours() - 2)
                 // const notifyDate = new Date()

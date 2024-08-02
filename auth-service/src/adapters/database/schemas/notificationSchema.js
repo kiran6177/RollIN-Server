@@ -9,7 +9,7 @@ const notificationSchema = new mongoose.Schema({
     },
     type:{
         type:String,
-        enum:['SHOW_ALERT','NEW_RELEASE','ENROLLMENT_ENDED','BOOKINGS_ENDED','MOVIE_REMINDER']
+        enum:['SHOW_ALERT','ENROLLMENT_ENDED','BOOKINGS_ENDED','MOVIE_REMINDER']
     },
     orderdata:{
         type:orderSchema

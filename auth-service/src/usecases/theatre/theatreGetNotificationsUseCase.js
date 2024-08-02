@@ -1,22 +1,23 @@
-import { AwsConfig } from "../../../utils/aws-s3.js";
+import { AwsConfig } from "../../utils/aws-s3.js";
 const MOVIE_OWNER = 'movie';
 
-export class UnreadGet{
+export class TheatreNotificationsGet{
     constructor(dependencies){
         this.notificationRepository = new dependencies.Repositories.MongoNotificationRepository()
-        this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.awsConfig = new AwsConfig()
     }
 
-    async execute(id){
+    async execute({page},{id}){
         try {
-            const notificationsList = await this.notificationRepository.getUnreadNotificationsByReciever(id);
-            console.log(notificationsList);
+            console.log("NOTI",page,id);
+            const pageFrom = page || 1;
+            const LIMIT = 10;
+            const skip = (pageFrom - 1) * LIMIT;
+            const notificationsList = await this.notificationRepository.getNotificationsByRecieverWithPage(id,skip,LIMIT)
             const notificationWithMovieImage = [];
             for(let notificationObj of notificationsList){
                 let notification = notificationObj.toObject()
                 let updatedMovieData = {}
-                let updatedOrderData = {}
                 if(notification?.moviedata){
                     const backdrop_path = await this.awsConfig.getImage(notification?.moviedata?.backdrop_path,MOVIE_OWNER)
                     const poster_path = await this.awsConfig.getImage(notification?.moviedata?.poster_path,MOVIE_OWNER)  
@@ -26,23 +27,9 @@ export class UnreadGet{
                         poster_path
                     }                  
                 }
-                if(notification?.orderdata?.movie){
-                    const backdrop_path = await this.awsConfig.getImage(notification?.orderdata?.movie?.backdrop_path,MOVIE_OWNER)
-                    const poster_path = await this.awsConfig.getImage(notification?.orderdata?.movie?.poster_path,MOVIE_OWNER)
-                    const theatredata = await this.theatreRepository.findTheatreById(notification?.orderdata?.theatre_id) 
-                    updatedOrderData = {
-                        ...notification?.orderdata,
-                        movie:{
-                            ...notification?.orderdata.movie,
-                            backdrop_path,
-                            poster_path
-                        },
-                        theatre_id:theatredata?.name
-                    }
-                }
+                
                 notificationWithMovieImage.push({
                     ...notification,
-                    orderdata: notification?.orderdata ? updatedOrderData : notification?.orderdata,
                     moviedata: notification?.moviedata ? updatedMovieData : notification?.moviedata
                 })
             }
