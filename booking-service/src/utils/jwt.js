@@ -8,7 +8,7 @@ const JWT_REFRESH_TOKEN = process.env.JWT_REFRESH_SECRET;
 
 export const createToken = (data)=>{
     // console.log(JWT_AUTHSECRET);
-    return jwt.sign(data,JWT_AUTHSECRET,{expiresIn:'1m'})
+    return jwt.sign(data,JWT_AUTHSECRET,{expiresIn:'15m'})
 } 
 
 export const createRefreshToken = (data)=>{

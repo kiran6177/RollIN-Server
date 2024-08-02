@@ -1,4 +1,4 @@
-import app from './app.js';
+import server from './app.js';
 import dotenv from 'dotenv'
 
 dotenv.config();
@@ -7,7 +7,7 @@ dotenv.config();
 const PORT = process.env.PORT
 
 const startServer = ()=>{
-    app.listen(PORT,()=>{
+    server.listen(PORT,()=>{
         console.log("Auth Listening on ",PORT);
     })
 }

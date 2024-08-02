@@ -3,6 +3,7 @@ import { GENRES } from "../../config/constants/movie-constants/genres.js";
 import { BOOKING_TOPIC, MOVIE_TOPIC, TYPE_MOVIE_ENROLLED, TYPE_SCREEN_UPDATED } from "../../events/config.js";
 import { AwsConfig } from "../../utils/aws-s3.js";
 import { KafkaService } from '../../events/kafkaclient.js'
+import { scheduleEnrollmentEndNotification } from "../../utils/scheduler.js";
 const MOVIE_OWNER = 'movie';
 const PEOPLE_OWNER = 'people'
 
@@ -139,8 +140,19 @@ export class TheatreMovieEnroll{
                                         value:JSON.stringify(dataToPub)
                                     })
                                 }
-
-                                console.log("IMGDAAAA",dataWithImages);
+                                console.log("SCHEDULE====================>");
+                                //NOTIFY_DATE_SET_TO_10_AM_ON_1_DAY_BEFORE_ENROLL_TO
+                                console.log(enroll_to);
+                                const notifyDate = new Date(enroll_to)
+                                notifyDate.setDate(notifyDate.getDate() - 1);
+                                notifyDate.setHours(10,0,0,0)
+                                const screendata = { 
+                                    screen_id,
+                                    screen_name:isValid?.name,
+                                    movie_id:data?.movie_id
+                                }
+                                console.log(notifyDate,theatreData[0]?._id,data,screendata);
+                                scheduleEnrollmentEndNotification(notifyDate,theatreData[0]?._id,data,screendata)
                                 return dataWithImages;
                             }else{
                                 const error = new Error()

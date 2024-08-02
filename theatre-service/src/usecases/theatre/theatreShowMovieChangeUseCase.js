@@ -1,5 +1,5 @@
 import { UNKNOWN_IMAGE } from "../../config/api.js";
-import { BOOKING_TOPIC, MOVIE_TOPIC, TYPE_MOVIESTATUS_CHANGED, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED } from "../../events/config.js";
+import { BOOKING_TOPIC, MOVIE_TOPIC, NOTIFICATION_TOPIC, TYPE_MOVIESTATUS_CHANGED, TYPE_NOTIFICATION_CREATED, TYPE_SCREEN_UPDATED, TYPE_SHOWMOVIE_ADDED } from "../../events/config.js";
 import { KafkaService } from "../../events/kafkaclient.js";
 import { AwsConfig } from "../../utils/aws-s3.js"
 const MOVIE_OWNER = 'movie';
@@ -9,6 +9,7 @@ export class TheatreShowMovieChange{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
         this.screenRepository = new dependencies.Repositories.MongoScreenRepository()
+        this.reminderRepository = new dependencies.Repositories.MongoReminderRepository()
         this.awsConfig = new AwsConfig()
         this.kafkaClient = new KafkaService()
     }
@@ -39,24 +40,31 @@ export class TheatreShowMovieChange{
                             value:JSON.stringify({screenData:updateShowMovie,showdata})
                         })
                     }
-                    // else{
-                    //     let movie_id ;
-                    //     screenValid.showtimes.forEach(showObj => {
-                    //         if(showObj._id.toString() === showdata._id.toString()){
-                    //             movie_id = showObj.movie_id
-                    //         }
-                    //     });
-                    //     console.log("MOVIEID",movie_id);
-                    //     await this.screenRepository.updateMovieStatusByMovieId(screen_id,movie_id,false)
-                    //     this.kafkaClient.produceMessage(BOOKING_TOPIC,{
-                    //         type:TYPE_MOVIESTATUS_CHANGED,
-                    //         value:JSON.stringify({screen_id,movie_id:movie_id,status:false})
-                    //     })
-                    //     this.kafkaClient.produceMessage(MOVIE_TOPIC,{
-                    //         type:TYPE_MOVIESTATUS_CHANGED,
-                    //         value:JSON.stringify({screen_id,movie_id:movie_id,status:false})
-                    //     })
-                    // }
+                    
+                    //CHECK_FOR_REMINDERS
+                    const movieExist = await this.reminderRepository.findReminderByMovieId(showdata.movie_id);
+                    if(movieExist?.users?.length > 0){
+                        console.log("SEND NOTIFICATION AND DELETE");
+                        const moviedata = updateShowMovie.running_movies.find(movie=>movie.movie_id === showdata.movie_id);
+                        const date = new Date()
+
+                        for(let eachUser of movieExist.users){
+                            const dataToPub = {
+                                reciever_id:eachUser,
+                                type:'MOVIE_REMINDER',
+                                moviedata,
+                                movie_begin:moviedata?.enroll_from,
+                                createdAt:date
+                            }
+                            console.log("WORKED");
+                            this.kafkaClient.produceMessage(NOTIFICATION_TOPIC,{
+                                type:TYPE_NOTIFICATION_CREATED,
+                                value:JSON.stringify(dataToPub)
+                            })
+                        }
+                        await this.reminderRepository.removeReminderById(movieExist?._id)
+                    }
+
                     let dataWithImages = updateShowMovie
                     if(updateShowMovie?.running_movies?.length > 0){
                         let running_movies = []

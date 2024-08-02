@@ -1,49 +1,80 @@
-import { MongoAdminRepository, MongoTheatreRepository, MongoUserRepository } from '../adapters/repositories/index.js'
-import { GoogleUserAuth , AdminLogin ,TheatreSignup, TheatreLogin ,
-     CompleteProfile, TheatreGoogleAuth, VerifyTheatre, TheatreResendOTP,
-      EmailUserAuth, VerifyUserOtp, GetUsers, UserBlockUnblock, GetTheatres,
-       TheatreBlockUnblock, TheatreApprove,
-       TheatreProfileUpdate,
-       ResendOtpUser,
-       UserProfileEdit,
-       VerifyProfileOtp,
-       UserEmailEdit,
-       ResendProfileOtpUser} from '../usecases/index.js'
+import {
+  MongoAdminRepository,
+  MongoNotificationRepository,
+  MongoTheatreRepository,
+  MongoUserRepository,
+} from "../adapters/repositories/index.js";
+
+import {
+  GoogleUserAuth,
+  AdminLogin,
+  TheatreSignup,
+  TheatreLogin,
+  CompleteProfile,
+  TheatreGoogleAuth,
+  VerifyTheatre,
+  TheatreResendOTP,
+  EmailUserAuth,
+  VerifyUserOtp,
+  GetUsers,
+  UserBlockUnblock,
+  GetTheatres,
+  TheatreBlockUnblock,
+  TheatreApprove,
+  TheatreProfileUpdate,
+  ResendOtpUser,
+  UserProfileEdit,
+  VerifyProfileOtp,
+  UserEmailEdit,
+  ResendProfileOtpUser,
+  NotificationCreate,
+  UserNotificationGet,
+  UnreadGet,
+  TheatreNotificationsGet,
+} from "../usecases/index.js";
+
+const ConsumeUseCase = {
+  NotificationCreate,
+};
 
 const UseCase = {
-    GoogleUserAuth,
-    AdminLogin,
-    TheatreSignup,
-    TheatreLogin,
-    CompleteProfile,
-    TheatreGoogleAuth,
-    VerifyTheatre,
-    TheatreResendOTP,
-    EmailUserAuth,
-    VerifyUserOtp,
-    GetUsers,
-    UserBlockUnblock,
-    GetTheatres,
-    TheatreBlockUnblock,
-    TheatreApprove,
-    TheatreProfileUpdate,
-    ResendOtpUser,
-    UserProfileEdit,
-    UserEmailEdit,
-    VerifyProfileOtp,
-    ResendProfileOtpUser
-}
+  GoogleUserAuth,
+  AdminLogin,
+  TheatreSignup,
+  TheatreLogin,
+  CompleteProfile,
+  TheatreGoogleAuth,
+  VerifyTheatre,
+  TheatreResendOTP,
+  EmailUserAuth,
+  VerifyUserOtp,
+  GetUsers,
+  UserBlockUnblock,
+  GetTheatres,
+  TheatreBlockUnblock,
+  TheatreApprove,
+  TheatreProfileUpdate,
+  ResendOtpUser,
+  UserProfileEdit,
+  UserEmailEdit,
+  VerifyProfileOtp,
+  ResendProfileOtpUser,
+  UserNotificationGet,
+  UnreadGet,
+  TheatreNotificationsGet,
+};
 
 const Repositories = {
-    MongoUserRepository,
-    MongoAdminRepository,
-    MongoTheatreRepository
-}
+  MongoUserRepository,
+  MongoAdminRepository,
+  MongoTheatreRepository,
+  MongoNotificationRepository,
+};
 
 const dependencies = {
-    UseCase,
-    Repositories
-}
+  UseCase,
+  Repositories,
+  ConsumeUseCase,
+};
 
-
-export default dependencies
+export default dependencies;

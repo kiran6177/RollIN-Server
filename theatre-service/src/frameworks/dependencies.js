@@ -1,5 +1,5 @@
-import { AddTheatreUseCase, AddUserUseCase, TheatreMovieEnroll, TheatreMovieExtend, TheatreMovieRemove, TheatreScreenAdd, TheatreScreenDataGet, TheatreScreenEdit, TheatreShowMovieChange, TheatreTierEdit, TheatreTierOrderChange, UpdateTheatreUseCase, UpdateUserUseCase, UserQueryTheatre, UserSingleTheatreGet, UserTheatresGet } from '../usecases/index.js'
-import { MongoScreenRepository, MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
+import { AddTheatreUseCase, AddUserUseCase, TheatreMovieEnroll, TheatreMovieExtend, TheatreMovieRemove, TheatreScreenAdd, TheatreScreenDataGet, TheatreScreenEdit, TheatreShowMovieChange, TheatreTierEdit, TheatreTierOrderChange, UpdateTheatreUseCase, UpdateUserUseCase, UserMovieReminderSet, UserQueryTheatre, UserSingleTheatreGet, UserTheatresGet } from '../usecases/index.js'
+import { MongoReminderRepository, MongoScreenRepository, MongoTheatreRepository , MongoUserRepository } from '../adapters/repositories/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -11,7 +11,8 @@ const ConsumeUseCase = {
 const Repositories = {
     MongoTheatreRepository,
     MongoUserRepository,
-    MongoScreenRepository
+    MongoScreenRepository,
+    MongoReminderRepository
 }
 
 const UseCase = {
@@ -26,7 +27,8 @@ const UseCase = {
     TheatreTierOrderChange,
     UserSingleTheatreGet,
     TheatreShowMovieChange,
-    UserQueryTheatre
+    UserQueryTheatre,
+    UserMovieReminderSet
 }
 
 const dependencies = {

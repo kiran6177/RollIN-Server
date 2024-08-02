@@ -1,4 +1,5 @@
 import { AwsConfig } from "../../../utils/aws-s3.js";
+const THEATRE_OWNER = 'theatre'
 
 export class TheatreUpdateProfile{
     constructor(dependencies){
@@ -23,7 +24,7 @@ export class TheatreUpdateProfile{
                         let imagesdata = []
                         if(req.theatre?.images && req.theatre?.images.length > 0){
                             for(let image of req.theatre?.images){
-                                const url = await this.awsConfig.getTheatreImage(image)
+                                const url = await this.awsConfig.getImage(image,THEATRE_OWNER)
                                 if(url){
                                     imagesdata.push({url,filename:image})
                                 }else{

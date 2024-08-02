@@ -1,3 +1,5 @@
+import { scheduleBookingsEndNotification } from "../../utils/scheduler.js";
+
 export class TheatreShowCancellation{
     constructor(dependencies){
         this.theatreRepository = new dependencies.Repositories.MongoTheatreRepository()
@@ -49,7 +51,7 @@ export class TheatreShowCancellation{
                             hasFilledDates = dates.size;
                         }
                     }
-                    if(hasBookings && hasData){ //DELETE SHOWS BEYOND BOOKED DATE
+                    if(hasBookings && hasData){ //DELETE SHOWS BELOW BOOKED DATE
                         console.log("BOOKINGS EXCEPT DELETE",maxdate);
                         for(let doc of bookingData){
                             if(maxdate < doc.reserved_date){
@@ -57,6 +59,23 @@ export class TheatreShowCancellation{
                                 await this.reservationRepository.removeShowBookingsBasedOnDate(_id,doc.reserved_date)
                             }
                         }
+                        console.log("SCHEDULE==================>");
+                        //SCHEDULED_FOR_ENDING_DATE_TO_NOTIFY_BOOKING_ENDING(10:00AM)
+                        const notifyDate = new Date(maxdate);//maxdate
+                        notifyDate.setHours(10,0,0,0)
+                        const screendata = {
+                            screen_id,
+                            screen_name:screenValid?.name,
+                            movie_id:bookingData[0]?.movie_id
+                        }
+                        const showdata = {
+                            show_time:showtime,
+                            show_id:bookingData[0]?.show_id,
+                            movie_id:bookingData[0]?.movie_id
+                        }
+                        const enrolledMovie = await this.screenRepository.findMovieEnrolled(screen_id,bookingData[0]?.movie_id.toString());
+                        console.log(notifyDate,bookingData[0]?.theatre_id,enrolledMovie[0]?.running_movies,showdata,screendata);
+                        scheduleBookingsEndNotification(notifyDate,bookingData[0]?.theatre_id,enrolledMovie[0]?.running_movies,showdata,screendata)
                     }else{ //DELETE ALL UNBOOKED SHOWS
                         console.log("UNBOOOKED DELETE");
                         for(let doc of bookingData){
