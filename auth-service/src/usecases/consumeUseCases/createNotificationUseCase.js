@@ -49,7 +49,7 @@ export class NotificationCreate{
                 orderdata: notification?.orderdata ? updatedOrderData : notification?.orderdata,
                 moviedata: notification?.moviedata ? updatedMovieData : notification?.moviedata
             }
-            if(notification.type === "" || notification?.type === ""){
+            if(notification.type === "SHOW_ALERT" || notification?.type === "MOVIE_REMINDER"){
                 sendUserNotification(notificationWithMovieImage,notificationWithMovieImage.reciever_id.toString())
             }else{
                 sendTheatreNotification(notificationWithMovieImage,notificationWithMovieImage.reciever_id.toString())
