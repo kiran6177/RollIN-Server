@@ -12,13 +12,16 @@ export class TheatreScreenBookingsGet{
 
     async execute({page,screen_id},{id}){
         try {
-            console.log("THEATRE",screen_id,id);
+            console.log("THEATRE",screen_id,id,page);
             let pageOf = page ? page : 1 
             const limit = 20;
-            const skip = (pageOf - 1) * limit;
+            const skip = (parseInt(pageOf) - 1) * limit;
             const date = new Date()
             date.setUTCHours(0,0,0,0)
+            console.log("SKIP",skip,date,limit);
             const showsByScreen = await this.reservationRepository.getShowsByTheatreIdAndScreenId(id,screen_id,date,limit,skip);
+            console.log("LIST",showsByScreen);
+            
             const updatedShows = []
             for(let show of showsByScreen){
                 let movie_data;
@@ -34,7 +37,6 @@ export class TheatreScreenBookingsGet{
                     movie_data
                 })
             }
-            console.log(updatedShows);
             console.log(showsByScreen.length);
             return updatedShows
         } catch (err) {

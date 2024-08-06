@@ -122,7 +122,7 @@ export class MongoReservationRepository extends ReservationRespository{
     }
     async getShowsByTheatreIdAndScreenId(id,screen_id,date,limit,skip){
         try {
-            return await ReservationModel.aggregate([{$match:{$and:[{screen_id:new ObjectId(screen_id)},{theatre_id:new ObjectId(id)},{reserved_date:{$gte:date}}]}},{$sort:{reserved_date:1}},{$skip:skip},{$limit:limit},{$lookup:{from:'screens',localField:'screen_id',foreignField:'_id',as:'screenData'}}])
+            return await ReservationModel.aggregate([{$match:{$and:[{screen_id:new ObjectId(screen_id)},{theatre_id:new ObjectId(id)},{reserved_date:{$gte:date}}]}},{$sort:{reserved_date:1,_id:1}},{$skip:skip},{$limit:limit},{$lookup:{from:'screens',localField:'screen_id',foreignField:'_id',as:'screenData'}}])
         } catch (err) {
             console.log(err);
             const error = new Error();
