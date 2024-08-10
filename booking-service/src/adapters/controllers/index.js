@@ -13,6 +13,9 @@ import { TheatreGetScreenBookings } from "./theatre/theatreGetScreenBookingsCont
 import { TheatreGetSingleShow } from "./theatre/theatreGetSingleShowController.js";
 import { TheatreGetCompleteOrders } from "./theatre/theatreGetCompleteOrdersController.js";
 import { TheatreBookSeat } from "./theatre/theatreBookSeatController.js";
+import { TheatreGetScreenCollection } from "./theatre/theatreGetScreenCollection.js";
+import { TheatreGetMovieCollection } from "./theatre/theatreGetMovieCollectionController.js";
+import { TheatreGetLatestOrders } from "./theatre/theatreGetLatestOrdersController.js";
 
 import { UserGetShowData } from "./user/userGetShowDataController.js";
 import { UserGetSingleShowData } from "./user/userGetSingleShowController.js";
@@ -23,6 +26,8 @@ import { UserPaymentProcess } from "./user/userPaymentProcessController.js";
 import { UserGetOrders } from "./user/userGetOrdersController.js";
 import { UserGetUpcomingMovies } from "./user/userGetUpcomingMoviesController.js";
 import { UserGetRecommendedMovies } from "./user/userGetRecommendedMoviesController.js";
+
+import { AdminGetHighGrossMovies } from "./admin/adminGetHighGrossMoviesController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -47,5 +52,9 @@ export {
     TheatreGetCompleteOrders as TheatreGetCompleteOrdersController,
     TheatreBookSeat as TheatreBookSeatController,
     UserGetUpcomingMovies as UserGetUpcomingMoviesController,
-    UserGetRecommendedMovies as UserGetRecommendedMoviesController
+    UserGetRecommendedMovies as UserGetRecommendedMoviesController,
+    TheatreGetScreenCollection as TheatreGetScreenCollectionController,
+    TheatreGetMovieCollection as TheatreGetMovieCollectionController,
+    TheatreGetLatestOrders as TheatreGetLatestOrdersController,
+    AdminGetHighGrossMovies as AdminGetHighGrossMoviesController
 }

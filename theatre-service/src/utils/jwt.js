@@ -21,7 +21,6 @@ export const verifyAccessToken = (token)=>{
         if(err){
             return false
         }
-        console.log(decoded);
         return decoded
         
     })
@@ -32,7 +31,6 @@ export const verifyRefreshToken = (token)=>{
         if(err){
             return false
         }
-        console.log(decoded);
         return decoded
         
     })

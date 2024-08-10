@@ -13,6 +13,9 @@ import { TheatreScreenBookingsGet } from "./theatre/theatreGetScreenBookingsUseC
 import { TheatreSingleShowGet } from "./theatre/theatreGetSingleShowUseCase.js";
 import { TheatreCompleteOrdersGet } from "./theatre/theatreGetCompleteOrdersUseCase.js";
 import { TheatreSeatBook } from "./theatre/theatreSeatBookUseCase.js";
+import { TheatreScreenCollectionGet } from "./theatre/theatreGetScreenCollectionUseCase.js";
+import { TheatreMovieCollectionGet } from "./theatre/theatreGetMovieCollectionUseCase.js";
+import { TheatreLatestOrdersGet } from "./theatre/theatreGetLatestOrdersUseCase.js";
 
 import { UserShowDataGet } from "./user/userGetShowDataUseCase.js";
 import { UserSingleShowDataGet } from "./user/userGetSingleShowUseCase.js";
@@ -23,6 +26,8 @@ import { UserProcessPayment } from "./user/userProcessPaymentUseCase.js";
 import { UserOrdersGet } from "./user/userGetOrdersUseCase.js";
 import { UserUpcomingMoviesGet } from "./user/userGetUpcomingMoviesUseCase.js";
 import { UserRecommendedMoviesGet } from "./user/userGetRecommendedMoviesUseCase.js";
+
+import { AdminHighGrossMoviesGet } from "./admin/adminGetHighGrossMoviesUseCase.js";
 
 export {
     AddUserUseCase,
@@ -47,5 +52,9 @@ export {
     TheatreSeatBook,
     UserUpcomingMoviesGet,
     UserRecommendedMoviesGet,
-    UpdateMovieStatusUseCase
+    UpdateMovieStatusUseCase,
+    TheatreScreenCollectionGet,
+    TheatreMovieCollectionGet,
+    TheatreLatestOrdersGet,
+    AdminHighGrossMoviesGet
 }

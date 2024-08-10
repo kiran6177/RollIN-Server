@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthHandler } from '../middlewares/auth-handler.js'
 const bookingRouter = express.Router();
 import dependencies from '../../frameworks/dependencies.js';
-import { TheatreBookSeatController, TheatreGetCompleteOrdersController, TheatreGetScreenBookingsController, TheatreGetShowBookingController, TheatreGetSingleShowController, TheatreShowCancellationController, UserGetOrdersController, UserGetRecommendedMoviesController, UserGetShowByMovieController, UserGetShowDataController, UserGetSingleShowDataController, UserGetUpcomingMoviesController, UserPaymentInitiateController, UserPaymentProcessController, UserSeatReservationController } from '../controllers/index.js';
+import { AdminGetHighGrossMoviesController, TheatreBookSeatController, TheatreGetCompleteOrdersController, TheatreGetLatestOrdersController, TheatreGetMovieCollectionController, TheatreGetScreenBookingsController, TheatreGetScreenCollectionController, TheatreGetShowBookingController, TheatreGetSingleShowController, TheatreShowCancellationController, UserGetOrdersController, UserGetRecommendedMoviesController, UserGetShowByMovieController, UserGetShowDataController, UserGetSingleShowDataController, UserGetUpcomingMoviesController, UserPaymentInitiateController, UserPaymentProcessController, UserSeatReservationController } from '../controllers/index.js';
 
 const controllers = {
     theatreGetShowBookingController : new TheatreGetShowBookingController(dependencies),
@@ -19,7 +19,11 @@ const controllers = {
     theatreGetCompleteOrdersController : new TheatreGetCompleteOrdersController(dependencies),
     theatreBookSeatController : new TheatreBookSeatController(dependencies),
     userGetUpcomingMoviesController : new UserGetUpcomingMoviesController(dependencies),
-    userGetRecommendedMoviesController : new UserGetRecommendedMoviesController(dependencies)
+    userGetRecommendedMoviesController : new UserGetRecommendedMoviesController(dependencies),
+    theatreGetScreenCollectionController : new TheatreGetScreenCollectionController(dependencies),
+    theatreGetMovieCollectionController : new TheatreGetMovieCollectionController(dependencies),
+    theatreGetLatestOrdersController : new TheatreGetLatestOrdersController(dependencies),
+    adminGetHighGrossMoviesController : new AdminGetHighGrossMoviesController(dependencies)
 }
 
 bookingRouter.post('/getshowbookingstatus',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetShowBookingController.getShowBooking(req,res,next)})
@@ -37,5 +41,8 @@ bookingRouter.post('/getcompletebookings',AuthHandler.isTheatreLogin,(req,res,ne
 bookingRouter.post('/bookseat',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreBookSeatController.bookSeat(req,res,next)})
 bookingRouter.post('/getupcomingmovies',AuthHandler.isPassWithin,(req,res,next)=>{controllers.userGetUpcomingMoviesController.getUpcomingMovies(req,res,next)})
 bookingRouter.post('/getrecommendedmovies',AuthHandler.isPassWithin,(req,res,next)=>{controllers.userGetRecommendedMoviesController.getRecommendedMovies(req,res,next)})
-
+bookingRouter.post('/getscreencollection',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetScreenCollectionController.getScreenCollection(req,res,next)})
+bookingRouter.get('/getmoviecollection',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetMovieCollectionController.getMovieCollection(req,res,next)})
+bookingRouter.get('/getlatestorders',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetLatestOrdersController.getLatestOrders(req,res,next)})
+bookingRouter.get('/gethighgrossmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetHighGrossMoviesController.getHighGrossMovies(req,res,next)})
 export default bookingRouter

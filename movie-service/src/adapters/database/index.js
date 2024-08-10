@@ -11,5 +11,5 @@ export {
     AdminModel,
     PersonModel,
     MovieModel,
-    ReviewModel
+    ReviewModel 
 }

@@ -5,6 +5,7 @@ import { AdminUserBlockUnblock } from "./admin/adminBlockUnBlockController.js";
 import { AdminGetTheatres } from "./admin/adminGetTheatresController.js";
 import { AdminTheatreBlockUnblock } from "./admin/adminBlockUnblockTheatre.js";
 import { AdminTheatreApprove } from "./admin/adminApproveTheatreController.js";
+import { AdminGetRegistrationDetails } from "./admin/adminGetRegistrationDetailsController.js";
 
 import { TheatreSignup } from "./theatre/theatreSignupController.js";
 import { TheatreLogout } from "./theatre/theatreLogoutController.js";
@@ -54,5 +55,6 @@ export {
     CreateNotification as CreateNotificationController,
     UserGetNotifications as UserGetNotificationsController,
     UserGetUnread as UserGetUnreadController,
-    TheatreGetNotifications as TheatreGetNotificationsController
+    TheatreGetNotifications as TheatreGetNotificationsController,
+    AdminGetRegistrationDetails as AdminGetRegistrationDetailsController
 }

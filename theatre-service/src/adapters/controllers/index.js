@@ -17,6 +17,7 @@ import { TheatreExtendMovie } from "./theatre/theatreExtendMovieController.js";
 import { TheatreEditTier } from "./theatre/theatreEditTierController.js";
 import { TheatreChangeTierOrder } from "./theatre/theatreChangeTierOrderController.js";
 import { TheatreChangeShowMovie } from "./theatre/theatreChangeShowMovieController.js";
+import { TheatreGetRunningMovies } from "./theatre/theatreGetRunningMoviesController.js";
 
 export {
     UserCreatedConsume as UserCreatedConsumeController,
@@ -35,5 +36,6 @@ export {
     UserGetSingleTheatre as UserGetSingleTheatreController,
     TheatreChangeShowMovie as TheatreChangeShowMovieController,
     UserTheatreQuery as UserTheatreQueryController,
-    UserSetMovieReminder as UserSetMovieReminderController
+    UserSetMovieReminder as UserSetMovieReminderController,
+    TheatreGetRunningMovies as TheatreGetRunningMoviesController
 }

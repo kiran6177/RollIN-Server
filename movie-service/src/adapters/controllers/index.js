@@ -13,6 +13,7 @@ import { AdminGetMoviesFromDB } from "./admin/adminGetMovieFromDBController.js";
 import { AdminGetPersonsFromDB } from "./admin/adminGetPersonsController.js";
 import { AdminDisableMovie } from "./admin/adminDisableMovieController.js";
 import { AdminEnableMovie } from "./admin/adminEnableMovieController.js";
+import { AdminGetRecentMovies } from "./admin/adminGetRecentMoviesController.js";
 
 import { UserGetBannerMovies } from "./user/userGetBannerMoviesController.js";
 import { UserGetMoviesByGenre } from "./user/userGetMoviesByGenreController.js";
@@ -52,5 +53,6 @@ export {
     UserMovieQuery as UserMovieQueryController,
     UserAddReview as UserAddReviewController,
     UserGetReview as UserGetReviewController,
-    UserLikeUnlikeReview as UserLikeUnlikeReviewController
+    UserLikeUnlikeReview as UserLikeUnlikeReviewController,
+    AdminGetRecentMovies as AdminGetRecentMoviesController
 }

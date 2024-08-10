@@ -16,10 +16,14 @@ class UserRepository{
     async updateUserById(){
         throw new Error('updateUserById not implemented!!');
     }
+    async getUsersCountByDate(){
+        throw new Error('getUsersCountByDate not implemented!!');
+    }
 }
 
 export class MongoUserRepository extends UserRepository{
     async createUser(userData){
+        userData.createdAt = new Date()
         return await UserModel.create(userData);
     }
     async findUserByEmail(email){
@@ -54,5 +58,15 @@ export class MongoUserRepository extends UserRepository{
             throw error
         }
     }
-
+    async getUsersCountByDate(startDate,endDate){
+        try {
+            return await UserModel.aggregate([{$match:{createdAt:{$gte:startDate,$lte:endDate}}},{$count:'totalCount'}]) 
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
 }

@@ -13,6 +13,7 @@ import { AdminMoviesFromDBGet } from "./admin/adminGetMoviesFromDBUseCase.js";
 import { AdminPersonsFromDBGet } from "./admin/adminGetPersonsUseCase.js";
 import { AdminMovieDisable } from "./admin/adminDisableMovieUseCase.js";
 import { AdminMovieEnable } from "./admin/adminEnableMovieUseCase.js";
+import { AdminRecentMoviesGet } from "./admin/adminGetRecentMoviesUseCase.js";
 
 import { UserBannerMoviesGet } from "./user/userGetBannerMoviesUseCase.js";
 import { UserMoviesByGenreGet } from "./user/userGetMoviesByGenreUseCase.js";
@@ -52,5 +53,6 @@ export {
     UserQueryMovie,
     UserReviewAdd,
     UserReviewGet,
-    UserReviewLikeUnlike
+    UserReviewLikeUnlike,
+    AdminRecentMoviesGet
 } 

@@ -39,6 +39,9 @@ class MovieRepository{
     async getMovieByQuery(){
         throw new Error('getMovieByQuery not implemented')
     }
+    async getRecentMoviesByLimit(){
+        throw new Error('getRecentMoviesByLimit not implemented')
+    }
 }
 
 export class MongoMovieRepository extends MovieRepository{
@@ -106,7 +109,7 @@ export class MongoMovieRepository extends MovieRepository{
         try {
             const {page,languages,genres,search} = filters;
             console.log(languages);
-            console.log(genres);
+            console.log("ff",genres);
             let filterQuery = [];
             if(!search){
                 filterQuery.push({isDisabled:false})
@@ -227,6 +230,17 @@ export class MongoMovieRepository extends MovieRepository{
     async getMovieByQuery(query){
         try {
             return await MovieModel.aggregate([{$match:{title:{$regex:new RegExp(query,'i')}}}])
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getRecentMoviesByLimit(limit){
+        try {
+            return await MovieModel.aggregate([{$sort:{createdAt:-1}},{$limit:limit}])
         } catch (err) {
             console.log(err);
             const error = new Error();
