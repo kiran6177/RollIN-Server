@@ -17,6 +17,7 @@ import { TheatreMovieExtend } from "./theatre/theatreExtendMovieUseCase.js";
 import { TheatreTierEdit } from "./theatre/theatreEditTierUseCase.js";
 import { TheatreTierOrderChange } from "./theatre/theatreChangeTierOrderUseCase.js";
 import { TheatreShowMovieChange } from "./theatre/theatreShowMovieChangeUseCase.js";
+import { TheatreRunningMoviesGet } from "./theatre/theatreGetRunningMoviesUseCase.js";
 
 export {
     AddUserUseCase,
@@ -35,5 +36,6 @@ export {
     UserSingleTheatreGet,
     TheatreShowMovieChange,
     UserQueryTheatre,
-    UserMovieReminderSet
+    UserMovieReminderSet,
+    TheatreRunningMoviesGet
 }

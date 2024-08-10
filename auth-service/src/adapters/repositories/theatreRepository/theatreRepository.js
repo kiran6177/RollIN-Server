@@ -16,12 +16,16 @@ class TheatreRepository{
     async googleLogin(){
         throw new Error('googleLogin not implemented')
     }
+    async getTheatresCountByDate(){
+        throw new Error('getTheatresCountByDate not implemented')
+    }
 }
 
 export class MongoTheatreRepository extends TheatreRepository{
 
     async createTheatre(data){
         try {
+            data.createdAt = new Date()
             const theatre = new TheatreModel(data)
             return await theatre.save();
         } catch (err) {
@@ -55,6 +59,17 @@ export class MongoTheatreRepository extends TheatreRepository{
     async updateTheatreById(id,data){
         try {
             return await TheatreModel.findByIdAndUpdate({_id:id},{$set:data},{new:true}) 
+        } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
+    async getTheatresCountByDate(startDate,endDate){
+        try {
+            return await TheatreModel.aggregate([{$match:{createdAt:{$gte:startDate,$lte:endDate}}},{$count:'totalCount'}]) 
         } catch (err) {
             console.log(err);
             const error = new Error();

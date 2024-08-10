@@ -14,5 +14,6 @@ export class Movie{
         this.poster_path = movie.poster_path
         this.cast = movie.cast
         this.crew = movie.crew
+        this.createdAt = movie.createdAt
     }
 }

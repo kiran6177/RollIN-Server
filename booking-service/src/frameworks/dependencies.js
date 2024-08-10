@@ -1,5 +1,5 @@
 import { MongoTheatreRepository, MongoUserRepository , MongoScreenRepository, MongoReservationRepository, MongoOrderRepository} from '../adapters/repositories/index.js'
-import { AddScreenUseCase, AddTheatreUseCase, AddUserUseCase, ShowAddedUseCase, TheatreCompleteOrdersGet, TheatreScreenBookingsGet, TheatreSeatBook, TheatreShowBookingGet, TheatreShowCancellation, TheatreSingleShowGet, UpdateMovieStatusUseCase, UpdateScreenUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserInitiatePayment, UserOrdersGet, UserProcessPayment, UserRecommendedMoviesGet, UserReserveSeat, UserShowByMovieGet, UserShowDataGet, UserSingleShowDataGet, UserUpcomingMoviesGet } from '../usecases/index.js'
+import { AddScreenUseCase, AddTheatreUseCase, AddUserUseCase, AdminHighGrossMoviesGet, ShowAddedUseCase, TheatreCompleteOrdersGet, TheatreLatestOrdersGet, TheatreMovieCollectionGet, TheatreScreenBookingsGet, TheatreScreenCollectionGet, TheatreSeatBook, TheatreShowBookingGet, TheatreShowCancellation, TheatreSingleShowGet, UpdateMovieStatusUseCase, UpdateScreenUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserInitiatePayment, UserOrdersGet, UserProcessPayment, UserRecommendedMoviesGet, UserReserveSeat, UserShowByMovieGet, UserShowDataGet, UserSingleShowDataGet, UserUpcomingMoviesGet } from '../usecases/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -35,7 +35,11 @@ const UseCase = {
     TheatreCompleteOrdersGet,
     TheatreSeatBook,
     UserUpcomingMoviesGet,
-    UserRecommendedMoviesGet
+    UserRecommendedMoviesGet,
+    TheatreScreenCollectionGet,
+    TheatreMovieCollectionGet,
+    TheatreLatestOrdersGet,
+    AdminHighGrossMoviesGet
 }
 
 const dependencies = {

@@ -307,7 +307,6 @@ export class AuthHandler{
                             throw error
                         }else{
                             req.theatre = decoded
-                            console.log("decInTheatre",req.theatre);
                             next()
                         }
                     }else{
@@ -321,11 +320,9 @@ export class AuthHandler{
                         const theatreRefreshToken = req.cookies['theatreRefreshToken'];
                         if(theatreRefreshToken){
                             const decoded = await verifyRefreshToken(theatreRefreshToken);
-                            console.log("REfresh",decoded);
                             if(decoded){
                                 if(decoded.role === 'THEATRE'){
                                     const isAllowed = await theatreRepository.findTheatreById(decoded.id)
-                                    console.log(isAllowed);
                                     if(isAllowed){
                                         if(isAllowed.isBlocked || !isAllowed.isVerified){
                                             const error = new Error();
@@ -386,11 +383,9 @@ export class AuthHandler{
                     const theatreRefreshToken = req.cookies['theatreRefreshToken'];
                     if(theatreRefreshToken){
                         const decoded = await verifyRefreshToken(theatreRefreshToken);
-                        console.log("REfresh",decoded);
                         if(decoded){
                             if(decoded.role === 'THEATRE'){
                                 const isAllowed = await theatreRepository.findTheatreById(decoded.id)
-                                console.log(isAllowed);
                                 if(isAllowed){
                                     if(isAllowed.isBlocked || !isAllowed.isVerified){
                                         const error = new Error();

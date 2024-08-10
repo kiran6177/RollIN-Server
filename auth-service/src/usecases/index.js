@@ -4,6 +4,7 @@ import { UserBlockUnblock } from "./admin/adminUserBlockUnBlockUseCase.js";
 import { GetTheatres } from "./admin/adminGetTheatresUseCase.js";
 import { TheatreBlockUnblock } from "./admin/adminTheatreBlockUnblockUseCase.js";
 import { TheatreApprove } from "./admin/adminTheatreApproveUseCase.js";
+import { AdminRegistrationDetailsGet } from "./admin/adminGetRegistrationDetailsUseCase.js";
 
 import { TheatreSignup } from "./theatre/theatreSignupUseCase.js";
 import { TheatreLogin } from "./theatre/theatreLoginUseCase.js";
@@ -55,5 +56,6 @@ export {
     UserNotificationGet,
     UnreadGet,
     UpdateNotifications,
-    TheatreNotificationsGet
+    TheatreNotificationsGet,
+    AdminRegistrationDetailsGet
 }

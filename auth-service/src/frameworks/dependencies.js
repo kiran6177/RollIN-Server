@@ -31,6 +31,7 @@ import {
   UserNotificationGet,
   UnreadGet,
   TheatreNotificationsGet,
+  AdminRegistrationDetailsGet,
 } from "../usecases/index.js";
 
 const ConsumeUseCase = {
@@ -62,6 +63,7 @@ const UseCase = {
   UserNotificationGet,
   UnreadGet,
   TheatreNotificationsGet,
+  AdminRegistrationDetailsGet
 };
 
 const Repositories = {

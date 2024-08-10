@@ -118,6 +118,7 @@ export class UserMoviesByGenreGet{
                         })
                     })
                 }
+                console.log("GRNRELOC",genreLocFiltered);
                 
                 if(moviesOutput.length < 4){
                     if(genreLocFiltered?.length > 0){

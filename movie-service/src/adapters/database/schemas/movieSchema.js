@@ -72,6 +72,10 @@ const movieSchema = new mongoose.Schema({
     isAssigned:{
         type:Boolean,
         default:false
+    },
+    createdAt:{
+        type:Date,
+        required:true
     }
 })
 
