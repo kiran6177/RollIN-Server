@@ -83,9 +83,7 @@ export class UserInitiatePayment {
                         movie = rest;
                       }
                     }
-                    console.log("MOV",movie);
-                    console.log("TDATA",Object.values(tierData));
-                    console.log("AMOUNT",billing_amount);
+
                     const data = {
                       order_id,
                       attachment_details:{

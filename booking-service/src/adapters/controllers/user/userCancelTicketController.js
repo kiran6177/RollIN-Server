@@ -1,19 +1,19 @@
 import { AwsConfig } from "../../../utils/aws-s3.js";
 const USER_OWNER = 'user'
 
-export class UserGetOrders{
+export class UserCancelTicket{
     constructor(dependencies){
-        this.userGetOrdersUseCase = new dependencies.UseCase.UserOrdersGet(dependencies)
+        this.userCancelTicketUseCase = new dependencies.UseCase.UserTicketCancel(dependencies)
         this.awsConfig = new AwsConfig()
     }
 
-    async getOrders(req,res,next){
+    async cancelTicket(req,res,next){
         try {
-            const resultData = await this.userGetOrdersUseCase.execute(req.body,req?.user);
+            const resultData = await this.userCancelTicketUseCase.execute(req.body,req?.user);
             const dataToFrontend = {
                 resultData,
             }
-            if(req?.newUserToken){
+            if(req?.newUserToken !== null ){
                 const image = await this.awsConfig.getImage(req.user?.image,USER_OWNER)
                 dataToFrontend.newUserToken = req.newUserToken;
                 dataToFrontend.newUserData = {...req.user,image};

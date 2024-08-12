@@ -125,6 +125,15 @@ const orderSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    refund_id:{
+        type:String,
+        default:null
+    },
+    refund_status:{
+        type:String,
+        enum:['NOT_INITIATED','REFUNDED','PROCESSING'],
+        default:'NOT_INITIATED'
+    },
     payment_session_id:{
         type:String,
         default:null

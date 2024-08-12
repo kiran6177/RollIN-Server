@@ -11,6 +11,9 @@ class OrderRepository{
     async findOrderByOrderId(){
         throw new Error('findOrderByOrderId not implemented')
     }
+    async findOrderById(){
+        throw new Error('findOrderById not implemented')
+    }
     async removeOrderById(){
         throw new Error('removeOrderById not implemented')
     }
@@ -68,6 +71,17 @@ export class MongoOrderRepository extends OrderRepository{
             throw error
         }
     }
+    async findOrderById(id){
+        try {
+            return await OrderModel.findById({_id:id})
+            } catch (err) {
+            console.log(err);
+            const error = new Error();
+            error.statusCode = 500;
+            error.reasons = [err.message]
+            throw error
+        }
+    }
     async removeOrderById(id){
         try {
             return await OrderModel.findByIdAndDelete({_id:id})
@@ -103,7 +117,7 @@ export class MongoOrderRepository extends OrderRepository{
     } 
     async getCollectionByScreenInRange(screen_id,startDate,endDate){
         try {
-            return await OrderModel.aggregate([{$match:{'screendata.screen_id':screen_id,createdAt:{$gte:startDate,$lte:endDate}}},{$group:{_id:null,totalAmount:{$sum:'$billing_amount'}}},{$project:{_id:0,totalAmount:1}}])
+            return await OrderModel.aggregate([{$match:{'screendata.screen_id':screen_id,refund_id:null,createdAt:{$gte:startDate,$lte:endDate}}},{$group:{_id:null,totalAmount:{$sum:'$billing_amount'}}},{$project:{_id:0,totalAmount:1}}])
             } catch (err) {
             console.log(err);
             const error = new Error();
@@ -114,7 +128,7 @@ export class MongoOrderRepository extends OrderRepository{
     } 
     async getCollectionByMovie(theatre_id,movie_id){
         try {
-            return await OrderModel.aggregate([{$match:{theatre_id:new ObjectId(theatre_id),'movie.movie_id':movie_id}},{$group:{_id:null,totalAmount:{$sum:'$billing_amount'}}},{$project:{_id:0,totalAmount:1}}])
+            return await OrderModel.aggregate([{$match:{theatre_id:new ObjectId(theatre_id),refund_id:null,'movie.movie_id':movie_id}},{$group:{_id:null,totalAmount:{$sum:'$billing_amount'}}},{$project:{_id:0,totalAmount:1}}])
             } catch (err) {
             console.log(err);
             const error = new Error();
@@ -125,7 +139,7 @@ export class MongoOrderRepository extends OrderRepository{
     } 
     async getOrdersByTheatreId(theatre_id,LIMIT){
         try {
-            return await OrderModel.aggregate([{$match:{theatre_id:new ObjectId(theatre_id)}},{$sort:{createdAt:-1}},{$limit:LIMIT}])
+            return await OrderModel.aggregate([{$match:{theatre_id:new ObjectId(theatre_id),refund_id:null}},{$sort:{createdAt:-1}},{$limit:LIMIT}])
             } catch (err) {
             console.log(err);
             const error = new Error();

@@ -43,4 +43,26 @@ export class CashfreeClient{
             console.log(error);
         }
     }
+
+    async createRefund(order_id,refund_id,refund_amount){
+        try {
+            const request = {
+                "refund_id": refund_id,
+                "refund_amount": refund_amount
+            }
+            const response = await Cashfree.PGOrderCreateRefund("2022-09-01", order_id, request)
+            return response?.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getRefundStatus(refund_id,order_id){
+        try {
+            const response = await Cashfree.PGOrderFetchRefund("2022-09-01", order_id , refund_id)
+            return response.data
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

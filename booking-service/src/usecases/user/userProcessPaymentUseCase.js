@@ -18,6 +18,12 @@ export class UserProcessPayment{
     async execute({order_id},{id}){
         try{        
             console.log("HI",order_id,id);
+            if(!order_id){
+                const error = new Error()
+                error.statusCode = 400;
+                error.reasons = ['Invalid input data!!'];
+                throw error;
+            }
             const response = await this.cashfreeClient.getOrderStatus(order_id)
             console.log(response);
             const orderData = await this.orderRepository.findOrderByOrderId(order_id)

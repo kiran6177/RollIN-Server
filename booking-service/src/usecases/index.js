@@ -26,6 +26,7 @@ import { UserProcessPayment } from "./user/userProcessPaymentUseCase.js";
 import { UserOrdersGet } from "./user/userGetOrdersUseCase.js";
 import { UserUpcomingMoviesGet } from "./user/userGetUpcomingMoviesUseCase.js";
 import { UserRecommendedMoviesGet } from "./user/userGetRecommendedMoviesUseCase.js";
+import { UserTicketCancel } from "./user/userCancelTicketUseCase.js";
 
 import { AdminHighGrossMoviesGet } from "./admin/adminGetHighGrossMoviesUseCase.js";
 
@@ -56,5 +57,6 @@ export {
     TheatreScreenCollectionGet,
     TheatreMovieCollectionGet,
     TheatreLatestOrdersGet,
-    AdminHighGrossMoviesGet
+    AdminHighGrossMoviesGet,
+    UserTicketCancel
 }
