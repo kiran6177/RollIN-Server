@@ -63,6 +63,7 @@ export class TheatreMovieEnroll{
                                     genres,
                                     crew,
                                     cast,
+                                    isAssigned:movie?.isAssigned,
                                     video_link:movie?.video_link,
                                     runtime:movie?.runtime,
                                     backdrop_path:movie?.backdrop_path.split('?')[0].split('/').reverse()[0],

@@ -16,6 +16,7 @@ import { TheatreBookSeat } from "./theatre/theatreBookSeatController.js";
 import { TheatreGetScreenCollection } from "./theatre/theatreGetScreenCollection.js";
 import { TheatreGetMovieCollection } from "./theatre/theatreGetMovieCollectionController.js";
 import { TheatreGetLatestOrders } from "./theatre/theatreGetLatestOrdersController.js";
+import { TheatreCollectionReport } from "./theatre/theatreCollectionReportController.js";
 
 import { UserGetShowData } from "./user/userGetShowDataController.js";
 import { UserGetSingleShowData } from "./user/userGetSingleShowController.js";
@@ -58,5 +59,6 @@ export {
     TheatreGetMovieCollection as TheatreGetMovieCollectionController,
     TheatreGetLatestOrders as TheatreGetLatestOrdersController,
     AdminGetHighGrossMovies as AdminGetHighGrossMoviesController,
-    UserCancelTicket as UserCancelTicketController
+    UserCancelTicket as UserCancelTicketController,
+    TheatreCollectionReport as TheatreCollectionReportController
 }

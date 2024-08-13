@@ -1,5 +1,5 @@
 import { MongoTheatreRepository, MongoUserRepository , MongoScreenRepository, MongoReservationRepository, MongoOrderRepository} from '../adapters/repositories/index.js'
-import { AddScreenUseCase, AddTheatreUseCase, AddUserUseCase, AdminHighGrossMoviesGet, ShowAddedUseCase, TheatreCompleteOrdersGet, TheatreLatestOrdersGet, TheatreMovieCollectionGet, TheatreScreenBookingsGet, TheatreScreenCollectionGet, TheatreSeatBook, TheatreShowBookingGet, TheatreShowCancellation, TheatreSingleShowGet, UpdateMovieStatusUseCase, UpdateScreenUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserInitiatePayment, UserOrdersGet, UserProcessPayment, UserRecommendedMoviesGet, UserReserveSeat, UserShowByMovieGet, UserShowDataGet, UserSingleShowDataGet, UserTicketCancel, UserUpcomingMoviesGet } from '../usecases/index.js'
+import { AddScreenUseCase, AddTheatreUseCase, AddUserUseCase, AdminHighGrossMoviesGet, GetCollections, ShowAddedUseCase, TheatreCompleteOrdersGet, TheatreLatestOrdersGet, TheatreMovieCollectionGet, TheatreReportCollection, TheatreScreenBookingsGet, TheatreScreenCollectionGet, TheatreSeatBook, TheatreShowBookingGet, TheatreShowCancellation, TheatreSingleShowGet, UpdateMovieStatusUseCase, UpdateScreenUseCase, UpdateTheatreUseCase, UpdateUserUseCase, UserInitiatePayment, UserOrdersGet, UserProcessPayment, UserRecommendedMoviesGet, UserReserveSeat, UserShowByMovieGet, UserShowDataGet, UserSingleShowDataGet, UserTicketCancel, UserUpcomingMoviesGet } from '../usecases/index.js'
 
 const ConsumeUseCase = {
     AddUserUseCase,
@@ -40,7 +40,9 @@ const UseCase = {
     TheatreMovieCollectionGet,
     TheatreLatestOrdersGet,
     AdminHighGrossMoviesGet,
-    UserTicketCancel
+    UserTicketCancel,
+    TheatreReportCollection,
+    GetCollections
 }
 
 const dependencies = {

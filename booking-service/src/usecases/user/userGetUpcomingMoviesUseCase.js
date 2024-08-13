@@ -42,7 +42,7 @@ export class UserUpcomingMoviesGet{
                         // })
                         if(screenData?.running_movies?.length > 0){
                             for(let eachMovie of screenData?.running_movies){
-                                if(new Date(eachMovie?.release_date) > today){
+                                if(new Date(eachMovie?.release_date) > today || !eachMovie?.isAssigned){
                                     upcomingMovies.push(eachMovie)
                                 }
                             }

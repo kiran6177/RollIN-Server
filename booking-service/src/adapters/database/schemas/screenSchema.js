@@ -60,6 +60,7 @@ const runningMovieSchema = new mongoose.Schema({
     },
     isAssigned:{
         type:Boolean,
+        default:false
     },
     enroll_from:{
         type:Date,

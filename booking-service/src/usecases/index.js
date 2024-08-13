@@ -16,6 +16,8 @@ import { TheatreSeatBook } from "./theatre/theatreSeatBookUseCase.js";
 import { TheatreScreenCollectionGet } from "./theatre/theatreGetScreenCollectionUseCase.js";
 import { TheatreMovieCollectionGet } from "./theatre/theatreGetMovieCollectionUseCase.js";
 import { TheatreLatestOrdersGet } from "./theatre/theatreGetLatestOrdersUseCase.js";
+import { TheatreReportCollection } from "./theatre/TheatreCollectionReportUseCase.js";
+import { GetCollections } from "./theatre/getCollectionUseCase.js";
 
 import { UserShowDataGet } from "./user/userGetShowDataUseCase.js";
 import { UserSingleShowDataGet } from "./user/userGetSingleShowUseCase.js";
@@ -58,5 +60,7 @@ export {
     TheatreMovieCollectionGet,
     TheatreLatestOrdersGet,
     AdminHighGrossMoviesGet,
-    UserTicketCancel
+    UserTicketCancel,
+    TheatreReportCollection,
+    GetCollections
 }

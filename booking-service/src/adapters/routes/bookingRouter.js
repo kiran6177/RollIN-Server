@@ -2,7 +2,7 @@ import express from 'express';
 import { AuthHandler } from '../middlewares/auth-handler.js'
 const bookingRouter = express.Router();
 import dependencies from '../../frameworks/dependencies.js';
-import { AdminGetHighGrossMoviesController, TheatreBookSeatController, TheatreGetCompleteOrdersController, TheatreGetLatestOrdersController, TheatreGetMovieCollectionController, TheatreGetScreenBookingsController, TheatreGetScreenCollectionController, TheatreGetShowBookingController, TheatreGetSingleShowController, TheatreShowCancellationController, UserCancelTicketController, UserGetOrdersController, UserGetRecommendedMoviesController, UserGetShowByMovieController, UserGetShowDataController, UserGetSingleShowDataController, UserGetUpcomingMoviesController, UserPaymentInitiateController, UserPaymentProcessController, UserSeatReservationController } from '../controllers/index.js';
+import { AdminGetHighGrossMoviesController, TheatreBookSeatController, TheatreCollectionReportController, TheatreGetCompleteOrdersController, TheatreGetLatestOrdersController, TheatreGetMovieCollectionController, TheatreGetScreenBookingsController, TheatreGetScreenCollectionController, TheatreGetShowBookingController, TheatreGetSingleShowController, TheatreShowCancellationController, UserCancelTicketController, UserGetOrdersController, UserGetRecommendedMoviesController, UserGetShowByMovieController, UserGetShowDataController, UserGetSingleShowDataController, UserGetUpcomingMoviesController, UserPaymentInitiateController, UserPaymentProcessController, UserSeatReservationController } from '../controllers/index.js';
 
 const controllers = {
     theatreGetShowBookingController : new TheatreGetShowBookingController(dependencies),
@@ -24,7 +24,8 @@ const controllers = {
     theatreGetMovieCollectionController : new TheatreGetMovieCollectionController(dependencies),
     theatreGetLatestOrdersController : new TheatreGetLatestOrdersController(dependencies),
     adminGetHighGrossMoviesController : new AdminGetHighGrossMoviesController(dependencies),
-    userCancelTicketController : new UserCancelTicketController(dependencies)
+    userCancelTicketController : new UserCancelTicketController(dependencies),
+    theatreCollectionReportController : new TheatreCollectionReportController(dependencies)
 }
 
 bookingRouter.post('/getshowbookingstatus',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetShowBookingController.getShowBooking(req,res,next)})
@@ -47,5 +48,6 @@ bookingRouter.get('/getmoviecollection',AuthHandler.isTheatreLogin,(req,res,next
 bookingRouter.get('/getlatestorders',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreGetLatestOrdersController.getLatestOrders(req,res,next)})
 bookingRouter.get('/gethighgrossmovies',AuthHandler.isAdminLogin,(req,res,next)=>{controllers.adminGetHighGrossMoviesController.getHighGrossMovies(req,res,next)})
 bookingRouter.post('/cancelticket',AuthHandler.isUserLogin,(req,res,next)=>{controllers.userCancelTicketController.cancelTicket(req,res,next)})
+bookingRouter.post('/collectionreport',AuthHandler.isTheatreLogin,(req,res,next)=>{controllers.theatreCollectionReportController.generateReport(req,res,next)})
 
 export default bookingRouter

@@ -106,3 +106,24 @@ export const getYearRange = (now)=>{
     }
     return yearRangeArray
 }
+
+export const getRangeDays = (startDate,endDate)=>{
+    const start = new Date(startDate);
+    start.setHours(0,0,0,0)
+    const end = new Date(endDate);
+    end.setHours(0,0,0,0)
+    const difference = Math.abs(end - start);
+    const dayCount = difference/(24 * 60 * 60 * 1000)
+    let dates = []
+    for(let i = 0 ; i < dayCount ; i++){
+        let startDate = new Date(start);
+        startDate.setDate(startDate.getDate() + i)
+        let endDate = new Date(startDate)
+        endDate.setDate(endDate.getDate() + 1);
+        dates.push({
+            startDate,
+            endDate
+        })
+    }
+    return dates
+}
