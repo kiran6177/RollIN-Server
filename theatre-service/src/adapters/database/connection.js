@@ -1,7 +1,10 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 export const connection = ()=>{
-    mongoose.connect('mongodb://localhost:27017/rollin-theatre')
+    mongoose.connect(process.env.MONGOURL)
     mongoose.connection.on("connected", () => {
         console.log("Theatre Connected to MongoDB");
       })
